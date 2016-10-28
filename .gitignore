@@ -1,0 +1,44 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+target/
+lib_managed/
+src_managed/
+project/boot/
+uima-scala-docs/build/
+*.iml
+*.ipr
+*.iws
+/.idea
+.scala-dependencies
+
+# Eclipse
+*.pydevproject
+.project
+.metadata
+.history
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# CDT-specific
+.cproject
+*~
+*.sublime-workspace
