@@ -1,24 +1,15 @@
-package sample;
+package src.sample;
 
-import com.sun.javafx.scene.control.skin.IntegerFieldSkin;
-import com.sun.org.apache.regexp.internal.RE;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.FlowPane;
-import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -26,6 +17,7 @@ public class Controller implements Initializable {
 
     private DataAccess dataAccess;
     private ObservableList<Person> personsCollection;
+    private ObservableList<Apartment> listApartment;
 
     public Controller(DataAccess dataAccess) {
         this.dataAccess = dataAccess;
@@ -41,6 +33,18 @@ public class Controller implements Initializable {
     RadioButton ownerRadio;
     @FXML
     RadioButton renterRadio;
+    @FXML
+    TableView listHouse;
+    @FXML
+    Button validate;
+    @FXML
+    Button reset;
+    @FXML
+    TextField location;
+    @FXML
+    TextField size;
+    @FXML
+    TextField price;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -73,6 +77,30 @@ public class Controller implements Initializable {
         nameField.clear();
         emailField.clear();
         phoneField.clear();
+    }
+
+    public void FindAppartment(ActionEvent event) throws IOException{
+        List<Apartment> listap;
+        try {
+            Main main=new Main();
+
+                String locat =location.getText();
+                double pric =Double.parseDouble(price.getText());
+                double siz =Double.parseDouble(size.getText());
+                listap=dataAccess.getApartment(locat,pric);
+                listApartment=FXCollections.observableArrayList(listap);
+                listHouse.setItems(listApartment);
+
+        }catch (SQLException e2){
+            e2.printStackTrace();
+        }
+
+    }
+    public void reset(ActionEvent event ){
+            location.clear();
+            size.clear();
+            price.clear();
+
     }
 
 }

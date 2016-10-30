@@ -1,4 +1,4 @@
-package sample;
+package src.sample;
 
 /**
  * Created by Владислав on 26.10.2016.
@@ -7,6 +7,7 @@ package sample;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DataAccess {
@@ -50,6 +51,7 @@ public class DataAccess {
             stmt.setString(3, person.getEmail());
             stmt.setInt(4, person.getPhone());
             rowsUpdated = stmt.executeUpdate();
+            stmt.close();
         }
         return rowsUpdated;
     }
@@ -62,6 +64,7 @@ public class DataAccess {
             stmt.setInt(1,this.getAll().size());
             stmt.setDouble(2, owner.getRating());
             rowsUpdated = stmt.executeUpdate();
+            stmt.close();
         }
         return rowsUpdated;
     }
@@ -74,8 +77,45 @@ public class DataAccess {
             stmt.setInt(1,this.getAll().size());
             stmt.setDouble(2, renter.getRating());
             rowsUpdated = stmt.executeUpdate();
+            stmt.close();
         }
         return rowsUpdated;
+    }
+
+    public List<Apartment> getApartment(String location,double price)throws SQLException{
+        List<Apartment> list=new ArrayList<>();
+
+            try (Connection connection = getConnection();
+                    PreparedStatement stm = connection.prepareStatement("SELECT  A.size,A.price,A.anumber,L.district,L.city,L.crime_rating FROM" +
+                    " apartment A NATURAL JOIN building B NATURAL JOIN location L WHERE A.price<? AND L.city=?")) {
+                stm.setDouble(1, price);
+                stm.setString(2, location);
+               // int row = stm.executeUpdate();
+                try {
+                    ResultSet res = stm.executeQuery();
+                    while (res.next()) {
+                        StringBuilder str = new StringBuilder();
+                        double s = res.getDouble("size");
+                        double p = res.getDouble("price");
+                        int n = res.getInt("anumber");
+                        String dis = res.getString("district");
+                        String cit = res.getString("city");
+                        double ra = res.getDouble("crime_rating");
+                        str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                        list.add(new Apartment(n, s, p, str.toString()));
+                    }
+                    res.close();
+                }catch (SQLException st){
+                    st.printStackTrace();
+
+            }
+
+            stm.close();
+        }
+
+
+
+        return list;
     }
 
 }

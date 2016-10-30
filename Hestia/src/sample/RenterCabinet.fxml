@@ -8,4 +8,60 @@
     </padding>
     <Label style="-fx-font: NORMAL 20 Tahoma;" text="Search for an apartment" GridPane.columnIndex="0"
            GridPane.rowIndex="0"></Label>
+    <HBox spacing="10"  GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="508.0" prefHeight="30">
+        <Label text="Location" style="-fx-font: NORMAL 16 Tahoma;">
+        </Label>
+        <TextField fx:id="location" prefWidth="100" prefHeight="20" />
+        <Label text="Price" style="-fx-font: NORMAL 16 Tahoma;"/>
+        <TextField fx:id="price" prefWidth="50" prefHeight="20" />
+        <Label text="Size" style="-fx-font: NORMAL 16 Tahoma;"/>
+        <TextField fx:id="size" prefWidth="50" prefHeight="20" />
+
+    </HBox>
+
+    <HBox spacing="15" prefWidth="508.0 " GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <Button  fx:id="reset"   prefWidth="70"
+                 alignment="BOTTOM_LEFT" text="Reset" onAction="#reset">
+
+        </Button>
+        <Button alignment="BOTTOM_RIGHT" text="Search"
+                fx:id="validate" prefWidth="70" onAction="#FindAppartment"/>
+    </HBox>
+
+    <TableView fx:id="listHouse" GridPane.columnIndex="0" GridPane.rowIndex="3" prefWidth="508">
+        <columns>
+            <TableColumn text="Picture" prefWidth="200" >
+            <cellValueFactory >
+                <PropertyValueFactory property="Picture">
+                </PropertyValueFactory>
+            </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Size" prefWidth="70" >
+                <cellValueFactory >
+                    <PropertyValueFactory property="size">
+                    </PropertyValueFactory>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Price" prefWidth="70" >
+                <cellValueFactory >
+                    <PropertyValueFactory property="price">
+                    </PropertyValueFactory>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Rating" prefWidth="70" >
+                <cellValueFactory >
+                    <PropertyValueFactory property="rating">
+                    </PropertyValueFactory>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Description" prefWidth="100" >
+                <cellValueFactory >
+                    <PropertyValueFactory property="description">
+                    </PropertyValueFactory>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+
+
+    </TableView>
 </GridPane>

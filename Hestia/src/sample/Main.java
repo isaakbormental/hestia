@@ -1,12 +1,12 @@
-package sample;
+package src.sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import org.postgresql.ds.PGPoolingDataSource;
+
 
 import java.io.IOException;
 
@@ -22,9 +22,9 @@ public class Main extends Application {
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName("MyDataSource");
         source.setServerName("localhost");
-        source.setDatabaseName("hestia_1");
-        source.setUser("postgres");
-        source.setPassword("robot");
+        source.setDatabaseName("Home_hestia");
+        source.setUser("admin");
+        source.setPassword("admin");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);

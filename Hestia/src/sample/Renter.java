@@ -1,4 +1,4 @@
-package sample;
+package src.sample;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 /**
  * Created by Владислав on 27.10.2016.
  */
-public class Renter extends Person{
+public class Renter extends Person {
 
     private final SimpleIntegerProperty rid = new SimpleIntegerProperty();
     private final SimpleDoubleProperty rating = new SimpleDoubleProperty();
