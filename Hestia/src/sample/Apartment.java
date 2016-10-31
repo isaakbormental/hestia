@@ -29,6 +29,9 @@ import javafx.beans.property.SimpleStringProperty;
             setDescription(des);
         }
 
+    public Apartment(){
+
+    }
     /**
      * getter and setters
      * @return
