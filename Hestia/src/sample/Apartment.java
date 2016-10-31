@@ -29,6 +29,10 @@ import javafx.beans.property.SimpleStringProperty;
             setDescription(des);
         }
 
+    /**
+     * getter and setters
+     * @return
+     */
         public Person getOwner() {
             return owner;
         }
