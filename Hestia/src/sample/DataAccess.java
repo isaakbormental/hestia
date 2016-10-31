@@ -108,9 +108,11 @@ public class DataAccess {
                 }catch (SQLException st){
                     st.printStackTrace();
 
-            }
+            }finally {
+                    stm.close();
+                }
 
-            stm.close();
+
         }
 
 
