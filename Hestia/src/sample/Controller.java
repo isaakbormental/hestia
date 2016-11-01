@@ -45,6 +45,12 @@ public class Controller implements Initializable {
     TextField size;
     @FXML
     TextField price;
+    @FXML
+    TextField numberRoom;
+    @FXML
+    TextField description;
+    @FXML
+    Button Post;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -101,6 +107,26 @@ public class Controller implements Initializable {
             size.clear();
             price.clear();
 
+    }
+
+
+
+
+    public void addApartment(ActionEvent event) throws IOException {
+        Apartment apartment = new Apartment(Integer.parseInt(numberRoom.getText()),Double.parseDouble(size.getText()),
+                Double.parseDouble(price.getText()),description.getText());
+        try {
+            dataAccess.addApartment(apartment);
+            Main a = new Main();
+            a.changeScene("");
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        listApartment.add(apartment);
+        nameField.clear();
+        emailField.clear();
+        phoneField.clear();
     }
 
 }

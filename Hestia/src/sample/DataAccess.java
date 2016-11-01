@@ -120,4 +120,23 @@ public class DataAccess {
         return list;
     }
 
+
+
+    public int addApartment(Apartment apartment) throws SQLException {
+        int rowsUpdated;
+        try (
+                Connection connection = getConnection();
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,price) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1,this.getAll().size());
+            stmt.setInt(2,23256);
+            stmt.setInt(3,apartment.getOwner().getPid());
+            stmt.setInt(4,this.getAll().size());
+            stmt.setDouble(5,apartment.getSize());
+            stmt.setDouble(6,apartment.getPrice());
+            rowsUpdated = stmt.executeUpdate();
+            stmt.close();
+        }
+        return rowsUpdated;
+    }
+
 }
