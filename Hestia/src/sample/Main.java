@@ -1,4 +1,5 @@
-package sample;
+package src.sample;
+
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,9 +23,9 @@ public class Main extends Application {
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName("Databases");
         source.setServerName("localhost");
-        source.setDatabaseName("hestia_1");
+        source.setDatabaseName("Hestia1.0");
         source.setUser("postgres");
-        source.setPassword("robot");
+        source.setPassword("buxal3842");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);

@@ -1,4 +1,5 @@
-package sample;
+package src.sample;
+
 
 /**
  * Created by Владислав on 26.10.2016.
@@ -145,11 +146,15 @@ public class DataAccess {
         List<Apartment> list=new ArrayList<>();
 
         try (Connection connection = getConnection();
-             PreparedStatement stm = connection.prepareStatement("select * from apartment a where a.bid in (select B.bid from building B, institution I " +
-                     "where B.lid = I.lid" +
-                     " AND" +
-                     " |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= 100)")) {
-
+             PreparedStatement stm = connection.prepareStatement("select a.price,a.size,a.anumber, lo.city, lo.crime_rating, lo.district " +
+                     "from apartment a, location lo, building bi " +
+                     "where a.bid in (select B.bid " +
+                                "from building B, institution I " +
+                                "where B.lid = I.lid" +
+                                " AND |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= ?) " +
+                     " AND a.bid=bi.bid " +
+                     " AND bi.lid=lo.lid;")) {
+            stm.setInt(1, distance);
             // int row = stm.executeUpdate();
             try {
                 ResultSet res = stm.executeQuery();
@@ -158,8 +163,10 @@ public class DataAccess {
                     double s = res.getDouble("size");
                     double p = res.getDouble("price");
                     int n = res.getInt("anumber");
-
-                    //str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                    String dis = res.getString("district");
+                    String cit = res.getString("city");
+                    double ra = res.getDouble("crime_rating");
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra+ " \n"+"Flat number: "+n);
                     list.add(new Apartment(n, s, p, str.toString()));
                 }
                 res.close();

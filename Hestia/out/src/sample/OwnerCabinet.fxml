@@ -12,7 +12,7 @@
         <TextField fx:id="numOfRooms" promptText="Number of rooms" prefWidth="200"/>
         <TextField fx:id="sizeOfAp" promptText="Size(m^2)" prefWidth="150"/>
         <TextField fx:id="floorOfAp" promptText="Floor" prefWidth="100"/>
-        <TextField fx:id="priceofAp" promptText="Price" prefWidth="100"/>
+        <TextField fx:id="priceOfAp" promptText="Price" prefWidth="100"/>
     </HBox>
 
     <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="0" GridPane.rowIndex="3">
