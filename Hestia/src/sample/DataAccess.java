@@ -177,13 +177,14 @@ public class DataAccess {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,price) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,num_of_rooms,price) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1,this.getAllAps().size()+1);
             stmt.setInt(2,12345);
             stmt.setInt(3,8);
             stmt.setInt(4,8);
             stmt.setDouble(5,apartment.getSize());
-            stmt.setDouble(6,apartment.getPrice());
+            stmt.setInt(6,apartment.getNumberRoom());
+            stmt.setDouble(7,apartment.getPrice());
             rowsUpdated = stmt.executeUpdate();
             stmt.close();
         }

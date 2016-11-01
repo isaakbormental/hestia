@@ -20,9 +20,9 @@
                 </Label>
                 <TextField fx:id="location" prefWidth="100" prefHeight="20" />
                 <Label text="Price" style="-fx-font: NORMAL 16 Tahoma;"/>
-                <TextField fx:id="price" prefWidth="100" prefHeight="20" />
+                <TextField fx:id="priceOfAp" prefWidth="100" prefHeight="20" />
                 <Label text="Size" style="-fx-font: NORMAL 16 Tahoma;"/>
-                <TextField fx:id="size" prefWidth="100" prefHeight="20" />
+                <TextField fx:id="sizeOfAp" prefWidth="100" prefHeight="20" />
 
             </HBox>
 

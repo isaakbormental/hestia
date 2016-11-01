@@ -22,9 +22,9 @@
         </Label>
         <TextField fx:id="location" prefHeight="20" prefWidth="100" />
         <Label style="-fx-font: NORMAL 16 Tahoma;" text="Price" />
-        <TextField fx:id="price" prefHeight="20" prefWidth="50" />
+        <TextField fx:id="priceOfAp" prefHeight="20" prefWidth="50" />
         <Label style="-fx-font: NORMAL 16 Tahoma;" text="Size" />
-        <TextField fx:id="size" prefHeight="20" prefWidth="50" />
+        <TextField fx:id="sizeOfAp" prefHeight="20" prefWidth="50" />
         <Label style="-fx-font: NORMAL 16 Tahoma;" text="Distance to Institution" />
         <TextField fx:id="distance" prefHeight="20" prefWidth="50" />
 
