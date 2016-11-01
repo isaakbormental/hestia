@@ -1,4 +1,4 @@
-package src.sample;
+package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,9 +22,9 @@ public class Main extends Application {
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName("Databases");
         source.setServerName("localhost");
-        source.setDatabaseName("Hestia1.0");
+        source.setDatabaseName("hestia_1");
         source.setUser("postgres");
-        source.setPassword("buxal3842");
+        source.setPassword("robot");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);
@@ -48,6 +48,11 @@ public class Main extends Application {
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Renter Personal Cabinet");
+        } else if (arg == "Registration"){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Registration.fxml"));
+            loader.setController(controller);
+            root = loader.load();
+            theStage.setTitle("Hestia Registration");
         }
         Scene scene = new Scene(root, 1000, 750);
         theStage.setScene(scene);

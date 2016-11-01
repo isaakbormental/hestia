@@ -1,4 +1,4 @@
-package src.sample;
+package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,11 +44,13 @@ public class Controller implements Initializable {
     @FXML
     TextField distance;
     @FXML
-    TextField size;
+    TextField sizeOfAp;
     @FXML
-    TextField price;
+    TextField priceOfAp;
     @FXML
-    TextField numberRoom;
+    TextField numOfRooms;
+    @FXML
+    TextField floorOfAp;
     @FXML
     TextField description;
     @FXML
@@ -93,8 +95,8 @@ public class Controller implements Initializable {
             Main main=new Main();
 
                 String locat =location.getText();
-                double pric =Double.parseDouble(price.getText());
-                double siz =Double.parseDouble(size.getText());
+                double pric =Double.parseDouble(priceOfAp.getText());
+                double siz =Double.parseDouble(sizeOfAp.getText());
                 try{
                     int distanc = Integer.parseInt(distance.getText());
                     listap=dataAccess.getApartment(distanc);
@@ -113,17 +115,14 @@ public class Controller implements Initializable {
     }
     public void reset(ActionEvent event ){
             location.clear();
-            size.clear();
-            price.clear();
-
+            sizeOfAp.clear();
+            priceOfAp.clear();
     }
 
 
-
-
     public void addApartment(ActionEvent event) throws IOException {
-        Apartment apartment = new Apartment(Integer.parseInt(numberRoom.getText()),Double.parseDouble(size.getText()),
-                Double.parseDouble(price.getText()),"88735g");
+        Apartment apartment = new Apartment(Integer.parseInt(numOfRooms.getText()),Double.parseDouble(sizeOfAp.getText()),
+                Double.parseDouble(priceOfAp.getText()),"88735g");
         try {
             dataAccess.addApartment(apartment);
             Main a = new Main();

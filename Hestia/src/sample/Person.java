@@ -1,4 +1,4 @@
-package src.sample;
+package sample;
 
 /**
  * Created by Владислав on 26.10.2016.

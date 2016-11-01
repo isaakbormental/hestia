@@ -1,4 +1,4 @@
-package src.sample;
+package sample;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -11,6 +11,10 @@ import javafx.beans.property.SimpleStringProperty;
    public class Apartment {
     private  Person owner;
     private final SimpleIntegerProperty numberRoom=new SimpleIntegerProperty();
+    private final SimpleIntegerProperty aid =new SimpleIntegerProperty();
+    private final SimpleIntegerProperty anumber=new SimpleIntegerProperty();
+    private final SimpleIntegerProperty bid=new SimpleIntegerProperty();
+    private final SimpleIntegerProperty oid=new SimpleIntegerProperty();
     private  final SimpleDoubleProperty size = new SimpleDoubleProperty();
     private  final SimpleDoubleProperty price = new SimpleDoubleProperty();
     private final SimpleStringProperty description =new SimpleStringProperty(" ");
@@ -28,6 +32,16 @@ import javafx.beans.property.SimpleStringProperty;
             setSize(sizeap);
             setDescription(des);
         }
+
+    public Apartment(int aid, int anumber, int bid, int oid, int sizeap, int numr, int pricea) {
+        setNumberRoom(numr);
+        setPrice(pricea);
+        setSize(sizeap);
+        setAid(aid);
+        setBid(bid);
+        setOid(oid);
+        setAnumber(anumber);
+    }
 
     public Apartment(){
 
@@ -91,4 +105,34 @@ import javafx.beans.property.SimpleStringProperty;
         public void setPrice(double price) {
             this.price.set(price);
         }
+
+    public int getAid() {
+        return aid.get();
+    }
+    public void setAid(int aid) {
+        this.aid.set(aid);
+    }
+
+    public int getBid() {
+        return bid.get();
+    }
+    public void setBid(int bid) {
+        this.bid.set(bid);
+    }
+
+    public int getOid() {
+        return oid.get();
+    }
+    public void setOid(int oid) {
+        this.oid.set(oid);
+    }
+
+    public int getAnumber() {
+        return anumber.get();
+    }
+    public void setAnumber(int anumber) {
+        this.anumber.set(anumber);
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package src.sample;
+package sample;
 
 /**
  * Created by Владислав on 26.10.2016.
@@ -34,6 +34,29 @@ public class DataAccess {
                 String lastname = rs.getString(3);
                 int phone = rs.getInt(4);
                 result.add(new Person(id, firstname, lastname, phone));
+            }
+            rs.close();
+            stmt.close();
+        }
+        return result;
+    }
+
+    public List<Apartment> getAllAps() throws SQLException {
+        List<Apartment> result = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM apartment")
+        ) {
+            while (rs.next()) {
+                int aid = rs.getInt(1);
+                int anumber = rs.getInt(2);
+                int bid = rs.getInt(3);
+                int oid = rs.getInt(4);
+                int size = rs.getInt(5);
+                int rooms = rs.getInt(6);
+                int price = rs.getInt(7);
+                result.add(new Apartment(aid,anumber,bid,oid,size,rooms,price));
             }
             rs.close();
             stmt.close();
@@ -115,8 +138,6 @@ public class DataAccess {
 
         }
 
-
-
         return list;
     }
 
@@ -128,7 +149,6 @@ public class DataAccess {
                      "where B.lid = I.lid" +
                      " AND" +
                      " |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= 100)")) {
-
 
             // int row = stm.executeUpdate();
             try {
@@ -153,17 +173,15 @@ public class DataAccess {
         return list;
     }
 
-
-
     public int addApartment(Apartment apartment) throws SQLException {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,price) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1,this.getAll().size());
-            stmt.setInt(2,23256);
-            stmt.setInt(3,apartment.getOwner().getPid());
-            stmt.setInt(4,this.getAll().size());
+            stmt.setInt(1,this.getAllAps().size()+1);
+            stmt.setInt(2,12345);
+            stmt.setInt(3,8);
+            stmt.setInt(4,8);
             stmt.setDouble(5,apartment.getSize());
             stmt.setDouble(6,apartment.getPrice());
             rowsUpdated = stmt.executeUpdate();
