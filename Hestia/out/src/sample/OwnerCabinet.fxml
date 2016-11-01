@@ -27,7 +27,7 @@
         </fx:define>
         <RadioButton fx:id="petsAllowed" text="Pets allowed" prefWidth="75" toggleGroup="$petsAllowance"/>
         <RadioButton fx:id="petsNotAllowed" text="Pets not allowed" prefWidth="75" toggleGroup="$petsAllowance"/>
-        <Button text="Post Ad"/>
+        <Button text="Post Ad" onAction="#addApartment"/>
     </HBox>
 
 </GridPane>

@@ -120,6 +120,39 @@ public class DataAccess {
         return list;
     }
 
+    public List<Apartment> getApartment(int distance)throws SQLException{
+        List<Apartment> list=new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("select * from apartment a where a.bid in (select B.bid from building B, institution I " +
+                     "where B.lid = I.lid" +
+                     " AND" +
+                     " |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= 100)")) {
+
+
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+                    double s = res.getDouble("size");
+                    double p = res.getDouble("price");
+                    int n = res.getInt("anumber");
+
+                    //str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                    list.add(new Apartment(n, s, p, str.toString()));
+                }
+                res.close();
+            }catch (SQLException st){
+                st.printStackTrace();
+
+            }finally {
+                stm.close();
+            }
+        }
+        return list;
+    }
+
 
 
     public int addApartment(Apartment apartment) throws SQLException {

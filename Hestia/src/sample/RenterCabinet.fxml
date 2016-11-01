@@ -25,6 +25,8 @@
         <TextField fx:id="price" prefHeight="20" prefWidth="50" />
         <Label style="-fx-font: NORMAL 16 Tahoma;" text="Size" />
         <TextField fx:id="size" prefHeight="20" prefWidth="50" />
+        <Label style="-fx-font: NORMAL 16 Tahoma;" text="Distance to Institution" />
+        <TextField fx:id="distance" prefHeight="20" prefWidth="50" />
 
     </HBox>
 

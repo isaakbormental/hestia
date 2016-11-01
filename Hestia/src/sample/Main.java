@@ -20,11 +20,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         theStage = primaryStage;
         PGPoolingDataSource source = new PGPoolingDataSource();
-        source.setDataSourceName("MyDataSource");
+        source.setDataSourceName("Databases");
         source.setServerName("localhost");
-        source.setDatabaseName("Home_hestia");
-        source.setUser("admin");
-        source.setPassword("admin");
+        source.setDatabaseName("Hestia1.0");
+        source.setUser("postgres");
+        source.setPassword("buxal3842");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);

@@ -42,6 +42,8 @@ public class Controller implements Initializable {
     @FXML
     TextField location;
     @FXML
+    TextField distance;
+    @FXML
     TextField size;
     @FXML
     TextField price;
@@ -93,10 +95,17 @@ public class Controller implements Initializable {
                 String locat =location.getText();
                 double pric =Double.parseDouble(price.getText());
                 double siz =Double.parseDouble(size.getText());
-                listap=dataAccess.getApartment(locat,pric);
-                listApartment=FXCollections.observableArrayList(listap);
-                listHouse.setItems(listApartment);
-
+                try{
+                    int distanc = Integer.parseInt(distance.getText());
+                    listap=dataAccess.getApartment(distanc);
+                    listApartment=FXCollections.observableArrayList(listap);
+                    listHouse.setItems(listApartment);
+                }
+                catch(Exception e3){
+                    listap=dataAccess.getApartment(locat,pric);
+                    listApartment=FXCollections.observableArrayList(listap);
+                    listHouse.setItems(listApartment);
+                 }
         }catch (SQLException e2){
             e2.printStackTrace();
         }
@@ -114,11 +123,11 @@ public class Controller implements Initializable {
 
     public void addApartment(ActionEvent event) throws IOException {
         Apartment apartment = new Apartment(Integer.parseInt(numberRoom.getText()),Double.parseDouble(size.getText()),
-                Double.parseDouble(price.getText()),description.getText());
+                Double.parseDouble(price.getText()),"88735g");
         try {
             dataAccess.addApartment(apartment);
             Main a = new Main();
-            a.changeScene("");
+            a.changeScene("Registration");
 
         } catch (SQLException e1) {
             e1.printStackTrace();
