@@ -66,6 +66,8 @@ public class Controller implements Initializable {
         }
     }
 
+    public int current_user = 0;
+
     public void addPerson(ActionEvent event) throws IOException {
         Person person = new Person(nameField.getText(), emailField.getText(), Integer.parseInt(phoneField.getText()));
         try {
@@ -83,6 +85,7 @@ public class Controller implements Initializable {
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
+        current_user = person.getPid();
         personsCollection.add(person);
         nameField.clear();
         emailField.clear();
@@ -121,10 +124,12 @@ public class Controller implements Initializable {
 
 
     public void addApartment(ActionEvent event) throws IOException {
-        Apartment apartment = new Apartment(Integer.parseInt(numOfRooms.getText()),Double.parseDouble(sizeOfAp.getText()),
-                Double.parseDouble(priceOfAp.getText()),"88735g");
+        Apartment apartment = new Apartment(this.personsCollection.size()-1,Double.parseDouble(sizeOfAp.getText()),Integer.parseInt(numOfRooms.getText()),
+                Double.parseDouble(priceOfAp.getText()));
+//        Apartment apartment = new Apartment(Integer.parseInt(numOfRooms.getText()),Double.parseDouble(sizeOfAp.getText()),
+//                Double.parseDouble(priceOfAp.getText()),"88735g");
         try {
-            dataAccess.addApartment(apartment);
+            dataAccess.addApartment(apartment, this.personsCollection.size()-1);
             Main a = new Main();
             a.changeScene("Registration");
 

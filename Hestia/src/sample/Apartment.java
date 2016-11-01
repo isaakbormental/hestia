@@ -33,6 +33,13 @@ import javafx.beans.property.SimpleStringProperty;
             setDescription(des);
         }
 
+    public Apartment(int oid, double sizeap, int numr, double pricea) {
+        setNumberRoom(numr);
+        setPrice(pricea);
+        setSize(sizeap);
+        setOid(oid);
+    }
+
     public Apartment(int aid, int anumber, int bid, int oid, int sizeap, int numr, int pricea) {
         setNumberRoom(numr);
         setPrice(pricea);

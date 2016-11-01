@@ -173,15 +173,15 @@ public class DataAccess {
         return list;
     }
 
-    public int addApartment(Apartment apartment) throws SQLException {
+    public int addApartment(Apartment apartment, int user) throws SQLException {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,num_of_rooms,price) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1,this.getAllAps().size()+1);
-            stmt.setInt(2,12345);
-            stmt.setInt(3,8);
-            stmt.setInt(4,8);
+            stmt.setInt(2,this.getAllAps().size()+10);
+            stmt.setInt(3,1);
+            stmt.setInt(4,user);
             stmt.setDouble(5,apartment.getSize());
             stmt.setInt(6,apartment.getNumberRoom());
             stmt.setDouble(7,apartment.getPrice());
