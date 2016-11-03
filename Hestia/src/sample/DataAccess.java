@@ -1,4 +1,4 @@
-package src.sample;
+package sample;
 
 
 /**
@@ -57,7 +57,46 @@ public class DataAccess {
                 int size = rs.getInt(5);
                 int rooms = rs.getInt(6);
                 int price = rs.getInt(7);
-                result.add(new Apartment(aid,anumber,bid,oid,size,rooms,price));
+                result.add(new Apartment(aid, anumber, bid, oid, size, rooms, price));
+            }
+            rs.close();
+            stmt.close();
+        }
+        return result;
+    }
+
+    public List<Building> getAllBuildings() throws SQLException {
+        List<Building> result = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM building")
+        ) {
+            while (rs.next()) {
+                int bid = rs.getInt(1);
+                double lat = rs.getDouble(2);
+                double lon = rs.getDouble(3);
+                String type = rs.getString(4);
+                boolean pets = rs.getBoolean(5);
+                result.add(new Building(bid, lat, lon, type, pets));
+            }
+            rs.close();
+            stmt.close();
+        }
+        return result;
+    }
+
+    public List<Integer> findBuilding(double lat, double lon) throws SQLException {
+        List<Integer> result = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                PreparedStatement stmt = connection.prepareStatement("SELECT B.bid FROM Building B where B.latitude = ? AND B.longitude = ?")) {
+            stmt.setDouble(1, lat);
+            stmt.setDouble(2, lon);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int bid = rs.getInt(1);
+                result.add(bid);
             }
             rs.close();
             stmt.close();
@@ -70,7 +109,7 @@ public class DataAccess {
         try (
                 Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO person (pid,name,email,phone) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1,this.getAll().size()+1);
+            stmt.setInt(1, this.getAll().size() + 1);
             stmt.setString(2, person.getName());
             stmt.setString(3, person.getEmail());
             stmt.setInt(4, person.getPhone());
@@ -85,7 +124,7 @@ public class DataAccess {
         try (
                 Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO owner (oid,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1,this.getAll().size());
+            stmt.setInt(1, this.getAll().size());
             stmt.setDouble(2, owner.getRating());
             rowsUpdated = stmt.executeUpdate();
             stmt.close();
@@ -98,7 +137,7 @@ public class DataAccess {
         try (
                 Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (rid,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1,this.getAll().size());
+            stmt.setInt(1, this.getAll().size());
             stmt.setDouble(2, renter.getRating());
             rowsUpdated = stmt.executeUpdate();
             stmt.close();
@@ -106,35 +145,65 @@ public class DataAccess {
         return rowsUpdated;
     }
 
-    public List<Apartment> getApartment(String location,double price)throws SQLException{
-        List<Apartment> list=new ArrayList<>();
+    public void addApartment(Apartment apartment, int user) throws SQLException {
+        try (
+                Connection connection = getConnection();
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,num_of_rooms,price) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, apartment.getAid());
+            stmt.setInt(2, apartment.getAnumber());
+            stmt.setInt(3, apartment.getBid());
+            stmt.setInt(4, apartment.getOid());
+            stmt.setDouble(5, apartment.getSize());
+            stmt.setInt(6, apartment.getNumberRoom());
+            stmt.setDouble(7, apartment.getPrice());
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
 
-            try (Connection connection = getConnection();
-                    PreparedStatement stm = connection.prepareStatement("SELECT  A.size,A.price,A.anumber,L.district,L.city,L.crime_rating FROM" +
-                    " apartment A NATURAL JOIN building B NATURAL JOIN location L WHERE A.price<? AND L.city=?")) {
-                stm.setDouble(1, price);
-                stm.setString(2, location);
-               // int row = stm.executeUpdate();
-                try {
-                    ResultSet res = stm.executeQuery();
-                    while (res.next()) {
-                        StringBuilder str = new StringBuilder();
-                        double s = res.getDouble("size");
-                        double p = res.getDouble("price");
-                        int n = res.getInt("anumber");
-                        String dis = res.getString("district");
-                        String cit = res.getString("city");
-                        double ra = res.getDouble("crime_rating");
-                        str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
-                        list.add(new Apartment(n, s, p, str.toString()));
-                    }
-                    res.close();
-                }catch (SQLException st){
-                    st.printStackTrace();
+    public void addBuilding(Building building) throws SQLException {
+        try (
+                Connection connection = getConnection();
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO building (bid,latitude,longitude,type,pet_allow) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, building.getBid());
+            stmt.setDouble(2, building.getLat());
+            stmt.setDouble(3, building.getLon());
+            stmt.setString(4, building.getType());
+            stmt.setBoolean(5, building.getPets());
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
 
-            }finally {
-                    stm.close();
+    public List<Apartment> getApartment(String location, double price) throws SQLException {
+        List<Apartment> list = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT  A.size,A.price,A.anumber,L.district,L.city,L.crime_rating FROM" +
+                     " apartment A NATURAL JOIN building B NATURAL JOIN location L WHERE A.price<? AND L.city=?")) {
+            stm.setDouble(1, price);
+            stm.setString(2, location);
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+                    double s = res.getDouble("size");
+                    double p = res.getDouble("price");
+                    int n = res.getInt("anumber");
+                    String dis = res.getString("district");
+                    String cit = res.getString("city");
+                    double ra = res.getDouble("crime_rating");
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                    list.add(new Apartment(n, s, p, str.toString()));
                 }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
 
 
         }
@@ -142,16 +211,16 @@ public class DataAccess {
         return list;
     }
 
-    public List<Apartment> getApartment(int distance)throws SQLException{
-        List<Apartment> list=new ArrayList<>();
+    public List<Apartment> getApartment(int distance) throws SQLException {
+        List<Apartment> list = new ArrayList<>();
 
         try (Connection connection = getConnection();
              PreparedStatement stm = connection.prepareStatement("select a.price,a.size,a.anumber, lo.city, lo.crime_rating, lo.district " +
                      "from apartment a, location lo, building bi " +
                      "where a.bid in (select B.bid " +
-                                "from building B, institution I " +
-                                "where B.lid = I.lid" +
-                                " AND |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= ?) " +
+                     "from building B, institution I " +
+                     "where B.lid = I.lid" +
+                     " AND |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= ?)" +
                      " AND a.bid=bi.bid " +
                      " AND bi.lid=lo.lid;")) {
             stm.setInt(1, distance);
@@ -166,36 +235,18 @@ public class DataAccess {
                     String dis = res.getString("district");
                     String cit = res.getString("city");
                     double ra = res.getDouble("crime_rating");
-                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra+ " \n"+"Flat number: "+n);
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra + " \n" + "Flat number: " + n);
                     list.add(new Apartment(n, s, p, str.toString()));
                 }
                 res.close();
-            }catch (SQLException st){
+            } catch (SQLException st) {
                 st.printStackTrace();
 
-            }finally {
+            } finally {
                 stm.close();
             }
         }
         return list;
-    }
-
-    public int addApartment(Apartment apartment, int user) throws SQLException {
-        int rowsUpdated;
-        try (
-                Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,num_of_rooms,price) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1,this.getAllAps().size()+1);
-            stmt.setInt(2,this.getAllAps().size()+10);
-            stmt.setInt(3,1);
-            stmt.setInt(4,user);
-            stmt.setDouble(5,apartment.getSize());
-            stmt.setInt(6,apartment.getNumberRoom());
-            stmt.setDouble(7,apartment.getPrice());
-            rowsUpdated = stmt.executeUpdate();
-            stmt.close();
-        }
-        return rowsUpdated;
     }
 
 }

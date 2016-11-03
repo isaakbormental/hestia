@@ -1,4 +1,4 @@
-package src.sample;
+package sample;
 
 
 import javafx.beans.property.SimpleDoubleProperty;
