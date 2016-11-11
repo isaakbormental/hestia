@@ -1,6 +1,5 @@
 package sample;
 
-
 /**
  * Created by Владислав on 26.10.2016.
  */
@@ -79,7 +78,28 @@ public class DataAccess {
                 double lon = rs.getDouble(3);
                 String type = rs.getString(4);
                 boolean pets = rs.getBoolean(5);
-                result.add(new Building(bid, lat, lon, type, pets));
+                int lid = rs.getInt(6);
+                result.add(new Building(bid, lat, lon, type, pets, lid));
+            }
+            rs.close();
+            stmt.close();
+        }
+        return result;
+    }
+
+    public List<Location> getAllLocations() throws SQLException {
+        List<Location> result = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM location")
+        ) {
+            while (rs.next()) {
+                int lid = rs.getInt(1);
+                String city = rs.getString(2);
+                String district = rs.getString(3);
+                double crime_rating = rs.getDouble(4);
+                result.add(new Location(lid, city, district, crime_rating));
             }
             rs.close();
             stmt.close();
@@ -98,6 +118,24 @@ public class DataAccess {
             while (rs.next()) {
                 int bid = rs.getInt(1);
                 result.add(bid);
+            }
+            rs.close();
+            stmt.close();
+        }
+        return result;
+    }
+
+    public List<Integer> findLocation(String city, String district) throws SQLException {
+        List<Integer> result = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                PreparedStatement stmt = connection.prepareStatement("SELECT L.lid FROM Location L where L.city = ? AND L.district = ?")) {
+            stmt.setString(1, city);
+            stmt.setString(2, district);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int lid = rs.getInt(1);
+                result.add(lid);
             }
             rs.close();
             stmt.close();
@@ -165,12 +203,26 @@ public class DataAccess {
     public void addBuilding(Building building) throws SQLException {
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO building (bid,latitude,longitude,type,pet_allow) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO building (bid,latitude,longitude,type,pet_allow,lid) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, building.getBid());
             stmt.setDouble(2, building.getLat());
             stmt.setDouble(3, building.getLon());
             stmt.setString(4, building.getType());
             stmt.setBoolean(5, building.getPets());
+            stmt.setInt(6, building.getLid());
+            stmt.executeUpdate();
+            stmt.close();
+        }
+    }
+
+    public void addLocation(Location location) throws SQLException {
+        try (
+                Connection connection = getConnection();
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO location (lid,city,district,crime_rating) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, location.getLid());
+            stmt.setString(2, location.getCity());
+            stmt.setString(3, location.getDistrict());
+            stmt.setDouble(4, location.getCrime_rate());
             stmt.executeUpdate();
             stmt.close();
         }

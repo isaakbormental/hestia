@@ -55,6 +55,12 @@
                     <fx:define>
                         <ToggleGroup fx:id="petsAllowance" />
                     </fx:define>
+                    <VBox prefHeight="200.0" prefWidth="200.0" spacing="5.0" translateX="-50.0" translateY="5.0">
+                        <children>
+                            <TextField fx:id="location_city" prefHeight="30.0" prefWidth="200.0" promptText="City" />
+                            <TextField fx:id="location_district" prefHeight="30.0" prefWidth="200.0" promptText="District" />
+                        </children>
+                    </VBox>
                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="10.0">
                         <children>
                             <RadioButton fx:id="hostelRoomType" prefWidth="125.0" text="Hostel room" toggleGroup="$typeOfApartment" />

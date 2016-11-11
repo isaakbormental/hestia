@@ -28,6 +28,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     private ObservableList<Person> personsCollection;
     private ObservableList<Apartment> apartmentsCollection;
     private ObservableList<Building> buildingsCollection;
+    private ObservableList<Location> locationsCollection;
     GoogleMapView mapView;
     GoogleMap map;
     private double lat, lon;
@@ -66,6 +67,10 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML
     TextField numOfRooms;
     @FXML
+    TextField location_city;
+    @FXML
+    TextField location_district;
+    @FXML
     RadioButton petsAllowed;
     @FXML
     RadioButton petsNotAllowed;
@@ -91,6 +96,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
             apartmentsCollection = FXCollections.observableArrayList(apartments);
             List<Building> buildings = dataAccess.getAllBuildings();
             buildingsCollection = FXCollections.observableArrayList(buildings);
+            List<Location> locations = dataAccess.getAllLocations();
+            locationsCollection = FXCollections.observableArrayList(locations);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -114,17 +121,26 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     public void addAdvertisement(ActionEvent event) throws IOException {
         try {
-            List<Integer> found = dataAccess.findBuilding(round3(lat), round3(lon));
-            if (found.size() == 0) {
-                addBuilding(round3(lat), round3(lon));
+            List<Integer> found_locations = dataAccess.findLocation(location_city.getText(), location_district.getText());
+            if (found_locations.size() == 0) {
+                addLocation();
+                System.out.println("LOC");
             }
-            found = dataAccess.findBuilding(round3(lat), round3(lon));
-            addApartment(found.get(0));
+            found_locations = dataAccess.findLocation(location_city.getText(), location_district.getText());
+            int lid = found_locations.get(0);
+            System.out.println(lid);
+            List<Integer> found_buildings = dataAccess.findBuilding(round3(lat), round3(lon));
+            if (found_buildings.size() == 0) {
+                addBuilding(round3(lat), round3(lon), lid);
+                System.out.println("BUI");
+            }
+            found_buildings = dataAccess.findBuilding(round3(lat), round3(lon));
+            int bid = found_buildings.get(0);
+            System.out.println(bid);
+            addApartment(bid);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
-//        System.out.println(lat + " " + lon);
-//        System.out.println(round3(lat) + " " + round3(lon));
     }
 
     public void addApartment(int bid) throws IOException {
@@ -146,7 +162,17 @@ public class Controller implements Initializable, MapComponentInitializedListene
         priceOfAp.clear();
     }
 
-    public void addBuilding(double lat, double lon) throws IOException {
+    public void addLocation() throws IOException {
+        Location location = new Location(locationsCollection.size() + 1, location_city.getText(), location_district.getText(), 0.0);
+        try {
+            dataAccess.addLocation(location);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        locationsCollection.add(location);
+    }
+
+    public void addBuilding(double lat, double lon, int lid) throws IOException {
         String type;
         if (hostelRoomType.isSelected()) {
             type = "Hostel";
@@ -157,7 +183,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
         } else {
             type = "";
         }
-        Building building = new Building(buildingsCollection.size() + 1, lat, lon, type, petsAllowed.isSelected());
+        Building building = new Building(buildingsCollection.size() + 1, lat, lon, type, petsAllowed.isSelected(), lid);
         try {
             dataAccess.addBuilding(building);
         } catch (SQLException e1) {

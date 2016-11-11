@@ -15,13 +15,15 @@ public class Building {
     private final SimpleDoubleProperty lon = new SimpleDoubleProperty();
     private final SimpleStringProperty type = new SimpleStringProperty("");
     private final SimpleBooleanProperty pets = new SimpleBooleanProperty();
+    private final SimpleIntegerProperty lid = new SimpleIntegerProperty();
 
-    public Building(int bid, double lat, double lon, String type, boolean pets) {
+    public Building(int bid, double lat, double lon, String type, boolean pets, int lid) {
         setBid(bid);
         setLat(lat);
         setLon(lon);
         setType(type);
         setPets(pets);
+        setLid(lid);
     }
 
     public int getBid() {
@@ -62,6 +64,14 @@ public class Building {
 
     public void setPets(boolean pets) {
         this.pets.set(pets);
+    }
+
+    public int getLid() {
+        return lid.get();
+    }
+
+    public void setLid(int lid) {
+        this.lid.set(lid);
     }
 
 }
