@@ -25,9 +25,9 @@ public class Main extends Application implements MapComponentInitializedListener
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName("Databases");
         source.setServerName("localhost");
-        source.setDatabaseName("hestia_1");
+        source.setDatabaseName("Hestia1.0");
         source.setUser("postgres");
-        source.setPassword("robot");
+        source.setPassword("buxal3842");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);
@@ -35,7 +35,7 @@ public class Main extends Application implements MapComponentInitializedListener
         loader.setController(controller);
         Parent root = loader.load();
         primaryStage.setTitle("Hestia Registration");
-        primaryStage.setScene(new Scene(root, 800, 150));
+        primaryStage.setScene(new Scene(root, 800, 300));
         primaryStage.show();
     }
 

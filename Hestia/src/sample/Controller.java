@@ -17,6 +17,7 @@ import netscape.javascript.JSObject;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -74,6 +75,12 @@ public class Controller implements Initializable, MapComponentInitializedListene
     RadioButton privateHouseType;
     @FXML
     RadioButton apartmentType;
+    @FXML
+    TextField password;
+    @FXML
+    TextField login;
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -248,4 +255,46 @@ public class Controller implements Initializable, MapComponentInitializedListene
             map.removeMarker(myMarker);
         });
     }
+
+
+
+    public void logIn(ActionEvent event) throws IOException{
+        //List<Apartment> listap;
+        Hashtable<Integer,String> person = new Hashtable<Integer,String>();
+        try {
+            Main main = new Main();
+
+            String logi = login.getText();
+            String pass = password.getText();
+
+            try {
+                Main a = new Main();
+                int pid = dataAccess.getPersonId(logi,pass);
+                person = dataAccess.getPerson(logi,pass);
+                if(person.isEmpty()){
+                    System.out.println("There is no such person!");
+                }
+                System.out.println(person.get(pid));
+                int oid = dataAccess.getOwnerId(pid);
+                int rid = dataAccess.getRenterId(pid);
+                if(oid!=0){
+                    a.changeScene("OwnerCabinet");
+                }
+                else if(rid !=0){
+                    a.changeScene("HomeView");
+                }
+                else{
+                    System.out.println("Invalid login or password");
+                }
+
+            } catch (Exception e3) {
+
+            }
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+    }
+
+
+
 }

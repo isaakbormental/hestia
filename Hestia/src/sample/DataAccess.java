@@ -8,6 +8,7 @@ package sample;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -247,6 +248,115 @@ public class DataAccess {
             }
         }
         return list;
+    }
+
+
+
+
+    //Returns a person HashTable. Used in logIn(Controller)
+    public Hashtable<Integer,String> getPerson(String logi, String pass) throws SQLException {
+        Hashtable<Integer,String> person = new Hashtable<Integer,String>();
+        int pid = 0;
+        String name = "";
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT pid, name FROM person WHERE email = ? AND password =?")) {
+            stm.setString(1, logi);
+            stm.setString(2, pass);
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+
+                    pid = res.getInt("pid");
+                    name = res.getString("name");
+                    person.put(pid,name);
+                    System.out.println("You selected: "+"pid: "+pid+"name: "+name);
+
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+
+
+        }
+
+        return person;
+    }
+    //This one only for getting person id, used once. Stupid.
+    public int getPersonId(String logi, String pass) throws SQLException {
+        int pid = 0;
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT pid FROM person WHERE email = ? AND password =?")) {
+            stm.setString(1, logi);
+            stm.setString(2, pass);
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+                    pid = res.getInt("pid");
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+        }
+
+        return pid;
+    }
+    //SELECT rid FROM renter WHERE rid = 1;
+    public int getOwnerId(int pid) throws SQLException {
+        int oid = 0;
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT oid FROM owner WHERE oid = ?")) {
+            stm.setInt(1, pid);
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+                    oid = res.getInt("oid");
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+        }
+        return oid;
+    }
+
+    public int getRenterId(int pid) throws SQLException {
+        int rid = 0;
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT rid FROM renter WHERE rid = ?")) {
+            stm.setInt(1, pid);
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+                    rid = res.getInt("rid");
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+        }
+        return rid;
     }
 
 }
