@@ -11,6 +11,8 @@ import javafx.beans.property.SimpleStringProperty;
 public class Person {
 
     private final SimpleIntegerProperty pid = new SimpleIntegerProperty();
+    private final SimpleStringProperty firstname = new SimpleStringProperty("");
+    private final SimpleStringProperty lastname = new SimpleStringProperty("");
     private final SimpleStringProperty name = new SimpleStringProperty("");
     private final SimpleStringProperty email = new SimpleStringProperty("");
     private final SimpleIntegerProperty phone = new SimpleIntegerProperty();
@@ -18,15 +20,40 @@ public class Person {
 
     public Person(int pid, String name, String email, int phone) {
         setPid(pid);
-        setName(name);
+        setFirstname(name);
         setEmail(email);
         setPhone(phone);
     }
+   public Person(String firstname,String email,int phone){
+       setFirstname(firstname);
+       setEmail(email);
+       setPhone(phone);
+   }
+    public void setFirstname(String firstname) {
+        this.firstname.set(firstname);
+    }
 
-    public Person(String name, String email, int phone) {
-        setName(name);
-        setEmail(email);
-        setPhone(phone);
+    public void setlastname(String lastname) {
+        this.lastname.set(lastname);
+    }
+
+    public Person(String firstname, String lastname) {
+        setFirstname(firstname);
+        setlastname(lastname);
+        setName(firstname+"  "+lastname);
+        
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
+    public SimpleStringProperty nameProperty() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name.set(name);
     }
 
     public int getPid() {
@@ -41,12 +68,16 @@ public class Person {
         return "" + pid.get();
     }
 
-    public String getName() {
-        return name.get();
+    public String getFirsName() {
+        return firstname.get();
     }
 
-    public void setName(String name) {
-        this.name.set(name);
+    public String getLastname() {
+        return lastname.get();
+    }
+
+    public SimpleStringProperty lastnameProperty() {
+        return lastname;
     }
 
     public String getEmail() {

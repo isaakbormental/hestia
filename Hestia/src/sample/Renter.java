@@ -18,8 +18,8 @@ public class Renter extends Person {
         setRating(rating);
     }
 
-    public Renter(String name, String email, int phone, int rid, double rating) {
-        super(name, email, phone);
+    public Renter(String name, String firname,int rid, double rating) {
+        super(name, firname);
         setRid(rid);
         setRating(rating);
     }

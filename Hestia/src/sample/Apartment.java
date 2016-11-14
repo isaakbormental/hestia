@@ -19,6 +19,7 @@ public class Apartment {
     private  final SimpleDoubleProperty size = new SimpleDoubleProperty();
     private  final SimpleDoubleProperty price = new SimpleDoubleProperty();
     private final SimpleStringProperty description =new SimpleStringProperty("");
+    private final SimpleStringProperty nameOwner =new SimpleStringProperty("");
 
     /**
      *  constructor to set the fields of the tableView
@@ -33,6 +34,14 @@ public class Apartment {
         setSize(sizeap);
         setDescription(des);
     }
+    public Apartment(Person owner, int num,double si,double pri,String des){
+
+        setNameOwner(owner.getName());
+        setNumberRoom(num);
+        setPrice(pri);
+        setSize(si);
+        setDescription(des);
+    }
 
     public Apartment(int oid, double sizeap, int numr, double pricea) {
         setNumberRoom(numr);
@@ -41,14 +50,14 @@ public class Apartment {
         setOid(oid);
     }
 
-    public Apartment(int aid, int anumber, int bid, int oid, double sizeap, int numr, double pricea) {
-        setNumberRoom(numr);
+    public Apartment(int aid, int anumber, int bid, int oid, double sizeap, double pricea) {
+        setNumberRoom(anumber);
         setPrice(pricea);
         setSize(sizeap);
         setAid(aid);
         setBid(bid);
         setOid(oid);
-        setAnumber(anumber);
+
     }
 
     public Apartment(){
@@ -142,5 +151,15 @@ public class Apartment {
         this.anumber.set(anumber);
     }
 
+    public String getNameOwner() {
+        return nameOwner.get();
+    }
 
+    public SimpleStringProperty nameOwnerProperty() {
+        return nameOwner;
+    }
+
+    public void setNameOwner(String nameOwner) {
+        this.nameOwner.set(nameOwner);
+    }
 }

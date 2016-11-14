@@ -1,5 +1,6 @@
 package sample;
 
+
 /**
  * Created by Владислав on 26.10.2016.
  */
@@ -8,9 +9,9 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 
+import java.util.List;
+@SuppressWarnings("all")
 public class DataAccess {
     private static DataSource dataSource = null;
 
@@ -30,10 +31,11 @@ public class DataAccess {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM person")
         ) {
             while (rs.next()) {
-                int id = rs.getInt(1);
-                String firstname = rs.getString(2);
-                String lastname = rs.getString(3);
-                int phone = rs.getInt(4);
+                int id = rs.getInt("person_id");
+                String firstname = rs.getString("firstname");
+                String lastname = rs.getString("lastname");
+                String email = rs.getString("email");
+                int phone = rs.getInt("phone");
                 result.add(new Person(id, firstname, lastname, phone));
             }
             rs.close();
@@ -50,14 +52,14 @@ public class DataAccess {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM apartment")
         ) {
             while (rs.next()) {
-                int aid = rs.getInt(1);
-                int anumber = rs.getInt(2);
-                int bid = rs.getInt(3);
-                int oid = rs.getInt(4);
-                int size = rs.getInt(5);
-                int rooms = rs.getInt(6);
-                int price = rs.getInt(7);
-                result.add(new Apartment(aid, anumber, bid, oid, size, rooms, price));
+                int aid = rs.getInt("apart_id");
+                int anumber = rs.getInt("num_of_rooms");
+                int bid = rs.getInt("buildin_id");
+                int oid = rs.getInt("oid");
+                int size = rs.getInt("size");
+              //  int rooms = rs.getInt(6);
+                int price = rs.getInt("price");
+                result.add(new Apartment(aid, anumber, bid, oid, size, price));
             }
             rs.close();
             stmt.close();
@@ -73,12 +75,12 @@ public class DataAccess {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM building")
         ) {
             while (rs.next()) {
-                int bid = rs.getInt(1);
-                double lat = rs.getDouble(2);
-                double lon = rs.getDouble(3);
-                String type = rs.getString(4);
-                boolean pets = rs.getBoolean(5);
-                int lid = rs.getInt(6);
+                int bid = rs.getInt("building_id");
+                double lat = rs.getDouble("longitude");
+                double lon = rs.getDouble("latitude");
+                String type = rs.getString("type");
+                boolean pets = rs.getBoolean("pet_allow");
+                int lid = rs.getInt("lid");
                 result.add(new Building(bid, lat, lon, type, pets, lid));
             }
             rs.close();
@@ -95,10 +97,10 @@ public class DataAccess {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM location")
         ) {
             while (rs.next()) {
-                int lid = rs.getInt(1);
-                String city = rs.getString(2);
-                String district = rs.getString(3);
-                double crime_rating = rs.getDouble(4);
+                int lid = rs.getInt("location_id");
+                String city = rs.getString("city");
+                String district = rs.getString("district");
+                double crime_rating = rs.getDouble("crime_rating");
                 result.add(new Location(lid, city, district, crime_rating));
             }
             rs.close();
@@ -107,11 +109,68 @@ public class DataAccess {
         return result;
     }
 
+    /**
+     * return the apartments id been rented by the user whit the given id
+     * @param idRenter
+     * @return
+     * @throws SQLException
+     */
+    public List<Integer> getIdApartementrented(int idRenter)throws SQLException{
+        List<Integer> list=new ArrayList<>();
+          try(Connection con=getConnection();
+               PreparedStatement stm=con.prepareStatement("SELECT A.apart_id FROM renter_apart A WHERE  A.renter_id=?")) {
+                     stm.setInt(1,idRenter);
+                     ResultSet res=stm.executeQuery();
+                while (res.next()){
+                    list.add(res.getInt("apart_id"));
+                }
+          }
+        return list;
+    }
+
+    public List<Apartment> findListApartmentRented(int idRenter)throws SQLException{
+        List<Apartment> listApart=new ArrayList<>();
+        List<Integer> lisId=getIdApartementrented(idRenter);
+        for (int id:lisId) {
+            try( Connection con=getConnection();
+                         PreparedStatement stmt=con.prepareStatement("SELECT A.*,L.* FROM " +
+                         "apartment A NATURAL  JOIN building B,natural JOIN location L " +
+                         "WHERE A.apart_id=?")
+               ){
+                stmt.setInt(1,id);
+                try {
+                    ResultSet res=stmt.executeQuery();
+                    while (res.next()){
+                        StringBuilder des=new StringBuilder();
+                        des.append("City: "+res.getString("city")).append(" District: "+res.getString("district")+"/n");
+                        des.append("Crime Rating :" +res.getDouble("crime_rating"));
+                        double pri=res.getDouble("price");
+                        double size=res.getDouble("size");
+                        int num=res.getInt("anumber");
+                        listApart.add(new Apartment(num,size,pri,des.toString()));
+
+                    }
+                }catch (SQLException ex){
+                    ex.printStackTrace();
+                }
+
+
+            }
+        }
+        return listApart;
+    }
+    /**
+     *
+     * @param lat
+     * @param lon
+     * @return
+     * @throws SQLException
+     */
     public List<Integer> findBuilding(double lat, double lon) throws SQLException {
         List<Integer> result = new ArrayList<>();
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("SELECT B.bid FROM Building B where B.latitude = ? AND B.longitude = ?")) {
+                PreparedStatement stmt = connection.prepareStatement("SELECT B.building_id FROM Building B where B.latitude = ? AND B.longitude = ?")) {
             stmt.setDouble(1, lat);
             stmt.setDouble(2, lon);
             ResultSet rs = stmt.executeQuery();
@@ -129,7 +188,7 @@ public class DataAccess {
         List<Integer> result = new ArrayList<>();
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("SELECT L.lid FROM Location L where L.city = ? AND L.district = ?")) {
+                PreparedStatement stmt = connection.prepareStatement("SELECT L.location_id FROM Location L where L.city = ? AND L.district = ?")) {
             stmt.setString(1, city);
             stmt.setString(2, district);
             ResultSet rs = stmt.executeQuery();
@@ -147,9 +206,10 @@ public class DataAccess {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO person (pid,name,email,phone) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, this.getAll().size() + 1);
-            stmt.setString(2, person.getName());
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO person (firstname,lastname,email,phone) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, person.getFirsName());
+            stmt.setString(2, person.getLastname());
             stmt.setString(3, person.getEmail());
             stmt.setInt(4, person.getPhone());
             rowsUpdated = stmt.executeUpdate();
@@ -162,7 +222,7 @@ public class DataAccess {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO owner (oid,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO owner (owner_id,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, this.getAll().size());
             stmt.setDouble(2, owner.getRating());
             rowsUpdated = stmt.executeUpdate();
@@ -187,13 +247,12 @@ public class DataAccess {
     public void addApartment(Apartment apartment, int user) throws SQLException {
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (aid,anumber,bid,oid,size,num_of_rooms,price) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (apart_id,num_of_rooms,buildin_id,oid,size,price) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, apartment.getAid());
-            stmt.setInt(2, apartment.getAnumber());
             stmt.setInt(3, apartment.getBid());
             stmt.setInt(4, apartment.getOid());
             stmt.setDouble(5, apartment.getSize());
-            stmt.setInt(6, apartment.getNumberRoom());
+            stmt.setInt(2, apartment.getNumberRoom());
             stmt.setDouble(7, apartment.getPrice());
             stmt.executeUpdate();
             stmt.close();
@@ -203,7 +262,7 @@ public class DataAccess {
     public void addBuilding(Building building) throws SQLException {
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO building (bid,latitude,longitude,type,pet_allow,lid) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO building (building_id,latitude,longitude,type,pet_allow,lid) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, building.getBid());
             stmt.setDouble(2, building.getLat());
             stmt.setDouble(3, building.getLon());
@@ -218,7 +277,7 @@ public class DataAccess {
     public void addLocation(Location location) throws SQLException {
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO location (lid,city,district,crime_rating) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO location (location_id,city,district,crime_rating) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, location.getLid());
             stmt.setString(2, location.getCity());
             stmt.setString(3, location.getDistrict());
@@ -232,7 +291,7 @@ public class DataAccess {
         List<Apartment> list = new ArrayList<>();
 
         try (Connection connection = getConnection();
-             PreparedStatement stm = connection.prepareStatement("SELECT  A.size,A.price,A.anumber,L.district,L.city,L.crime_rating FROM" +
+             PreparedStatement stm = connection.prepareStatement("SELECT  A.size,A.price,A.num_of_rooms,L.district,L.city,L.crime_rating FROM" +
                      " apartment A NATURAL JOIN building B NATURAL JOIN location L WHERE A.price<? AND L.city=?")) {
             stm.setDouble(1, price);
             stm.setString(2, location);
@@ -243,7 +302,7 @@ public class DataAccess {
                     StringBuilder str = new StringBuilder();
                     double s = res.getDouble("size");
                     double p = res.getDouble("price");
-                    int n = res.getInt("anumber");
+                    int n = res.getInt("number_of_room");
                     String dis = res.getString("district");
                     String cit = res.getString("city");
                     double ra = res.getDouble("crime_rating");
@@ -270,13 +329,13 @@ public class DataAccess {
         try (Connection connection = getConnection();
              PreparedStatement stm = connection.prepareStatement("select a.price,a.size,a.anumber, lo.city, lo.crime_rating, lo.district " +
                      "from apartment a, location lo, building bi " +
-                     "where a.bid in (select B.bid " +
+                     "where a.buildin_id in (select B.buildin_id " +
                      "from building B, institution I " +
                      "where B.lid = I.lid" +
                      " AND |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= ?)" +
-                     " AND a.bid=bi.bid " +
+                     " AND a.buildin_id=bi.building_id " +
                      " AND bi.lid=lo.lid;")) {
-            stm.setInt(1, distance);
+           // stm.setInt(1, distance);
             // int row = stm.executeUpdate();
             try {
                 ResultSet res = stm.executeQuery();
@@ -303,6 +362,48 @@ public class DataAccess {
     }
 
 
+   public List<Apartment> findApartRentedById(int renterid) throws SQLException{
+       ArrayList<Apartment> list=new ArrayList<>();
+       try(
+               Connection con=getConnection();
+               PreparedStatement stmt=con.prepareStatement("SELECT DISTINCT  lastname,firstname ,RA.date_begin,RA.date_end ,L.city, L.district ,L.crime_rating,A.price,A.size,A.num_of_rooms" +
+                       " FROM person  P NATURAL JOIN owner O ,renter_apart RA,location L ,building B , apartment A" +
+                       "   where (RA.owner_id, RA.apart_id, RA.date_begin,RA.date_end)" +
+                       "           in(select owner_id,apart_id,date_begin,date_end" +
+                       "                FROM renter_apart" +
+                       "                where renter_apart.owner_id=O.owner_id AND renter_apart.renter_id=?) and P.person_id=O.owner_id" +
+                       "  and (A.apart_id,L.city,L.district,L.crime_rating) in (SELECT DISTINCT apart_id,city,district,crime_rating" +
+                       "                                                            FROM location L1 NATURAL JOIN building B1 NATURAL JOIN apartment A1" +
+                       "                                                                WHERE A1.apart_id=RA.apart_id and A1.buildin_id=B1.building_id AND B1.lid=L1.location_id)")
+               ){
+           stmt.setInt(1,renterid);
+            try {
+               ResultSet resultSet= stmt.executeQuery();
+                while (resultSet.next()){
+
+                    String fname=resultSet.getString("firstname");
+                    String lname=resultSet.getString("lastname");
+                    Owner person=new Owner(fname,lname);
+                    StringBuilder str = new StringBuilder();
+                    double s = resultSet.getDouble("size");
+                    double p = resultSet.getDouble("price");
+                    int n = resultSet.getInt("num_of_rooms");
+                    String dis = resultSet.getString("district");
+                    String cit = resultSet.getString("city");
+                    double ra = resultSet.getDouble("crime_rating");
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra + " \n" +ra);
+
+                    list.add(new Apartment(person,n,s,p,str.toString()));
+
+                }
+            }catch (SQLException ext){
+             ext.printStackTrace();
+            }
+       }
+       return list;
+   }
+
+
 
 
     //Returns a person HashTable. Used in logIn(Controller)
@@ -311,7 +412,7 @@ public class DataAccess {
         int pid = 0;
         String name = "";
         try (Connection connection = getConnection();
-             PreparedStatement stm = connection.prepareStatement("SELECT pid, name FROM person WHERE email = ? AND password =?")) {
+             PreparedStatement stm = connection.prepareStatement("SELECT person_id, firstname,lastname FROM person WHERE email = ? AND password =?")) {
             stm.setString(1, logi);
             stm.setString(2, pass);
             // int row = stm.executeUpdate();
@@ -320,8 +421,8 @@ public class DataAccess {
                 while (res.next()) {
                     StringBuilder str = new StringBuilder();
 
-                    pid = res.getInt("pid");
-                    name = res.getString("name");
+                    pid = res.getInt("person_id");
+                    name = res.getString("firstname")+" " +res.getString("lastname");
                     person.put(pid,name);
                     System.out.println("You selected: "+"pid: "+pid+"name: "+name);
 
@@ -343,7 +444,7 @@ public class DataAccess {
     public int getPersonId(String logi, String pass) throws SQLException {
         int pid = 0;
         try (Connection connection = getConnection();
-             PreparedStatement stm = connection.prepareStatement("SELECT pid FROM person WHERE email = ? AND password =?")) {
+             PreparedStatement stm = connection.prepareStatement("SELECT person_id FROM person WHERE email = ? AND password =?")) {
             stm.setString(1, logi);
             stm.setString(2, pass);
             // int row = stm.executeUpdate();
@@ -351,7 +452,7 @@ public class DataAccess {
                 ResultSet res = stm.executeQuery();
                 while (res.next()) {
                     StringBuilder str = new StringBuilder();
-                    pid = res.getInt("pid");
+                    pid = res.getInt("person_id");
                 }
                 res.close();
             } catch (SQLException st) {
@@ -368,7 +469,7 @@ public class DataAccess {
     public int getOwnerId(int pid) throws SQLException {
         int oid = 0;
         try (Connection connection = getConnection();
-             PreparedStatement stm = connection.prepareStatement("SELECT oid FROM owner WHERE oid = ?")) {
+             PreparedStatement stm = connection.prepareStatement("SELECT owner_id FROM owner WHERE owner_id = ?")) {
             stm.setInt(1, pid);
             // int row = stm.executeUpdate();
             try {
@@ -391,14 +492,14 @@ public class DataAccess {
     public int getRenterId(int pid) throws SQLException {
         int rid = 0;
         try (Connection connection = getConnection();
-             PreparedStatement stm = connection.prepareStatement("SELECT rid FROM renter WHERE rid = ?")) {
+             PreparedStatement stm = connection.prepareStatement("SELECT renter_id FROM renter WHERE renter_id = ?")) {
             stm.setInt(1, pid);
             // int row = stm.executeUpdate();
             try {
                 ResultSet res = stm.executeQuery();
                 while (res.next()) {
                     StringBuilder str = new StringBuilder();
-                    rid = res.getInt("rid");
+                    rid = res.getInt("renter_id");
                 }
                 res.close();
             } catch (SQLException st) {

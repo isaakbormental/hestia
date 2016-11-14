@@ -21,7 +21,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-
+@SuppressWarnings("all")
 public class Controller implements Initializable, MapComponentInitializedListener {
 
     private DataAccess dataAccess;
@@ -81,9 +81,12 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML
     RadioButton apartmentType;
     @FXML
-    TextField password;
+    PasswordField password;
     @FXML
     TextField login;
+    @FXML
+    TableView history;
+
 
 
 
@@ -144,8 +147,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void addApartment(int bid) throws IOException {
-        Apartment apartment = new Apartment(apartmentsCollection.size() + 1, Integer.parseInt(numOfAp.getText()), bid, personsCollection.size() - 1,
-                Double.parseDouble(sizeOfAp.getText()), Integer.parseInt(numOfRooms.getText()),
+        Apartment apartment = new Apartment(apartmentsCollection.size() + 1, Integer.parseInt(numOfRooms.getText()), bid, personsCollection.size() - 1,
+                Double.parseDouble(sizeOfAp.getText()),
                 Double.parseDouble(priceOfAp.getText()));
         try {
             dataAccess.addApartment(apartment, personsCollection.size() - 1);
@@ -198,11 +201,11 @@ public class Controller implements Initializable, MapComponentInitializedListene
             dataAccess.addPerson(person);
             Main a = new Main();
             if (ownerRadio.isSelected()) {
-                Owner owner = new Owner(person.getPid(), person.getName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
+                Owner owner = new Owner(person.getPid(), person.getFirsName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
                 dataAccess.addOwner(owner);
                 a.changeScene("OwnerCabinet");
             } else {
-                Renter renter = new Renter(person.getPid(), person.getName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
+                Renter renter = new Renter(person.getPid(), person.getFirsName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
                 dataAccess.addRenter(renter);
                 a.changeScene("RenterCabinet");
             }
@@ -245,6 +248,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
         priceOfAp.clear();
     }
 
+
+
     @Override
     public void mapInitialized() {
         MapOptions mapOptions = new MapOptions();
@@ -285,7 +290,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
 
     public void logIn(ActionEvent event) throws IOException{
-        //List<Apartment> listap;
+        List<Apartment> listap;
         Hashtable<Integer,String> person = new Hashtable<Integer,String>();
         try {
             Main main = new Main();
@@ -294,7 +299,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
             String pass = password.getText();
 
             try {
-                Main a = new Main();
+               // Main a = new Main();
                 int pid = dataAccess.getPersonId(logi,pass);
                 person = dataAccess.getPerson(logi,pass);
                 if(person.isEmpty()){
@@ -304,10 +309,15 @@ public class Controller implements Initializable, MapComponentInitializedListene
                 int oid = dataAccess.getOwnerId(pid);
                 int rid = dataAccess.getRenterId(pid);
                 if(oid!=0){
-                    a.changeScene("OwnerCabinet");
+
+                    main.changeScene("OwnerCabinet");
                 }
                 else if(rid !=0){
-                    a.changeScene("HomeView");
+                    main.changeScene("RenterCabinet");
+                    listap=dataAccess.findApartRentedById(rid);
+                    apartmentsCollection=FXCollections.observableArrayList(listap);
+                    history.setItems(apartmentsCollection);
+
                 }
                 else{
                     System.out.println("Invalid login or password");
@@ -319,6 +329,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
         } catch (Exception e2) {
             e2.printStackTrace();
         }
+
     }
 
 

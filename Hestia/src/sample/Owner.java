@@ -19,11 +19,14 @@ public class Owner extends Person{
     }
 
     public Owner(String name, String email, int phone, int oid, double rating) {
-        super(name, email, phone);
+        super(name, email);
         setOid(oid);
         setRating(rating);
     }
 
+    public Owner(String firstname,String lastname){
+        super(firstname,lastname);
+    }
     public int getOid() {
         return oid.get();
     }
