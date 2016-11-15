@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
-<?import javafx.geometry.Insets?>
+
 <?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+
 <?import javafx.scene.layout.*?>
 
 <GridPane alignment="CENTER" hgap="10.0" prefHeight="600.0" prefWidth="800.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
@@ -36,52 +35,5 @@
             </TableView>
         </children>
     </HBox>
-    <HBox alignment="BOTTOM_RIGHT" minHeight="150.0" prefHeight="173.0" prefWidth="780.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
-        <VBox prefHeight="200.0" prefWidth="800.0">
-            <children>
-                <HBox prefHeight="100.0" prefWidth="800.0" spacing="25.0">
-                    <children>
-                        <Label prefHeight="76.0" style="-fx-font: NORMAL 20 Tahoma;" text="Add your advertisement: " translateX="15.0" />
-                        <TextField fx:id="numOfAp" alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="80.0" promptText="Number" translateX="0.0" />
-                        <TextField fx:id="numOfRooms" alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="110.0" promptText="Rooms" translateX="0.0" />
-                        <TextField fx:id="sizeOfAp" alignment="CENTER_LEFT" focusTraversable="true" prefHeight="36.0" prefWidth="80.0" promptText="Size (m^2)" translateX="0.0" visible="true" />
-                        <TextField fx:id="priceOfAp" alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="80.0" promptText="Price" translateX="0.0" />
-                    </children>
-                </HBox>
-                <HBox alignment="BOTTOM_RIGHT" minHeight="100.0" prefHeight="89.0" prefWidth="780.0" spacing="10.0">
-                    <fx:define>
-                        <ToggleGroup fx:id="typeOfApartment" />
-                    </fx:define>
-                    <fx:define>
-                        <ToggleGroup fx:id="petsAllowance" />
-                    </fx:define>
-                    <VBox prefHeight="200.0" prefWidth="200.0" spacing="5.0" translateX="-50.0" translateY="5.0">
-                        <children>
-                            <TextField fx:id="location_city" prefHeight="30.0" prefWidth="200.0" promptText="City" />
-                            <TextField fx:id="location_district" prefHeight="30.0" prefWidth="200.0" promptText="District" />
-                        </children>
-                    </VBox>
-                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="10.0">
-                        <children>
-                            <RadioButton fx:id="hostelRoomType" prefWidth="125.0" text="Hostel room" toggleGroup="$typeOfApartment" />
-                            <RadioButton fx:id="privateHouseType" prefWidth="125.0" text="Private house" toggleGroup="$typeOfApartment" />
-                            <RadioButton fx:id="apartmentType" prefWidth="125.0" text="Apartment" toggleGroup="$typeOfApartment" />
-                        </children>
-                    </VBox>
-                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="10.0">
-                        <children>
-                            <RadioButton fx:id="petsNotAllowed" prefWidth="125.0" text="Pets not allowed" toggleGroup="$petsAllowance" />
-                            <RadioButton fx:id="petsAllowed" prefWidth="125.0" text="Pets allowed" toggleGroup="$petsAllowance" />
-                        </children>
-                    </VBox>
-                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="10.0">
-                        <children>
-                            <Button mnemonicParsing="false" onAction="#openMap" prefHeight="36.0" prefWidth="100.0" text="Google Map" />
-                            <Button onAction="#addAdvertisement" prefHeight="36.0" prefWidth="100.0" text="Post Ad" />
-                        </children>
-                    </VBox>
-                </HBox>
-            </children>
-        </VBox>
-    </HBox>
+
 </GridPane>

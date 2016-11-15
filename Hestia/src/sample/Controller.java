@@ -86,6 +86,10 @@ public class Controller implements Initializable, MapComponentInitializedListene
     TextField login;
     @FXML
     TableView history;
+    @FXML
+    Button openmap;
+    @FXML
+    Button addadvert;
 
 
 
@@ -123,6 +127,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void addAdvertisement(ActionEvent event) throws IOException {
+        if (event.getSource()==addadvert)
         try {
             List<Integer> found_locations = dataAccess.findLocation(location_city.getText(), location_district.getText());
             if (found_locations.size() == 0) {
