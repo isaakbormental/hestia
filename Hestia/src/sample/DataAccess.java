@@ -476,7 +476,7 @@ public class DataAccess {
                 ResultSet res = stm.executeQuery();
                 while (res.next()) {
                     StringBuilder str = new StringBuilder();
-                    oid = res.getInt("oid");
+                    oid = res.getInt("owner_id");
                 }
                 res.close();
             } catch (SQLException st) {

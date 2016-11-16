@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" hgap="5.0" minHeight="150.0" prefHeight="540.0" prefWidth="691.0" style="-fx-background-color: #ffffff;" vgap="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<GridPane alignment="CENTER" hgap="5.0" minHeight="150.0" prefHeight="800" prefWidth="600" style="-fx-background-color: #ffffff;" vgap="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <Pane prefHeight="95.0" prefWidth="671.0" style="-fx-background-color: deepskyblue" GridPane.columnIndex="0" GridPane.rowIndex="0">
     <children>
       <Label layoutX="225.0" layoutY="38.0" prefHeight="54.1328125" prefWidth="210.0" text="Hestia Homes">
@@ -24,7 +24,7 @@
           <Font size="20.0" />
         </font>
       </Label>
-      <VBox layoutX="0.0" layoutY="50.0" prefHeight="158.0" prefWidth="671.0">
+      <VBox layoutX="6.0" layoutY="67.0" prefHeight="251.0" prefWidth="671.0">
         <children>
           <HBox prefHeight="45.0" prefWidth="666.0">
             <Label prefWidth="185.0" style="-fx-font:normal 20 " text=" user name or email " />
@@ -33,7 +33,7 @@
               <Insets right="5.0" top="5.0" fx:id="x4" />
             </VBox.margin>
           </HBox>
-          <HBox prefHeight="45.0" prefWidth="666.0" VBox.margin="$x4">
+          <HBox prefHeight="64.0" prefWidth="666.0" VBox.margin="$x4">
             <Label prefWidth="185.0" style="-fx-font:normal 20 " text=" Password    " />
             <PasswordField fx:id="password" prefHeight="24.0" prefWidth="200.0" />
           </HBox>
@@ -45,31 +45,14 @@
               <Insets />
             </VBox.margin>
           </Button>
+          <HBox prefHeight="122.0" prefWidth="671.0">
+            <children>
+              <Label prefHeight="74.0" prefWidth="315.0" style="-fx-font:normal 20 " text="" />
+              <Hyperlink prefHeight="58.0" prefWidth="170.0" text="Create an account" textFill="#085180" onAction="#createAccount"/>
+            </children>
+          </HBox>
         </children>
       </VBox>
     </children>
   </Pane>
-  <Label style="-fx-font: BOLD 20 Calibri;" text="Hestia Registration" GridPane.columnIndex="0" GridPane.rowIndex="4">
-    <textFill>
-      <Color blue="0.506" green="0.447" red="0.710" fx:id="x1" />
-    </textFill>
-  </Label>
-  <padding>
-    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-  </padding>
-  <HBox alignment="BOTTOM_RIGHT" prefHeight="64.0" prefWidth="671.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
-    <TextField fx:id="nameField" prefHeight="45.0" prefWidth="200.0" promptText="Full Name" />
-    <TextField fx:id="emailField" prefHeight="45.0" prefWidth="150.0" promptText="Email" />
-    <TextField fx:id="phoneField" prefHeight="45.0" prefWidth="100.0" promptText="Phone" />
-    <RadioButton fx:id="ownerRadio" prefWidth="75.0" text="Owner" textFill="$x1">
-      <font>
-        <Font size="14.0" fx:id="x2" />
-      </font>
-      <toggleGroup>
-        <ToggleGroup fx:id="roleRadio" />
-      </toggleGroup>
-    </RadioButton>
-    <RadioButton fx:id="renterRadio" font="$x2" prefWidth="75.0" text="Renter" textFill="$x1" toggleGroup="$roleRadio" />
-    <Button font="$x3" onAction="#addPerson" prefHeight="45.0" prefWidth="109.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #B57281; -fx-border-width: 5;" text="Register" textFill="$x1" />
-  </HBox>
 </GridPane>

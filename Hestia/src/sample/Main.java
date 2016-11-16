@@ -34,27 +34,27 @@ public class Main extends Application implements MapComponentInitializedListener
         loader.setController(controller);
         Parent root = loader.load();
         primaryStage.setTitle("Hestia Registration");
-        primaryStage.setScene(new Scene(root, 800, 300));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
     public void changeScene(String arg) throws IOException {
         Parent root = null;
-        if (arg == "OwnerCabinet") {
+        if (arg.equals("OwnerCabinet")) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("OwnerCabinet.fxml"));
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Owner Personal Cabinet");
             Scene scene = new Scene(root, 1000, 750);
             theStage.setScene(scene);
-        } else if (arg == "RenterCabinet") {
+        } else if (arg.equals("RenterCabinet")) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("RenterCabinet.fxml"));
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Renter Personal Cabinet");
             Scene scene = new Scene(root, 1000, 750);
             theStage.setScene(scene);
-        } else if (arg == "Registration") {
+        } else if (arg.equals("Registration")) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Registration.fxml"));
             loader.setController(controller);
             root = loader.load();
@@ -62,6 +62,23 @@ public class Main extends Application implements MapComponentInitializedListener
             Scene scene = new Scene(root, 1000, 750);
             theStage.setScene(scene);
         }
+        else if(arg.equals("AddAdvert")){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddAvertisment.fxml"));
+           loader.setController(controller);
+            root = loader.load();
+            theStage.setTitle("Add Advert");
+            Scene scene = new Scene(root, 1000, 750);
+            theStage.setScene(scene);
+        }
+        else if(arg.equals("newAccount")){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateAccount.fxml"));
+            loader.setController(controller);
+            root = loader.load();
+            theStage.setTitle("New account");
+            Scene scene = new Scene(root, 1000, 750);
+            theStage.setScene(scene);
+        }
+
 
     }
 

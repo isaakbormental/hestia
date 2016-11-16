@@ -39,59 +39,34 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     @FXML
-    TextField nameField;
-    @FXML
-    TextField emailField;
+    TextField nameField;      @FXML  TextField emailField;
     @FXML
     TextField phoneField;
-    @FXML
-    RadioButton ownerRadio;
-    @FXML
-    RadioButton renterRadio;
-    @FXML
-    TableView listHouse;
-    @FXML
-    Button validate;
-    @FXML
-    Button reset;
-    @FXML
-    TextField location;
-    @FXML
-    TextField distance;
-    @FXML
-    TextField numOfAp;
-    @FXML
-    TextField sizeOfAp;
-    @FXML
-    TextField priceOfAp;
-    @FXML
-    TextField numOfRooms;
-    @FXML
-    TextField location_city;
-    @FXML
-    TextField location_district;
-    @FXML
-    RadioButton petsAllowed;
-    @FXML
-    RadioButton petsNotAllowed;
-    @FXML
-    RadioButton hostelRoomType;
-    @FXML
-    RadioButton privateHouseType;
-    @FXML
-    RadioButton apartmentType;
-    @FXML
-    PasswordField password;
-    @FXML
-    TextField login;
-    @FXML
-    TableView history;
-    @FXML
-    Button openmap;
-    @FXML
-    Button addadvert;
-
-
+    @FXML RadioButton ownerRadio;
+    @FXML RadioButton renterRadio;
+    @FXML TableView listHouse;
+    @FXML Button validate;
+    @FXML Button reset;
+    @FXML TextField location;
+    @FXML TextField distance;
+    @FXML TextField numOfAp;
+    @FXML TextField sizeOfAp;
+    @FXML TextField priceOfAp;
+    @FXML TextField numOfRooms;
+    @FXML TextField location_city;
+    @FXML TextField location_district;
+    @FXML RadioButton petsAllowed;
+    @FXML RadioButton petsNotAllowed;
+    @FXML RadioButton hostelRoomType;
+    @FXML RadioButton privateHouseType;
+    @FXML RadioButton apartmentType;
+    @FXML PasswordField password;
+    @FXML TextField login;
+    @FXML TableView history;
+    @FXML Button openmap;
+    @FXML Button addadvert;
+    @FXML Hyperlink link;
+    @FXML Button addperson;
 
 
     @Override
@@ -125,7 +100,25 @@ public class Controller implements Initializable, MapComponentInitializedListene
         mapstage.setScene(scene);
         mapstage.show();
     }
+    public void addAdvert(ActionEvent event){
+        Main main=new Main();
 
+            try {
+                main.changeScene("AddAdvert");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+    }
+    public void createAccount(ActionEvent event){
+        Main main=new Main();
+
+        try {
+            main.changeScene("newAccount");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void addAdvertisement(ActionEvent event) throws IOException {
         if (event.getSource()==addadvert)
         try {
