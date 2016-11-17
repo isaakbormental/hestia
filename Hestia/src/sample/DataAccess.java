@@ -288,7 +288,7 @@ public class DataAccess {
             stmt.close();
         }
     }
-
+    //Do we realy need this?
     public List<Apartment> getApartment(String location, double price) throws SQLException {
         List<Apartment> list = new ArrayList<>();
 
