@@ -28,7 +28,7 @@ public class Apartment {
      * @param pricea
      * @param des
      */
-    public Apartment(int numr,double sizeap,double pricea,String des) {
+    public Apartment(int numr, double sizeap, int pricea, String des) {
         setNumberRoom(numr);
         setPrice(pricea);
         setSize(sizeap);
@@ -58,6 +58,12 @@ public class Apartment {
         setBid(bid);
         setOid(oid);
 
+    }
+
+    public Apartment(double sizeap, int pricea, String des) {
+        setPrice(pricea);
+        setSize(sizeap);
+        setDescription(des);
     }
 
     public Apartment(){

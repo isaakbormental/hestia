@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 @SuppressWarnings("all")
@@ -33,6 +32,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
     GoogleMap map;
     private double lat, lon;
     private Marker myMarker;
+    private int cabinetMarker = 0;
+
 
     public Controller(DataAccess dataAccess) {
         this.dataAccess = dataAccess;
@@ -50,8 +51,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML TextField location;
     @FXML TextField distance;
     @FXML TextField numOfAp;
-    @FXML TextField sizeOfAp;
-    @FXML TextField priceOfAp;
+    @FXML TextField size;
+    @FXML TextField price;
     @FXML TextField numOfRooms;
     @FXML TextField location_city;
     @FXML TextField location_district;
@@ -146,8 +147,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     public void addApartment(int bid) throws IOException {
         Apartment apartment = new Apartment(apartmentsCollection.size() + 1, Integer.parseInt(numOfRooms.getText()), bid, personsCollection.size() - 1,
-                Double.parseDouble(sizeOfAp.getText()),
-                Double.parseDouble(priceOfAp.getText()));
+                Double.parseDouble(size.getText()),
+                Double.parseDouble(price.getText()));
         try {
             dataAccess.addApartment(apartment, personsCollection.size() - 1);
             Main a = new Main();
@@ -158,9 +159,9 @@ public class Controller implements Initializable, MapComponentInitializedListene
         }
         apartmentsCollection.add(apartment);
         numOfAp.clear();
-        sizeOfAp.clear();
+        size.clear();
         numOfRooms.clear();
-        priceOfAp.clear();
+        price.clear();
     }
 
     public void addLocation() throws IOException {
@@ -218,32 +219,62 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     public void FindAppartment(ActionEvent event) throws IOException {
         List<Apartment> listap;
-        try {
-            Main main = new Main();
 
-            String locat = location.getText();
-            double pric = Double.parseDouble(priceOfAp.getText());
-            double siz = Double.parseDouble(sizeOfAp.getText());
-            try {
-                int distanc = Integer.parseInt(distance.getText());
-                listap = dataAccess.getApartment(distanc);
-                apartmentsCollection = FXCollections.observableArrayList(listap);
-                listHouse.setItems(apartmentsCollection);
-            } catch (Exception e3) {
-                listap = dataAccess.getApartment(locat, pric);
-                apartmentsCollection = FXCollections.observableArrayList(listap);
-                listHouse.setItems(apartmentsCollection);
-            }
-        } catch (SQLException e2) {
-            e2.printStackTrace();
+        Main main = new Main();
+        String locat = "default";
+        if(location.getText().equals("")){
+            System.out.println("NO LOCAT");
+        }
+        else{
+            locat = location.getText();
+        }
+
+        int pric = 0;
+        if(price.getText().equals("")){
+            System.out.println("NO PRICE");
+            pric = -1;
+        }
+        else{
+            pric = Integer.parseInt(price.getText());
+        }
+        int siz = -1;
+        if(size.getText().equals("")){
+            System.out.println("NO SIZE");
+        }
+        else{
+            siz = Integer.parseInt(size.getText());
+        }
+        int distanc = -1;
+        if(distance.getText().equals("")){
+            System.out.println("NO DIST");
+        }
+        else{
+            distanc = Integer.parseInt(distance.getText());
+        }
+
+        listHouse.setItems(apartmentsCollection);
+        System.out.println(0);
+        try {
+            System.out.print("Selected location: "+locat+" ");
+            System.out.print("Selected price: "+pric+" ");
+            System.out.print("Selected size: "+siz+" ");
+            System.out.println("Selected price: "+distanc);
+
+            listap = dataAccess.getApartment(locat,pric,siz,distanc);
+            apartmentsCollection = FXCollections.observableArrayList(listap);
+            listHouse.setItems(apartmentsCollection);
+        } catch (Exception e3) {
+            System.out.println("EX");
+
         }
 
     }
 
+
     public void reset(ActionEvent event) {
         location.clear();
-        sizeOfAp.clear();
-        priceOfAp.clear();
+        size.clear();
+        price.clear();
     }
 
 
@@ -307,10 +338,11 @@ public class Controller implements Initializable, MapComponentInitializedListene
                 int oid = dataAccess.getOwnerId(pid);
                 int rid = dataAccess.getRenterId(pid);
                 if(oid!=0){
-
+                    cabinetMarker = oid;
                     main.changeScene("OwnerCabinet");
                 }
                 else if(rid !=0){
+                    cabinetMarker = rid;
                     main.changeScene("RenterCabinet");
                     listap=dataAccess.findApartRentedById(rid);
                     apartmentsCollection=FXCollections.observableArrayList(listap);
