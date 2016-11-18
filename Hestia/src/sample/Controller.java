@@ -39,10 +39,11 @@ public class Controller implements Initializable, MapComponentInitializedListene
         this.dataAccess = dataAccess;
     }
 
-    @FXML
-    TextField nameField;      @FXML  TextField emailField;
-    @FXML
-    TextField phoneField;
+    @FXML TextField firstnameField;
+    @FXML TextField lastnameField;
+    //@FXML TextField fisrtnameField;
+    @FXML  TextField emailField;
+    @FXML TextField phoneField;
     @FXML RadioButton ownerRadio;
     @FXML RadioButton renterRadio;
     @FXML TableView listHouse;
@@ -68,6 +69,9 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML Button addadvert;
     @FXML Hyperlink link;
     @FXML Button addperson;
+    @FXML Button loglog;
+    @FXML PasswordField passregistration;
+    @FXML TableView historyRenter;
 
 
     @Override
@@ -195,24 +199,26 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void addPerson(ActionEvent event) throws IOException {
-        Person person = new Person(nameField.getText(), emailField.getText(), Integer.parseInt(phoneField.getText()));
+        Person person = new Person(firstnameField.getText(),lastnameField.getText(), emailField.getText(), passregistration.getText(),Integer.parseInt(phoneField.getText()));
         try {
             dataAccess.addPerson(person);
             Main a = new Main();
             if (ownerRadio.isSelected()) {
-                Owner owner = new Owner(person.getPid(), person.getFirsName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
-                dataAccess.addOwner(owner);
+                //Owner owner = new Owner(person.getPid(), person.getFirsName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
+                //dataAccess.addOwner(owner);
+                int oid=dataAccess.getPersonId(person.getEmail(),person.getPassword());
+                dataAccess.addOwner(oid,0.0);
                 a.changeScene("OwnerCabinet");
             } else {
-                Renter renter = new Renter(person.getPid(), person.getFirsName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
-                dataAccess.addRenter(renter);
+                  int rid=dataAccess.getPersonId(person.getEmail(),person.getPassword());
+                  dataAccess.addRenter(rid,0.0);
                 a.changeScene("RenterCabinet");
             }
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
         personsCollection.add(person);
-        nameField.clear();
+        firstnameField.clear();
         emailField.clear();
         phoneField.clear();
     }
@@ -270,7 +276,6 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     }
 
-
     public void reset(ActionEvent event) {
         location.clear();
         size.clear();
@@ -327,26 +332,26 @@ public class Controller implements Initializable, MapComponentInitializedListene
             String logi = login.getText();
             String pass = password.getText();
 
-            try {
-               // Main a = new Main();
-                int pid = dataAccess.getPersonId(logi,pass);
-                person = dataAccess.getPerson(logi,pass);
-                if(person.isEmpty()){
-                    System.out.println("There is no such person!");
-                }
-                System.out.println(person.get(pid));
-                int oid = dataAccess.getOwnerId(pid);
-                int rid = dataAccess.getRenterId(pid);
-                if(oid!=0){
-                    cabinetMarker = oid;
-                    main.changeScene("OwnerCabinet");
-                }
-                else if(rid !=0){
-                    cabinetMarker = rid;
-                    main.changeScene("RenterCabinet");
-                    listap=dataAccess.findApartRentedById(rid);
-                    apartmentsCollection=FXCollections.observableArrayList(listap);
-                    history.setItems(apartmentsCollection);
+                try {
+                    // Main a = new Main();
+                    int pid = dataAccess.getPersonId(logi, pass);
+                    person = dataAccess.getPerson(logi, pass);
+                    if (person.isEmpty()) {
+                        System.out.println("There is no such person!");
+                    }
+                    System.out.println(person.get(pid));
+                    int oid = dataAccess.getOwnerId(pid);
+                    int rid = dataAccess.getRenterId(pid);
+                    if (oid != 0) {
+                        main.changeScene("OwnerCabinet");
+                        listap = dataAccess.findRenterById(oid);
+                        apartmentsCollection = FXCollections.observableArrayList(listap);
+                        historyRenter.setItems(apartmentsCollection);
+                    } else if (rid != 0) {
+                        main.changeScene("RenterCabinet");
+                        listap = dataAccess.findApartRentedById(rid);
+                        apartmentsCollection = FXCollections.observableArrayList(listap);
+                        history.setItems(apartmentsCollection);
 
                 }
                 else{
