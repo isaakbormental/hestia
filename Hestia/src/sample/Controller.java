@@ -367,6 +367,9 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     }
 
-
+   public  void logOut(ActionEvent event) throws IOException {
+       Main main=new Main();
+       main.changeScene("Regitration");
+   }
 
 }

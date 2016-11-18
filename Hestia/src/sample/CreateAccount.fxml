@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="CENTER" hgap="5.0" minHeight="150.0" prefHeight="650.0" prefWidth="900.0"
+          style="-fx-background-color: #ffffff;" vgap="5.0"
+          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+            styleClass="root">
+  <Pane prefHeight="92.0" prefWidth="671.0" style="-fx-background-color: deepskyblue" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <children>
+      <Label layoutX="225.0" layoutY="38.0" prefHeight="54.1328125" prefWidth="210.0" text="Hestia Homes">
+        <font>
+          <Font name="System Bold" size="26.0" />
+        </font>
+      </Label>
+    </children>
+  </Pane>
+  <Pane prefHeight="451.8671875" prefWidth="667.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <children>
+      <Label layoutX="205.0" layoutY="0.0" prefHeight="64.0" style="-fx-font: NORMAL 20;" text="Welcome to Apart_Solution" textFill="BLACK">
+        <font>
+          <Font size="20.0" />
+        </font>
+      </Label>
+      <TextField fx:id="emailField" layoutX="184.0" layoutY="131.0" prefHeight="27.0" prefWidth="200.0" promptText="Email" />
+      <TextField fx:id="phoneField" layoutX="184.0" layoutY="170.0" prefHeight="27.0" prefWidth="200.0" promptText="Phone" />
+      <RadioButton fx:id="ownerRadio" layoutX="184.0" layoutY="286.0" prefHeight="27.0" prefWidth="80.0" text="Owner" textFill="BLACK">
+        <font>
+          <Font size="14.0" fx:id="x2" />
+        </font>
+        <toggleGroup>
+          <ToggleGroup fx:id="roleRadio" />
+        </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="renterRadio" font="$x2" layoutX="327.0" layoutY="284.0" prefHeight="27.0" prefWidth="108.0" text="Renter" textFill="BLACK" toggleGroup="$roleRadio" />
+      <TextField fx:id="firstnameField" layoutX="184.0" layoutY="64.0" prefHeight="27.0" prefWidth="200.0" />
+      <Label layoutX="19.0" layoutY="64.0" prefHeight="33.1328125" prefWidth="126.0" text="First Name *" />
+      <Label layoutX="19.0" layoutY="97.0" prefHeight="33.1328125" prefWidth="126.0" text="Last Name  *" />
+      <Label layoutX="14.0" layoutY="137.0" prefHeight="33.1328125" prefWidth="126.0" text="email *" />
+      <Label layoutX="14.0" layoutY="171.0" prefHeight="33.132912499997474" prefWidth="126.0" text="Phone Number" />
+      <TextField fx:id="lastnameField" layoutX="184.0" layoutY="97.0" prefHeight="27.0" prefWidth="200.0"  />
+      <Label layoutX="14.0" layoutY="222.0" prefHeight="33.1328125" prefWidth="126.0" text="Password" />
+      <PasswordField fx:id="passregistration" layoutX="184.0" layoutY="219.0" prefHeight="27.0" prefWidth="200.0"  />
+      <Label layoutX="14.0" layoutY="278.0" prefHeight="33.1328125" prefWidth="126.0" text="User Categorie" />
+        <Button  layoutX="419.0" layoutY="333.0" onAction="#addPerson" prefHeight="45.0" prefWidth="152.0" style="" text="Register" textFill="BLACK">
+            <font>
+                <Font size="18.0" fx:id="x3" />
+            </font>
+        </Button>
+
+    </children>
+  </Pane>
+
+</GridPane>
