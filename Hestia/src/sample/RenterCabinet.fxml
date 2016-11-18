@@ -106,7 +106,7 @@
                     </TableColumn>
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="400.0" text="Description">
                       <cellValueFactory>
-                        <PropertyValueFactory property="description" />
+                        <PropertyValueFactory property="" />
                       </cellValueFactory>
                     </TableColumn>
                   </columns>

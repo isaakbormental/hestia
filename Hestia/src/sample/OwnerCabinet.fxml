@@ -3,10 +3,11 @@
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.cell.*?>
 <GridPane alignment="CENTER" hgap="10.0" prefHeight="734.0" prefWidth="1199.999977929685" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <Pane disable="true" opacity="0.5" prefHeight="137.0" prefWidth="1200.0" style="-fx-background-color: deepskyblue" GridPane.columnIndex="0" GridPane.rowIndex="0">
     <children>
@@ -19,27 +20,31 @@
   </Pane>
   <Pane prefHeight="530.0" prefWidth="780.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
     <children>
-      <Hyperlink layoutX="360.0" layoutY="14.0" onAction="#addAdvert" prefHeight="26.28125" prefWidth="183.0" text="add new advertissment" textFill="#085180" />
+      <Hyperlink layoutX="405.0" layoutY="14.0" onAction="#addAdvert" prefHeight="26.28125" prefWidth="183.0" text="add new advertissment">
+        <textFill>
+          <Color blue="0.502" green="0.318" red="0.031" fx:id="x1" />
+        </textFill>
+      </Hyperlink>
       <TabPane layoutX="14.0" layoutY="40.0" prefHeight="489.9998779296875" prefWidth="891.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Renter loan History ">
             <content>
-              <TableView fx:id="historyRenter" prefHeight="489.0" prefWidth="791.0" >
+              <TableView fx:id="historyRenter" prefHeight="489.0" prefWidth="791.0">
                 <columns>
-                  <TableColumn prefWidth="260.0" text="Appartment" >
+                  <TableColumn prefWidth="260.0" text="Appartment">
                     <cellValueFactory>
                       <PropertyValueFactory property="description" />
                     </cellValueFactory>
                   </TableColumn>
-                  <TableColumn prefWidth="260.0" text="Renter" >
+                  <TableColumn prefWidth="260.0" text="Renter">
                     <cellValueFactory>
-                      <PropertyValueFactory property="nameOwner"/>
+                      <PropertyValueFactory property="nameOwner" />
                     </cellValueFactory>
                   </TableColumn>
-                  <TableColumn  prefWidth="237.0" text="Period" >
-                      <cellValueFactory>
-                          <PropertyValueFactory property="loanduration"/>
-                      </cellValueFactory>
+                  <TableColumn prefWidth="237.0" text="Period">
+                    <cellValueFactory>
+                      <PropertyValueFactory property="loanduration" />
+                    </cellValueFactory>
                   </TableColumn>
                 </columns>
               </TableView>
@@ -50,9 +55,10 @@
               <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
-
         </tabs>
       </TabPane>
+      <Hyperlink layoutX="841.0" layoutY="14.0" onAction="#addAdvert" prefHeight="26.28125" prefWidth="64.0" text="log out" textFill="$x1" />
+      <Label layoutX="722.0" layoutY="20.0" prefWidth="119.0" text="User Name" />
     </children>
   </Pane>
 </GridPane>

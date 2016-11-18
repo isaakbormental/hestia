@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane prefHeight="1100.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1"
+          xmlns="http://javafx.com/javafx/2.2">
+  <Pane disable="true" opacity="0.5" prefHeight="137.0" prefWidth="1200.0" style="-fx-background-color: deepskyblue"
+        GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <Label alignment="CENTER" layoutX="293.0" layoutY="14.0" prefHeight="91.90625" prefWidth="729.0"
+           text="Hestia Homes" textAlignment="CENTER">
+      <font>
+        <Font size="36.0" fx:id="x1"/>
+      </font>
+    </Label>
+  </Pane>
+  <Pane prefHeight="956.0" prefWidth="1186.0000999999975" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <TextField fx:id="numOfAp" alignment="CENTER_LEFT" layoutX="296.0" layoutY="574.0" prefHeight="36.0"
+               prefWidth="80.0" promptText="Number" translateX="0.0"/>
+    <TextField fx:id="sizeOfAp" alignment="CENTER_LEFT" focusTraversable="true" layoutX="296.0" layoutY="366.0"
+               prefHeight="36.0" prefWidth="80.0" translateX="0.0" visible="true"/>
+    <TextField fx:id="priceOfAp" alignment="CENTER_LEFT" layoutX="296.0" layoutY="424.0" prefHeight="36.0"
+               prefWidth="80.0" translateX="0.0"/>
+    <TextField fx:id="numOfRooms" alignment="CENTER_LEFT" layoutX="296.0" layoutY="484.0" prefHeight="36.0"
+               prefWidth="110.0" translateX="0.0"/>
+    <TextField fx:id="location_city" layoutX="296.0" layoutY="269.0" prefHeight="30.0" prefWidth="200.0"
+               promptText="City"/>
+    <TextField fx:id="location_district" layoutX="296.0" layoutY="311.0" prefHeight="30.0" prefWidth="200.0"
+               promptText="District"/>
+    <RadioButton fx:id="privateHouseType" layoutX="201.0" layoutY="132.0" prefWidth="125.0" text="Private house">
+      <toggleGroup>
+        <ToggleGroup fx:id="typeOfApartment"/>
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="apartmentType" layoutX="201.0" layoutY="105.0" prefWidth="125.0" text="Apartment"
+                 toggleGroup="$typeOfApartment"/>
+    <Button fx:id="openmap" layoutX="605.0" layoutY="305.0" mnemonicParsing="false" onAction="#openMap"
+            prefHeight="36.0" prefWidth="100.0" text="Google Map"/>
+    <Button fx:id="adadvert" layoutX="605.0" layoutY="677.0" onAction="#addAdvertisement" prefHeight="36.0"
+            prefWidth="100.0" text="Post Ad"/>
+    <Label layoutX="50.0" layoutY="69.0" prefHeight="36.000099999997474" prefWidth="110.0" text="Type of House *"/>
+    <RadioButton fx:id="hostelRoomType" layoutX="201.0" layoutY="79.0" prefWidth="125.0" text="Hostel room"
+                 toggleGroup="$typeOfApartment"/>
+    <Label layoutX="50.0" layoutY="171.0" prefHeight="36.000099999997474" prefWidth="110.0" text="Yes *"/>
+    <RadioButton fx:id="petsNotAllowed" layoutX="201.0" layoutY="177.0" prefWidth="125.0" text="Not">
+      <toggleGroup>
+        <ToggleGroup fx:id="petsAllowance"/>
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="petsAllowed" layoutX="201.0" layoutY="207.0" prefWidth="125.0" text="Yes"
+                 toggleGroup="$petsAllowance"/>
+    <Label layoutX="50.0" layoutY="269.0" prefHeight="36.000099999997474" prefWidth="110.0" text="location"/>
+    <Label layoutX="161.0" layoutY="269.0" prefHeight="36.000099999997474" prefWidth="110.0" text="City Name"/>
+    <Label layoutX="161.0" layoutY="305.0" prefHeight="36.000099999997474" prefWidth="110.0" text="District"/>
+    <Label layoutX="50.0" layoutY="366.0" prefHeight="36.000099999997474" prefWidth="100.0" text="Description"/>
+    <Label layoutX="150.0" layoutY="366.0" prefHeight="36.000099999997474" prefWidth="100.0" text="Size in M2"/>
+    <Label layoutX="150.0" layoutY="417.0" prefHeight="36.000099999997474" prefWidth="100.0" text="Price $"/>
+    <Label layoutX="151.0" layoutY="476.0" prefHeight="36.000099999997474" prefWidth="120.0" text="number of rooms"/>
+    <Label alignment="CENTER" font="$x1" layoutX="11.0" layoutY="24.0" minHeight="36.0" prefHeight="36.0"
+           prefWidth="729.0000999999975" text="to add new House fill the form below" textAlignment="CENTER"/>
+  </Pane>
+</GridPane>
