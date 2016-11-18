@@ -4,6 +4,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by kouakam on 30.10.16.
  */
@@ -13,14 +16,14 @@ public class Apartment {
     private Person owner;
     private final SimpleIntegerProperty numberRoom=new SimpleIntegerProperty();
     private final SimpleIntegerProperty aid =new SimpleIntegerProperty();
-    private final SimpleIntegerProperty anumber=new SimpleIntegerProperty();
+   // private final SimpleIntegerProperty anumber=new SimpleIntegerProperty();
     private final SimpleIntegerProperty bid=new SimpleIntegerProperty();
     private final SimpleIntegerProperty oid=new SimpleIntegerProperty();
     private  final SimpleDoubleProperty size = new SimpleDoubleProperty();
     private  final SimpleDoubleProperty price = new SimpleDoubleProperty();
     private final SimpleStringProperty description =new SimpleStringProperty("");
-    private final SimpleStringProperty nameOwner =new SimpleStringProperty("");
-
+    private final SimpleStringProperty nameOwner =new SimpleStringProperty();
+    private final SimpleStringProperty loanduration=new SimpleStringProperty("");
     /**
      *  constructor to set the fields of the tableView
      * @param numr
@@ -34,12 +37,17 @@ public class Apartment {
         setSize(sizeap);
         setDescription(des);
     }
-    public Apartment(Person owner, int num,double si,double pri,String des){
-
+    public Apartment(Person owner, int num,double si,double pri,String des,String duration){
+        setLoanduration(duration);
         setNameOwner(owner.getName());
         setNumberRoom(num);
         setPrice(pri);
         setSize(si);
+        setDescription(des);
+    }
+    public Apartment(Person owner,String des,String duration){
+        setLoanduration(duration);
+        setNameOwner(owner.getName());
         setDescription(des);
     }
 
@@ -81,40 +89,19 @@ public class Apartment {
         return numberRoom.get();
     }
 
-    public SimpleIntegerProperty numberRoomProperty() {
-        return numberRoom;
-    }
 
     public double getSize() {
         return size.get();
     }
-
-    public SimpleDoubleProperty sizeProperty() {
-        return size;
-    }
-
     public double getPrice() {
         return price.get();
     }
-
-    public SimpleDoubleProperty priceProperty() {
-        return price;
-    }
-
     public void setOwner(Person owner) {
         this.owner=owner;
     }
 
-    public void setDescription(String description) {
-        this.description.set(description);
-    }
-
-    public String getDescription() {
-        return description.get();
-    }
-
-    public SimpleStringProperty descriptionProperty() {
-        return description;
+    public void setDescription(String desc) {
+        this.description.set(desc);
     }
 
     public void setNumberRoom(int numberRoom) {
@@ -123,6 +110,9 @@ public class Apartment {
 
     public void setSize(double size) {
         this.size.set(size);
+    }
+    public void setLoanduration(String dura){
+        this.loanduration.set(dura);
     }
 
     public void setPrice(double price) {
@@ -150,22 +140,9 @@ public class Apartment {
         this.oid.set(oid);
     }
 
-    public int getAnumber() {
-        return anumber.get();
-    }
-    public void setAnumber(int anumber) {
-        this.anumber.set(anumber);
-    }
-
-    public String getNameOwner() {
-        return nameOwner.get();
-    }
-
-    public SimpleStringProperty nameOwnerProperty() {
-        return nameOwner;
-    }
-
     public void setNameOwner(String nameOwner) {
         this.nameOwner.set(nameOwner);
     }
 }
+
+

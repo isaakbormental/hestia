@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import java.util.List;
-
 @SuppressWarnings("all")
 public class DataAccess {
     private static DataSource dataSource = null;
@@ -58,7 +57,7 @@ public class DataAccess {
                 int bid = rs.getInt("buildin_id");
                 int oid = rs.getInt("oid");
                 int size = rs.getInt("size");
-                //  int rooms = rs.getInt(6);
+              //  int rooms = rs.getInt(6);
                 int price = rs.getInt("price");
                 result.add(new Apartment(aid, anumber, bid, oid, size, price));
             }
@@ -112,7 +111,6 @@ public class DataAccess {
 
     /**
      * return the apartments id been rented by the user whit the given id
-     *
      * @param idRenter
      * @return
      * @throws SQLException
@@ -152,7 +150,7 @@ public class DataAccess {
                         listApart.add(new Apartment(num, size, pri, des.toString()));
 
                     }
-                } catch (SQLException ex) {
+                }catch (SQLException ex){
                     ex.printStackTrace();
                 }
 
@@ -161,8 +159,8 @@ public class DataAccess {
         }
         return listApart;
     }
-
     /**
+     *
      * @param lat
      * @param lon
      * @return
@@ -208,38 +206,39 @@ public class DataAccess {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO person (firstname,lastname,email,phone) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO person (firstname,lastname,email,password,phone) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, person.getFirsName());
             stmt.setString(2, person.getLastname());
             stmt.setString(3, person.getEmail());
-            stmt.setInt(4, person.getPhone());
+            stmt.setString(4, person.getPassword());
+            stmt.setInt(5, person.getPhone());
             rowsUpdated = stmt.executeUpdate();
             stmt.close();
         }
         return rowsUpdated;
     }
 
-    public int addOwner(Owner owner) throws SQLException {
+    public int addOwner(int oid,double rating) throws SQLException {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO owner (owner_id,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, this.getAll().size());
-            stmt.setDouble(2, owner.getRating());
+            stmt.setInt(1, oid);
+            stmt.setDouble(2, rating);
             rowsUpdated = stmt.executeUpdate();
             stmt.close();
         }
         return rowsUpdated;
     }
 
-    public int addRenter(Renter renter) throws SQLException {
+    public int addRenter(int rid,double rating) throws SQLException {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (rid,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, this.getAll().size());
-            stmt.setDouble(2, renter.getRating());
+            stmt.setInt(1, rid);
+            stmt.setDouble(2, rating);
             rowsUpdated = stmt.executeUpdate();
             stmt.close();
         }
@@ -392,7 +391,6 @@ public class DataAccess {
                     int p = res.getInt("price");
                     String dis = res.getString("district");
                     String cit = res.getString("city");
-
                     double ra = res.getDouble("crime_rating");
                     str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
                     list.add(new Apartment(s, p, str.toString()));
@@ -438,17 +436,67 @@ public class DataAccess {
                     String dis = resultSet.getString("district");
                     String cit = resultSet.getString("city");
                     double ra = resultSet.getDouble("crime_rating");
-                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra + " \n" + ra);
-
-                    list.add(new Apartment(person, n, s, p, str.toString()));
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra + " \n" +ra);
+                    Date date_be=resultSet.getDate("date_begin");
+                    Date date_en=resultSet.getDate("date_end");
+                    String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
+                    System.out.println(duration);
+                    System.out.println(str.toString());
+                    list.add(new Apartment(person,n,s,p,str.toString(),duration));
 
                 }
-            } catch (SQLException ext) {
-                ext.printStackTrace();
+                resultSet.close();
+                stmt.close();
+            }catch (SQLException ext){
+             ext.printStackTrace();
             }
         }
         return list;
     }
+
+    public List<Apartment> findRenterById(int ownerid) throws SQLException{
+        ArrayList<Apartment> list=new ArrayList<>();
+        try(
+                Connection con=getConnection();
+                PreparedStatement stmt=con.prepareStatement("SELECT DISTINCT  lastname,firstname ,RA.date_begin,RA.date_end ,L.city, L.district " +
+                                        "FROM person  P NATURAL JOIN renter R ,renter_apart RA,location L ,building B , apartment A" +
+                                    " where (RA.owner_id, RA.apart_id, RA.date_begin,RA.date_end)" +
+                                    " in(select owner_id,apart_id,date_begin,date_end" +
+                                    " FROM renter_apart" +
+                                    " where renter_apart.renter_id=R.renter_id AND renter_apart.owner_id=?) and P.person_id=R.renter_id" +
+                                    " and (A.apart_id,L.city,L.district) in (SELECT DISTINCT apart_id,city,district" +
+                                    " FROM location L1 NATURAL JOIN building B1 NATURAL JOIN apartment A1" +
+                                    " WHERE A1.apart_id=RA.apart_id and A1.buildin_id=B1.building_id AND B1.lid=L1.location_id)")
+                    ){
+            stmt.setInt(1,ownerid);
+            try {
+                ResultSet resultSet= stmt.executeQuery();
+                while (resultSet.next()){
+
+                    String fname=resultSet.getString("firstname");
+                    String lname=resultSet.getString("lastname");
+                    Owner person=new Owner(fname,lname);
+                    StringBuilder str = new StringBuilder();
+                    String dis = resultSet.getString("district");
+                    String cit = resultSet.getString("city");
+                    Date date_be=resultSet.getDate("date_begin");
+                    Date date_en=resultSet.getDate("date_end");
+                    String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
+                    str.append("District: " + dis + " \n" + "City :" + cit  + " \n" );
+
+                    list.add(new Apartment(person,str.toString(),duration));
+
+                }
+                resultSet.close();
+            }catch (SQLException ext){
+               System.out.println(ext.getMessage()); ext.printStackTrace();
+            }
+
+            stmt.close();
+        }
+        return list;
+    }
+
 
 
     //Returns a person HashTable. Used in logIn(Controller)
@@ -485,7 +533,6 @@ public class DataAccess {
 
         return person;
     }
-
     //This one only for getting person id, used once. Stupid.
     public int getPersonId(String logi, String pass) throws SQLException {
         int pid = 0;
@@ -511,7 +558,6 @@ public class DataAccess {
 
         return pid;
     }
-
     //SELECT rid FROM renter WHERE rid = 1;
     public int getOwnerId(int pid) throws SQLException {
         int oid = 0;

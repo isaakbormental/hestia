@@ -16,6 +16,7 @@ public class Person {
     private final SimpleStringProperty name = new SimpleStringProperty("");
     private final SimpleStringProperty email = new SimpleStringProperty("");
     private final SimpleIntegerProperty phone = new SimpleIntegerProperty();
+    private final SimpleStringProperty password=new SimpleStringProperty("");
 
 
     public Person(int pid, String name, String email, int phone) {
@@ -24,22 +25,25 @@ public class Person {
         setEmail(email);
         setPhone(phone);
     }
+    public Person(String firstname,String lastname,String email,String pass,int phon){
+        setFirstname(firstname);
+        setLastname(lastname);
+        setEmail(email);
+        setPhone(phon);
+        setPassword(pass);
+    }
    public Person(String firstname,String email,int phone){
        setFirstname(firstname);
        setEmail(email);
        setPhone(phone);
    }
-    public void setFirstname(String firstname) {
-        this.firstname.set(firstname);
-    }
 
-    public void setlastname(String lastname) {
-        this.lastname.set(lastname);
-    }
+
+
 
     public Person(String firstname, String lastname) {
         setFirstname(firstname);
-        setlastname(lastname);
+        setLastname(lastname);
         setName(firstname+"  "+lastname);
         
     }
@@ -64,10 +68,6 @@ public class Person {
         this.pid.set(pid);
     }
 
-    public String getPidString() {
-        return "" + pid.get();
-    }
-
     public String getFirsName() {
         return firstname.get();
     }
@@ -76,9 +76,7 @@ public class Person {
         return lastname.get();
     }
 
-    public SimpleStringProperty lastnameProperty() {
-        return lastname;
-    }
+
 
     public String getEmail() {
         return email.get();
@@ -96,4 +94,18 @@ public class Person {
         this.phone.set(phone);
     }
 
+    public void setLastname(String lastname) {
+        this.lastname.set(lastname);
+    }
+    public void setFirstname(String firstname) {
+        this.firstname.set(firstname);
+    }
+
+    public void setPassword(String password) {
+        this.password.set(password);
+    }
+
+    public String getPassword(){
+        return this.password.get();
+    }
 }
