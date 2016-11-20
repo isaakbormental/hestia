@@ -396,7 +396,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
                         main.changeScene("RenterCabinet");
                         listap = dataAccess.findApartRentedById(rid);
                         for (Apartment a:listap) {
-                            System.out.println(a.getOid());
+                            System.out.println(a.getOwner().getPid());
                         }
                         apartmentsCollection = FXCollections.observableArrayList(listap);
                         history.setItems(apartmentsCollection);

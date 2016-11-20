@@ -2,7 +2,7 @@ package sample;
 
 
 /**
- * Created by Hestia Team on 26.10.2016.
+ * Created by Владислав on 26.10.2016.
  */
 
 import javax.sql.DataSource;
@@ -236,7 +236,7 @@ public class DataAccess {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (renter_id,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (rid,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, rid);
             stmt.setDouble(2, rating);
             rowsUpdated = stmt.executeUpdate();
@@ -252,7 +252,6 @@ public class DataAccess {
             stmt.setInt(1, apartment.getAid());
             stmt.setInt(3, apartment.getBid());
             stmt.setInt(4, apartment.getOid());
-            //stmt.setInt(4, user);
             stmt.setDouble(5, apartment.getSize());
             stmt.setInt(2, apartment.getNumberRoom());
             stmt.setDouble(6, apartment.getPrice());
@@ -288,13 +287,13 @@ public class DataAccess {
             stmt.close();
         }
     }
-    //Do we realy need this?
+
     public List<Apartment> getApartment(String location, double price) throws SQLException {
         List<Apartment> list = new ArrayList<>();
 
         try (Connection connection = getConnection();
-             PreparedStatement stm = connection.prepareStatement("SELECT  A.size,A.price,A.num_of_rooms,L.district,L.city,L.crime_rating FROM" +
-                     " apartment A NATURAL JOIN building B NATURAL JOIN location L WHERE A.price<? AND L.city=?")) {
+             PreparedStatement stm = connection.prepareStatement("SELECT DISTINCT A.size,A.price,A.num_of_rooms,L.district,L.city,L.crime_rating FROM" +
+                     " apartment A NATURAL JOIN building B NATURAL JOIN location L WHERE A.buildin_id=B.building_id and B.lid=L.location_id and A.price<? AND L.city=?")) {
             stm.setDouble(1, price);
             stm.setString(2, location);
             // int row = stm.executeUpdate();
@@ -325,6 +324,78 @@ public class DataAccess {
         return list;
     }
 
+     public  List<Apartment> getApartment(String location,double price,double size)throws SQLException{
+         List<Apartment> list=new ArrayList<>();
+         try (Connection connection = getConnection();
+              PreparedStatement stm = connection.prepareStatement("SELECT  A.size,A.price,A.num_of_rooms,L.district,L.city,L.crime_rating FROM" +
+                      " apartment A NATURAL JOIN building B NATURAL JOIN location L WHERE A.buildin_id=B.building_id and B.lid=L.location_id and  A.price<? AND L.city=? and A.size>?" )) {
+             stm.setDouble(1, price);
+             stm.setString(2, location);
+             stm.setDouble(3,size);
+             try {
+                 ResultSet res = stm.executeQuery();
+                 while (res.next()) {
+                     StringBuilder str = new StringBuilder();
+                     double s = res.getDouble("size");
+                     int p = res.getInt("price");
+                     int n = res.getInt("num_of_rooms");
+                     String dis = res.getString("district");
+                     String cit = res.getString("city");
+                     double ra = res.getDouble("crime_rating");
+                     str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                     list.add(new Apartment(n, s, p, str.toString()));
+                 }
+                 res.close();
+             } catch (SQLException st) {
+                 st.printStackTrace();
+
+             } finally {
+                 stm.close();
+             }
+
+
+         }
+
+         return list;
+     }
+    public  List<Apartment> getApartment(String location,double price,double size,double distance)throws SQLException{
+        List<Apartment> list=new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT DISTINCT A.size,A.price,A.num_of_rooms,L.district,L.city,L.crime_rating FROM" +
+                     " apartment A NATURAL JOIN building B NATURAL JOIN location L , institution I WHERE A.buildin_id=B.building_id and B.lid=L.location_id and A.price<? AND L.city=? and A.size>? " +
+                     "and |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= ? and I.location_id=L.location_id" )) {
+            stm.setDouble(1, price);
+            stm.setString(2, location);
+            stm.setDouble(3,size);
+            stm.setDouble(4,distance);
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+                    double s = res.getDouble("size");
+                    double p = res.getDouble("price");
+                    int n = res.getInt("num_of_rooms");
+                    String dis = res.getString("district");
+                    String cit = res.getString("city");
+                    double ra = res.getDouble("crime_rating");
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                    //list.add(new Apartment(n, s, p, str.toString()));
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+
+
+        }
+
+        return list;
+    }
+
+/*
     public List<Apartment> getApartment(String location, int price, int size, int distance) throws SQLException {
         List<Apartment> list = new ArrayList<>();
         int l=1;
@@ -361,7 +432,7 @@ public class DataAccess {
                         "from apartment a, location lo, building bi " +
                         "where a.buildin_id=bi.building_id " +
                         "      AND bi.lid=lo.location_id " +
-                        "      AND a.size>? ";
+                        "      AND a.size>=? ";
                 di++;
             }
             if(distance>0){
@@ -405,8 +476,7 @@ public class DataAccess {
             }
         }
         return list;
-    }
-
+    }*/
 
     public List<Apartment> findApartRentedById(int renterid) throws SQLException {
         ArrayList<Apartment> list = new ArrayList<>();
@@ -433,7 +503,8 @@ public class DataAccess {
                     String fname = resultSet.getString("firstname");
                     String lname = resultSet.getString("lastname");
                     String loca = resultSet.getString("city");
-                    Owner person = new Owner(fname, lname);
+                  //  Owner person = new Owner(fname, lname);
+                    Person person = new Person(fname, lname,oi);
                     StringBuilder str = new StringBuilder();
                     double s = resultSet.getDouble("size");
                     double p = resultSet.getDouble("price");
@@ -441,7 +512,7 @@ public class DataAccess {
                     String dis = resultSet.getString("district");
                     String cit = resultSet.getString("city");
                     double ra = resultSet.getDouble("crime_rating");
-                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating: " + ra);
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra + " \n" +ra);
                     Date date_be=resultSet.getDate("date_begin");
                     Date date_en=resultSet.getDate("date_end");
                     String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
@@ -450,7 +521,8 @@ public class DataAccess {
                     String descr = str.toString();
                     System.out.println("YAH:  "+descr);
                     //list.add(new Apartment(person,n,s,p,str.toString(),duration));
-                    list.add(new Apartment(oi,n,ai,s,p,descr,duration,loca));
+                    //list.add(new Apartment(oi,n,ai,s,p,descr,duration,loca));
+                    list.add(new Apartment(person,n,s,p,str.toString(),duration));
 
                 }
                 resultSet.close();
@@ -483,7 +555,7 @@ public class DataAccess {
 
                     String fname=resultSet.getString("firstname");
                     String lname=resultSet.getString("lastname");
-                    Owner person=new Owner(fname,lname);
+                    Person person=new Person(fname,lname);
                     StringBuilder str = new StringBuilder();
                     String dis = resultSet.getString("district");
                     String cit = resultSet.getString("city");
@@ -668,6 +740,20 @@ public class DataAccess {
             stmt.executeUpdate();
             stmt.close();
         }
+    }
+
+    public void rateOwner(int idperson,double rating){
+        try(            Connection con=getConnection();
+            PreparedStatement stmt=con.prepareStatement("insert into owner (rating)VALUE (rating)")){
+            try {
+                stmt.executeQuery();
+
+             }catch (SQLException ex){}
+
+        }catch (SQLException ex){
+
+        }
+
     }
 
 }

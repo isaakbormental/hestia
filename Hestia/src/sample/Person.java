@@ -32,20 +32,27 @@ public class Person {
         setPhone(phon);
         setPassword(pass);
     }
-   public Person(String firstname,String email,int phone){
+  /* public Person(String firstname,String email,int phone){
        setFirstname(firstname);
        setEmail(email);
        setPhone(phone);
    }
+*/
 
 
 
-
-    public Person(String firstname, String lastname) {
+    public Person(String firstname, String lastname,int oid) {
         setFirstname(firstname);
         setLastname(lastname);
         setName(firstname+"  "+lastname);
+        setPid(oid);
         
+    }
+    public Person(String firstname, String lastname) {
+        setFirstname(firstname);
+        setLastname(lastname);
+        setName(firstname + "  " + lastname);
+
     }
 
     public String getName() {
@@ -107,5 +114,33 @@ public class Person {
 
     public String getPassword(){
         return this.password.get();
+    }
+
+    public SimpleIntegerProperty pidProperty() {
+        return pid;
+    }
+
+    public String getFirstname() {
+        return firstname.get();
+    }
+
+    public SimpleStringProperty firstnameProperty() {
+        return firstname;
+    }
+
+    public SimpleStringProperty lastnameProperty() {
+        return lastname;
+    }
+
+    public SimpleStringProperty emailProperty() {
+        return email;
+    }
+
+    public SimpleIntegerProperty phoneProperty() {
+        return phone;
+    }
+
+    public SimpleStringProperty passwordProperty() {
+        return password;
     }
 }

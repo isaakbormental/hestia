@@ -27,9 +27,9 @@ public class Main extends Application implements MapComponentInitializedListener
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName("Databases");
         source.setServerName("localhost");
-        source.setDatabaseName("Hestia1.0");
-        source.setUser("postgres");
-        source.setPassword("buxal3842");
+        source.setDatabaseName("Home_hestia_new");
+        source.setUser("admin");
+        source.setPassword("admin");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);
@@ -117,7 +117,7 @@ public class Main extends Application implements MapComponentInitializedListener
         selected = (Apartment) object;
         System.out.println();
         System.out.println("You have selected: ");
-        selectedUser = selected.getOid();
+        selectedUser = selected.getOwner().getPid();
         controller.sel = selectedUser;
         System.out.println("Owner is: "+selectedUser);
         System.out.println("apart_id: "+selected.getAid());

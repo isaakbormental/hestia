@@ -21,8 +21,6 @@ public class Apartment {
     private final SimpleIntegerProperty oid=new SimpleIntegerProperty();
     private  final SimpleDoubleProperty size = new SimpleDoubleProperty();
     private  final SimpleDoubleProperty price = new SimpleDoubleProperty();
-    //Changed setters and getters
-
     private final SimpleStringProperty description =new SimpleStringProperty("");
     private final SimpleStringProperty nameOwner =new SimpleStringProperty();
     private final SimpleStringProperty loanduration=new SimpleStringProperty("");
@@ -49,6 +47,7 @@ public class Apartment {
         setPrice(pri);
         setSize(si);
         setDescription(des);
+        setOwner(owner);
     }
     //My addition
     public Apartment(int owner, int num,int aid, double si,double pri,String des,String duration, String loc){
@@ -118,7 +117,9 @@ public class Apartment {
         this.owner=owner;
     }
 
-
+    public void setDescription(String desc) {
+        this.description.set(desc);
+    }
 
     public void setNumberRoom(int numberRoom) {
         this.numberRoom.set(numberRoom);
@@ -180,9 +181,7 @@ public class Apartment {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description.set(description);
-    }
+
 
 }
 

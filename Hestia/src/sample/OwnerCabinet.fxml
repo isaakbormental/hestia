@@ -57,8 +57,8 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Hyperlink layoutX="841.0" layoutY="14.0" onAction="#addAdvert" prefHeight="26.28125" prefWidth="64.0" text="log out" textFill="$x1" />
-      <Label layoutX="722.0" layoutY="20.0" prefWidth="119.0" text="User Name" />
+      <Hyperlink layoutX="841.0" layoutY="14.0" onAction="#logOut" prefHeight="26.28125" prefWidth="64.0" text="log out" textFill="$x1" />
+      <Label fx:id="username" layoutX="722.0" layoutY="20.0" prefWidth="119.0" text="User Name" />
     </children>
   </Pane>
 </GridPane>

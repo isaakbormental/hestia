@@ -18,7 +18,7 @@
   </Pane>
   <Pane prefHeight="451.8671875" prefWidth="667.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
     <children>
-      <Label layoutX="205.0" layoutY="0.0" prefHeight="64.0" style="-fx-font: NORMAL 20;" text="Welcome to Apart_Solution" textFill="BLACK">
+      <Label layoutX="205.0" layoutY="0.0" prefHeight="64.0" style="-fx-font-family: NORMAL 20;" text="Welcome to Apart_Solution" textFill="BLACK">
         <font>
           <Font size="20.0" />
         </font>

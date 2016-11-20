@@ -19,7 +19,7 @@
   </Pane>
   <Pane GridPane.columnIndex="0" GridPane.rowIndex="1">
     <children>
-      <Label layoutX="205.0" layoutY="0.0" prefHeight="64.0" style="-fx-font: NORMAL 20;" text="Welcome to Apart_Solution" textFill="BLACK">
+      <Label layoutX="205.0" layoutY="0.0" prefHeight="64.0" style="-fx-font-family: NORMAL 20;" text="Welcome to Apart_Solution" textFill="BLACK">
         <font>
           <Font size="20.0" />
         </font>
@@ -27,7 +27,7 @@
       <VBox layoutX="6.0" layoutY="67.0" prefHeight="251.0" prefWidth="671.0">
         <children>
           <HBox prefHeight="45.0" prefWidth="666.0">
-            <Label prefWidth="185.0" style="-fx-font:normal 20 " text=" user name or email " />
+            <Label prefWidth="185.0" style="-fx-font-family:normal 20 " text=" user name or email " />
             <TextField fx:id="login" prefHeight="24.0" prefWidth="200.0" promptText="Login" />
             <VBox.margin>
               <Insets right="5.0" top="5.0" fx:id="x4" />
@@ -47,7 +47,7 @@
           </Button>
           <HBox prefHeight="122.0" prefWidth="671.0">
             <children>
-              <Label prefHeight="74.0" prefWidth="315.0" style="-fx-font:normal 20 " text="" />
+              <Label prefHeight="74.0" prefWidth="315.0" style="-fx-font-family:normal 20 " text="" />
               <Hyperlink prefHeight="58.0" prefWidth="170.0" text="Create an account" textFill="#085180" onAction="#createAccount"/>
             </children>
           </HBox>
