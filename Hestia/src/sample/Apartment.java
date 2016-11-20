@@ -21,9 +21,14 @@ public class Apartment {
     private final SimpleIntegerProperty oid=new SimpleIntegerProperty();
     private  final SimpleDoubleProperty size = new SimpleDoubleProperty();
     private  final SimpleDoubleProperty price = new SimpleDoubleProperty();
+    //Changed setters and getters
+
     private final SimpleStringProperty description =new SimpleStringProperty("");
     private final SimpleStringProperty nameOwner =new SimpleStringProperty();
     private final SimpleStringProperty loanduration=new SimpleStringProperty("");
+    private final SimpleStringProperty location = new SimpleStringProperty("");
+
+
     /**
      *  constructor to set the fields of the tableView
      * @param numr
@@ -44,6 +49,19 @@ public class Apartment {
         setPrice(pri);
         setSize(si);
         setDescription(des);
+    }
+    //My addition
+    public Apartment(int owner, int num,int aid, double si,double pri,String des,String duration, String loc){
+        setLoanduration(duration);
+        setOid(owner);
+        setAid(aid);
+        setNumberRoom(num);
+        setPrice(pri);
+        setSize(si);
+        setDescription(des);
+        setLocation(loc);
+
+
     }
     public Apartment(Person owner,String des,String duration){
         setLoanduration(duration);
@@ -100,9 +118,7 @@ public class Apartment {
         this.owner=owner;
     }
 
-    public void setDescription(String desc) {
-        this.description.set(desc);
-    }
+
 
     public void setNumberRoom(int numberRoom) {
         this.numberRoom.set(numberRoom);
@@ -143,6 +159,31 @@ public class Apartment {
     public void setNameOwner(String nameOwner) {
         this.nameOwner.set(nameOwner);
     }
+
+    public String getLocation() {
+        return location.get();
+    }
+
+    public SimpleStringProperty locationProperty() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location.set(location);
+    }
+
+    public String getDescription() {
+        return description.get();
+    }
+
+    public SimpleStringProperty descriptionProperty() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
 }
 
 

@@ -2,7 +2,7 @@ package sample;
 
 
 /**
- * Created by Владислав on 26.10.2016.
+ * Created by Hestia Team on 26.10.2016.
  */
 
 import javax.sql.DataSource;
@@ -236,7 +236,7 @@ public class DataAccess {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (rid,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (renter_id,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, rid);
             stmt.setDouble(2, rating);
             rowsUpdated = stmt.executeUpdate();
@@ -252,9 +252,10 @@ public class DataAccess {
             stmt.setInt(1, apartment.getAid());
             stmt.setInt(3, apartment.getBid());
             stmt.setInt(4, apartment.getOid());
+            //stmt.setInt(4, user);
             stmt.setDouble(5, apartment.getSize());
             stmt.setInt(2, apartment.getNumberRoom());
-            stmt.setDouble(7, apartment.getPrice());
+            stmt.setDouble(6, apartment.getPrice());
             stmt.executeUpdate();
             stmt.close();
         }
@@ -411,7 +412,7 @@ public class DataAccess {
         ArrayList<Apartment> list = new ArrayList<>();
         try (
                 Connection con = getConnection();
-                PreparedStatement stmt = con.prepareStatement("SELECT DISTINCT  lastname,firstname ,RA.date_begin,RA.date_end ,L.city, L.district ,L.crime_rating,A.price,A.size,A.num_of_rooms" +
+                PreparedStatement stmt = con.prepareStatement("SELECT DISTINCT  lastname,firstname ,RA.date_begin,RA.date_end ,L.city, L.district ,L.crime_rating,A.price,A.size,A.num_of_rooms,A.oid,A.apart_id " +
                         " FROM person  P NATURAL JOIN owner O ,renter_apart RA,location L ,building B , apartment A" +
                         "   where (RA.owner_id, RA.apart_id, RA.date_begin,RA.date_end)" +
                         "           in(select owner_id,apart_id,date_begin,date_end" +
@@ -425,9 +426,13 @@ public class DataAccess {
             try {
                 ResultSet resultSet = stmt.executeQuery();
                 while (resultSet.next()) {
+                    //My additions
+                    int oi = resultSet.getInt("oid");
+                    int ai = resultSet.getInt("apart_id");
 
                     String fname = resultSet.getString("firstname");
                     String lname = resultSet.getString("lastname");
+                    String loca = resultSet.getString("city");
                     Owner person = new Owner(fname, lname);
                     StringBuilder str = new StringBuilder();
                     double s = resultSet.getDouble("size");
@@ -436,13 +441,16 @@ public class DataAccess {
                     String dis = resultSet.getString("district");
                     String cit = resultSet.getString("city");
                     double ra = resultSet.getDouble("crime_rating");
-                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra + " \n" +ra);
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating: " + ra);
                     Date date_be=resultSet.getDate("date_begin");
                     Date date_en=resultSet.getDate("date_end");
                     String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
                     System.out.println(duration);
-                    System.out.println(str.toString());
-                    list.add(new Apartment(person,n,s,p,str.toString(),duration));
+                    //System.out.println(str.toString());
+                    String descr = str.toString();
+                    System.out.println("YAH:  "+descr);
+                    //list.add(new Apartment(person,n,s,p,str.toString(),duration));
+                    list.add(new Apartment(oi,n,ai,s,p,descr,duration,loca));
 
                 }
                 resultSet.close();
@@ -603,6 +611,63 @@ public class DataAccess {
             }
         }
         return rid;
+    }
+
+
+
+    public List<Message> findMsgs(int reciever, int sender) throws SQLException {
+        List<Message> list = new ArrayList<>();
+
+        try (Connection connection = getConnection()) {
+            String query = " SELECT message, sender_id,reciever_id,msg_number,date FROM message WHERE reciever_id = ? AND sender_id = ? "+
+            " UNION SELECT message, sender_id,reciever_id,msg_number,date FROM message WHERE reciever_id = ? AND sender_id = ? " +
+            " ORDER BY msg_number ";
+
+            PreparedStatement stm = connection.prepareStatement(query);
+
+            stm.setInt(1, reciever);
+            stm.setInt(2, sender);
+            stm.setInt(3, sender);
+            stm.setInt(4, reciever);
+
+
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+                    int send = res.getInt("sender_id");
+                    int rec = res.getInt("reciever_id");
+                    String msg = res.getString("message");
+                    Date data = res.getDate("date");
+                    System.out.println("Date: "+data);
+                    //str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                    list.add(new Message(msg,rec,send,data));
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+        }
+        return list;
+    }
+
+
+
+    public void addMessage(String msg, int reciever, int sender, int numb) throws SQLException {
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO message (message, reciever_id, sender_id, date,msg_number) VALUES (?,?,?,'2016-12-28',?)", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(2, reciever);
+            stmt.setInt(3, sender);
+            stmt.setInt(4, numb);
+            stmt.setString(1, msg);
+
+            stmt.executeUpdate();
+            stmt.close();
+        }
     }
 
 }

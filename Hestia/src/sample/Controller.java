@@ -4,10 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import maps.main.java.com.lynden.gmapsfx.GoogleMapView;
 import maps.main.java.com.lynden.gmapsfx.MapComponentInitializedListener;
 import maps.main.java.com.lynden.gmapsfx.javascript.event.UIEventType;
@@ -28,11 +31,14 @@ public class Controller implements Initializable, MapComponentInitializedListene
     private ObservableList<Apartment> apartmentsCollection;
     private ObservableList<Building> buildingsCollection;
     private ObservableList<Location> locationsCollection;
+    private ObservableList<Message> messages;
     GoogleMapView mapView;
+    Window chat;
     GoogleMap map;
     private double lat, lon;
     private Marker myMarker;
     private int cabinetMarker = 0;
+    int sel=0;
 
 
     public Controller(DataAccess dataAccess) {
@@ -72,6 +78,10 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML Button loglog;
     @FXML PasswordField passregistration;
     @FXML TableView historyRenter;
+    @FXML TableView listMsg;
+    @FXML TextField inputMsg;
+
+
 
 
     @Override
@@ -85,10 +95,13 @@ public class Controller implements Initializable, MapComponentInitializedListene
             buildingsCollection = FXCollections.observableArrayList(buildings);
             List<Location> locations = dataAccess.getAllLocations();
             locationsCollection = FXCollections.observableArrayList(locations);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public double round3(double number) {
         number = Math.round(number * 1000);
@@ -105,6 +118,31 @@ public class Controller implements Initializable, MapComponentInitializedListene
         mapstage.setScene(scene);
         mapstage.show();
     }
+    public void openChat(ActionEvent event) throws IOException {
+
+        Main main=new Main();
+        int owner = sel;
+
+        try {
+            main.changeScene("Chat");
+            System.out.println(sel+" And "+cabinetMarker);
+            List<Message> msgs = dataAccess.findMsgs(cabinetMarker,sel);
+            messages = FXCollections.observableArrayList(msgs);
+            for (Message m:messages) {
+                System.out.println(m.getMessage());
+            }
+            listMsg.setItems(messages);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public void addAdvert(ActionEvent event){
         Main main=new Main();
 
@@ -126,6 +164,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
     public void addAdvertisement(ActionEvent event) throws IOException {
         if (event.getSource()==addadvert)
+            System.out.println("Adding advertis");
         try {
             List<Integer> found_locations = dataAccess.findLocation(location_city.getText(), location_district.getText());
             if (found_locations.size() == 0) {
@@ -150,11 +189,15 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void addApartment(int bid) throws IOException {
-        Apartment apartment = new Apartment(apartmentsCollection.size() + 1, Integer.parseInt(numOfRooms.getText()), bid, personsCollection.size() - 1,
+//        Apartment apartment = new Apartment(apartmentsCollection.size() + 1, Integer.parseInt(numOfRooms.getText()), bid, personsCollection.size() - 1,
+//                Double.parseDouble(size.getText()),
+//                Double.parseDouble(price.getText()));
+        Apartment apartment = new Apartment(apartmentsCollection.size() + 1, Integer.parseInt(numOfRooms.getText()), bid, cabinetMarker,
                 Double.parseDouble(size.getText()),
                 Double.parseDouble(price.getText()));
         try {
-            dataAccess.addApartment(apartment, personsCollection.size() - 1);
+//            dataAccess.addApartment(apartment, personsCollection.size() - 1);
+            dataAccess.addApartment(apartment, cabinetMarker);
             Main a = new Main();
             a.changeScene("Registration");
 
@@ -343,17 +386,21 @@ public class Controller implements Initializable, MapComponentInitializedListene
                     int oid = dataAccess.getOwnerId(pid);
                     int rid = dataAccess.getRenterId(pid);
                     if (oid != 0) {
+                        cabinetMarker = oid;
                         main.changeScene("OwnerCabinet");
                         listap = dataAccess.findRenterById(oid);
                         apartmentsCollection = FXCollections.observableArrayList(listap);
                         historyRenter.setItems(apartmentsCollection);
                     } else if (rid != 0) {
+                        cabinetMarker = rid;
                         main.changeScene("RenterCabinet");
                         listap = dataAccess.findApartRentedById(rid);
+                        for (Apartment a:listap) {
+                            System.out.println(a.getOid());
+                        }
                         apartmentsCollection = FXCollections.observableArrayList(listap);
                         history.setItems(apartmentsCollection);
-
-                }
+                    }
                 else{
                     System.out.println("Invalid login or password");
                 }
@@ -368,8 +415,20 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
    public  void logOut(ActionEvent event) throws IOException {
+       cabinetMarker = 0;
        Main main=new Main();
        main.changeScene("Regitration");
    }
 
+
+    public void sendMessage(ActionEvent actionEvent) throws SQLException {
+        String incomingMessage = inputMsg.getText();
+        int msgNumber = messages.size()+1;
+        dataAccess.addMessage(incomingMessage,sel,cabinetMarker,msgNumber);
+        List<Message> msgs = dataAccess.findMsgs(cabinetMarker,sel);
+        messages = FXCollections.observableArrayList(msgs);
+
+        listMsg.setItems(messages);
+
+    }
 }

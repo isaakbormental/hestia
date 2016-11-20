@@ -17,6 +17,9 @@ public class Main extends Application implements MapComponentInitializedListener
     public static Stage theStage;
     public static DataAccess dataAccess;
     public static Controller controller;
+    private Apartment selected;
+    int selectedUser;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -24,9 +27,9 @@ public class Main extends Application implements MapComponentInitializedListener
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName("Databases");
         source.setServerName("localhost");
-        source.setDatabaseName("Home_hestia_new");
-        source.setUser("admin");
-        source.setPassword("admin");
+        source.setDatabaseName("Hestia1.0");
+        source.setUser("postgres");
+        source.setPassword("buxal3842");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);
@@ -36,6 +39,8 @@ public class Main extends Application implements MapComponentInitializedListener
         primaryStage.setTitle("Hestia Registration");
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
+
+        //System.out.println(i);
     }
 
     public void changeScene(String arg) throws IOException {
@@ -57,6 +62,9 @@ public class Main extends Application implements MapComponentInitializedListener
             theStage.setTitle("Renter Personal Cabinet");
             Scene scene = new Scene(root, 1000, 750);
             theStage.setScene(scene);
+            controller.history.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
+                    printApInfo(newValue) );
+
         } else if (arg.equals("Registration")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Registration.fxml"));
@@ -84,6 +92,15 @@ public class Main extends Application implements MapComponentInitializedListener
             Scene scene = new Scene(root, 1000, 750);
             theStage.setScene(scene);
         }
+        else if(arg.equals("Chat")){
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+            loader.setController(controller);
+            root = loader.load();
+            theStage.setTitle("Chat");
+            Scene scene = new Scene(root, 300, 600);
+            theStage.setScene(scene);
+        }
 
     }
 
@@ -95,4 +112,17 @@ public class Main extends Application implements MapComponentInitializedListener
     public void mapInitialized() {
 
     }
+
+    public void printApInfo(Object object){
+        selected = (Apartment) object;
+        System.out.println();
+        System.out.println("You have selected: ");
+        selectedUser = selected.getOid();
+        controller.sel = selectedUser;
+        System.out.println("Owner is: "+selectedUser);
+        System.out.println("apart_id: "+selected.getAid());
+        System.out.println("Price: "+selected.getPrice());
+        System.out.println();
+    }
+
 }

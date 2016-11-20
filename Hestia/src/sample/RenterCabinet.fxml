@@ -19,23 +19,27 @@
         </Label>
       </children>
     </Pane>
+
     <Pane prefHeight="800.0" prefWidth="1200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
       <children>
         <Label alignment="CENTER" layoutX="993.0" layoutY="6.0" prefHeight="31.9999915527369" prefWidth="77.0" text="user name" />
         <Label alignment="CENTER" layoutX="1070.0" layoutY="6.0" prefHeight="32.0" prefWidth="116.0" text="log out" textFill="#091edddb" />
+
         <TabPane layoutX="12.0" layoutY="59.0" prefHeight="700.0" prefWidth="1188.0" tabClosingPolicy="UNAVAILABLE">
           <tabs>
             <Tab text="History ">
+
               <TableView fx:id="history" prefWidth="1200.0">
+
                 <columns>
-                  <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="208.0" text="Owner">
+                  <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="Owner">
                     <cellValueFactory>
-                      <PropertyValueFactory property="nameOwner" />
+                      <PropertyValueFactory property="oid" />
                     </cellValueFactory>
                   </TableColumn>
-                  <TableColumn  prefWidth="400.0" text="Location ">
+                  <TableColumn  prefWidth="150.0" text="Location ">
                     <cellValueFactory>
-                      <PropertyValueFactory property="description" />
+                      <PropertyValueFactory property="location" />
                     </cellValueFactory>
                   </TableColumn>
                   <TableColumn prefWidth="100.0" text="Price apart">
@@ -48,15 +52,21 @@
                       <PropertyValueFactory property="size" />
                     </cellValueFactory>
                   </TableColumn>
-
+                  <TableColumn  prefWidth="200.0" text="Description">
+                    <cellValueFactory>
+                      <PropertyValueFactory property="description" />
+                    </cellValueFactory>
+                  </TableColumn>
                     <TableColumn  prefWidth="200.0" text="Period">
                     <cellValueFactory>
                       <PropertyValueFactory property="loanduration" />
                     </cellValueFactory>
                     </TableColumn>
 
+
                 </columns>
               </TableView>
+
             </Tab>
             <Tab text="Search ">
 
@@ -70,6 +80,11 @@
                     <VBox.margin>
                       <Insets />
                     </VBox.margin>
+                  </Button>
+                  <Button  layoutX="419.0" layoutY="333.0" onAction="#openChat" prefHeight="20.0" prefWidth="85.0" style="" text="Chat" translateX="620" textFill="BLACK">
+                    <font>
+                      <Font size="14.0" fx:id="x8" />
+                    </font>
                   </Button>
                   <Label style="-fx-font: NORMAL 16 Tahoma;" text="Location" />
                   <TextField fx:id="location" prefHeight="20.0" prefWidth="100.0" />
@@ -106,7 +121,7 @@
                     </TableColumn>
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="400.0" text="Description">
                       <cellValueFactory>
-                        <PropertyValueFactory property="" />
+                        <PropertyValueFactory property="description" />
                       </cellValueFactory>
                     </TableColumn>
                   </columns>

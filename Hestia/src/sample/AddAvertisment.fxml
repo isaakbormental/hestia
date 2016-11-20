@@ -17,9 +17,9 @@
   <Pane prefHeight="956.0" prefWidth="1186.0000999999975" GridPane.columnIndex="0" GridPane.rowIndex="1">
     <TextField fx:id="numOfAp" alignment="CENTER_LEFT" layoutX="296.0" layoutY="574.0" prefHeight="36.0"
                prefWidth="80.0" promptText="Number" translateX="0.0"/>
-    <TextField fx:id="sizeOfAp" alignment="CENTER_LEFT" focusTraversable="true" layoutX="296.0" layoutY="366.0"
+    <TextField fx:id="size" alignment="CENTER_LEFT" focusTraversable="true" layoutX="296.0" layoutY="366.0"
                prefHeight="36.0" prefWidth="80.0" translateX="0.0" visible="true"/>
-    <TextField fx:id="priceOfAp" alignment="CENTER_LEFT" layoutX="296.0" layoutY="424.0" prefHeight="36.0"
+    <TextField fx:id="price" alignment="CENTER_LEFT" layoutX="296.0" layoutY="424.0" prefHeight="36.0"
                prefWidth="80.0" translateX="0.0"/>
     <TextField fx:id="numOfRooms" alignment="CENTER_LEFT" layoutX="296.0" layoutY="484.0" prefHeight="36.0"
                prefWidth="110.0" translateX="0.0"/>

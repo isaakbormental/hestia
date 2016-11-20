@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="1100.0" prefWidth="300.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Pane disable="true" opacity="0.5" prefHeight="137.0" prefWidth="300.0" style="-fx-background-color: deepskyblue" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <children>
+                <Label alignment="CENTER" layoutX="13.0" layoutY="23.0" prefHeight="92.0" prefWidth="274.0" text="Hestia Homes" textAlignment="CENTER">
+                    <font>
+                        <Font size="36.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <Pane prefHeight="800.0" prefWidth="300.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <children>
+                <Label alignment="CENTER" layoutX="993.0" layoutY="6.0" prefHeight="32.0" prefWidth="77.0" text="user name" />
+                <Label alignment="CENTER" layoutX="1070.0" layoutY="6.0" prefHeight="32.0" prefWidth="116.0" text="log out" textFill="#091edddb" />
+
+                <TabPane layoutX="12.0" layoutY="59.0" prefHeight="700.0" prefWidth="300" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+
+                    </tabs>
+
+                </TabPane>
+                <TableView fx:id="listMsg" maxHeight="1.7976931348623157E308" prefHeight="500.0" prefWidth="300" style="-fx-background-color: #FFFFFF;" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                    <columns>
+                        <TableColumn prefWidth="300.0" text="Hestia Chat">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="message" />
+                            </cellValueFactory>
+                        </TableColumn>
+
+                    </columns>
+                </TableView>
+
+                <HBox prefHeight="30.0" prefWidth="700.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <!--<Label style="-fx-font: NORMAL 16 Tahoma;" text="Type" />-->
+                    <TextField fx:id="inputMsg" minHeight="100" prefHeight="100.0" prefWidth="300.0" translateX="0" translateY="500" />
+                    <Button layoutX="419.0" layoutY="333.0" onAction="#sendMessage" prefHeight="41.0" prefWidth="53.0" style="-fx-background-color: white;" text="&gt;" textFill="#276179" translateX="-70" translateY="555">
+                        <font>
+                            <Font size="18.0" fx:id="x7" />
+                        </font>
+                    </Button>
+                </HBox>
+
+            </children>
+        </Pane>
+    </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
