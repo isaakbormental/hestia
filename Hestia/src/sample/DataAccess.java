@@ -236,7 +236,7 @@ public class DataAccess {
         int rowsUpdated;
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (rid,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter (renter_id,rating) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, rid);
             stmt.setDouble(2, rating);
             rowsUpdated = stmt.executeUpdate();
@@ -251,7 +251,7 @@ public class DataAccess {
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO apartment (apart_id,num_of_rooms,buildin_id,oid,size,price) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, apartment.getAid());
             stmt.setInt(3, apartment.getBid());
-            stmt.setInt(4, apartment.getOid());
+            stmt.setInt(4, user);
             stmt.setDouble(5, apartment.getSize());
             stmt.setInt(2, apartment.getNumberRoom());
             stmt.setDouble(6, apartment.getPrice());
