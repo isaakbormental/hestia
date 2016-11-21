@@ -55,9 +55,9 @@ public class Person {
 
     }
 
-    public String getName() {
+   /* public String getName() {
         return name.get();
-    }
+    }*/
 
     public SimpleStringProperty nameProperty() {
         return name;
@@ -142,5 +142,8 @@ public class Person {
 
     public SimpleStringProperty passwordProperty() {
         return password;
+    }
+    public String getName(){
+        return this.getFirsName()+" "+getLastname();
     }
 }

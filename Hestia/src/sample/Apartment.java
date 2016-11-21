@@ -34,7 +34,7 @@ public class Apartment {
      * @param pricea
      * @param des
      */
-    public Apartment(int numr, double sizeap, int pricea, String des) {
+    public Apartment(int numr, double sizeap, double pricea, String des) {
         setNumberRoom(numr);
         setPrice(pricea);
         setSize(sizeap);

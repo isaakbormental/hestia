@@ -20,6 +20,8 @@ public class Message {
     private final SimpleIntegerProperty reciever_id=new SimpleIntegerProperty();
     private Date date = new Date(1,1,1994);
     private final SimpleStringProperty message =new SimpleStringProperty("");
+    private final SimpleStringProperty lnamesender =new SimpleStringProperty("");
+    private final SimpleStringProperty fnamesender =new SimpleStringProperty("");
     private final Time time = new Time(18,54,34);
 
     public Message(String msg, int rec, int send, Date date){
@@ -27,6 +29,13 @@ public class Message {
         setReciever_id(rec);
         setSender_id(send);
         setDate(date);
+    }
+    public Message(String fname,String lname,int id, String msm ,Date dat){
+        setFnamesender(fname);
+        setLnamesender(lname);
+        setSender_id(id);
+        setMessage(msm);
+        setDate(dat);
     }
 
 
@@ -77,7 +86,27 @@ public class Message {
         this.date = data;
     }
 
+    public String getLnamesender() {
+        return lnamesender.get();
+    }
 
+    public SimpleStringProperty lnamesenderProperty() {
+        return lnamesender;
+    }
 
+    public void setLnamesender(String lnamesender) {
+        this.lnamesender.set(lnamesender);
+    }
 
+    public String getFnamesender() {
+        return fnamesender.get();
+    }
+
+    public SimpleStringProperty fnamesenderProperty() {
+        return fnamesender;
+    }
+
+    public void setFnamesender(String fnamesender) {
+        this.fnamesender.set(fnamesender);
+    }
 }

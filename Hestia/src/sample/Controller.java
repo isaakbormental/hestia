@@ -20,6 +20,7 @@ import netscape.javascript.JSObject;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -72,14 +73,11 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML TextField login;
     @FXML TableView history;
     @FXML Button openmap;
-    @FXML Button addadvert;
-    @FXML Hyperlink link;
-    @FXML Button addperson;
-    @FXML Button loglog;
     @FXML PasswordField passregistration;
     @FXML TableView historyRenter;
     @FXML TableView listMsg;
     @FXML TextField inputMsg;
+    @FXML Label username;
 
 
 
@@ -163,8 +161,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
         }
     }
     public void addAdvertisement(ActionEvent event) throws IOException {
-        if (event.getSource()==addadvert)
-            System.out.println("Adding advertis");
+
         try {
             List<Integer> found_locations = dataAccess.findLocation(location_city.getText(), location_district.getText());
             if (found_locations.size() == 0) {
@@ -267,55 +264,30 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void FindAppartment(ActionEvent event) throws IOException {
-        List<Apartment> listap;
-
+        List<Apartment> listap=new ArrayList<>();
         Main main = new Main();
-        String locat = "default";
-        if(location.getText().equals("")){
-            System.out.println("NO LOCAT");
-        }
-        else{
-            locat = location.getText();
-        }
+        String loc=location.getText();
+        double pri=Double.parseDouble(price.getText());
+        double siz=Double.parseDouble(price.getText());
 
-        int pric = 0;
-        if(price.getText().equals("")){
-            System.out.println("NO PRICE");
-            pric = -1;
-        }
-        else{
-            pric = Integer.parseInt(price.getText());
-        }
-        int siz = -1;
-        if(size.getText().equals("")){
-            System.out.println("NO SIZE");
-        }
-        else{
-            siz = Integer.parseInt(size.getText());
-        }
-        int distanc = -1;
-        if(distance.getText().equals("")){
-            System.out.println("NO DIST");
-        }
-        else{
-            distanc = Integer.parseInt(distance.getText());
-        }
+           if (distance.getText().isEmpty()!=true){
+               double dis=Double.parseDouble(distance.getText());
 
-        listHouse.setItems(apartmentsCollection);
-        System.out.println(0);
-        try {
-            System.out.print("Selected location: "+locat+" ");
-            System.out.print("Selected price: "+pric+" ");
-            System.out.print("Selected size: "+siz+" ");
-            System.out.println("Selected price: "+distanc);
+                   listap=dataAccess.getApartment(loc,pri,siz,dis);
+                  System.out.println(listap.size());
+                   apartmentsCollection=FXCollections.observableArrayList(listap);
+                   listHouse.setItems(apartmentsCollection);
 
-            listap = dataAccess.getApartment(locat,pric,siz,distanc);
-            apartmentsCollection = FXCollections.observableArrayList(listap);
-            listHouse.setItems(apartmentsCollection);
-        } catch (Exception e3) {
-            System.out.println("EX");
 
-        }
+           }else{
+               listap=dataAccess.getApartment(loc,pri,siz);
+               System.out.println(listap.size());
+               apartmentsCollection=FXCollections.observableArrayList(listap);
+               listHouse.setItems(apartmentsCollection);
+           }
+
+         // listap=dataAccess.
+
 
     }
 
@@ -388,16 +360,17 @@ public class Controller implements Initializable, MapComponentInitializedListene
                     if (oid != 0) {
                         cabinetMarker = oid;
                         main.changeScene("OwnerCabinet");
+                        String name=person.get(oid);
+                        username.setText(name);
                         listap = dataAccess.findRenterById(oid);
                         apartmentsCollection = FXCollections.observableArrayList(listap);
                         historyRenter.setItems(apartmentsCollection);
                     } else if (rid != 0) {
                         cabinetMarker = rid;
                         main.changeScene("RenterCabinet");
+                        String name=person.get(rid);
+                        username.setText(name);
                         listap = dataAccess.findApartRentedById(rid);
-                        for (Apartment a:listap) {
-                            System.out.println(a.getOwner().getPid());
-                        }
                         apartmentsCollection = FXCollections.observableArrayList(listap);
                         history.setItems(apartmentsCollection);
                     }
@@ -414,10 +387,15 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     }
 
-   public  void logOut(ActionEvent event) throws IOException {
-       cabinetMarker = 0;
+   public  void logOut(ActionEvent event)  {
+
        Main main=new Main();
-       main.changeScene("Regitration");
+       try {
+           main.changeScene("Regitration");
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+
    }
 
 

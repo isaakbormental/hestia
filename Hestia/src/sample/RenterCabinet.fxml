@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" hgap="10.0" prefHeight="1100.0" prefWidth="1500.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<GridPane alignment="CENTER" hgap="10.0" prefWidth="1177.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
     <Pane disable="true" opacity="0.5" prefHeight="137.0" prefWidth="1200.0" style="-fx-background-color: deepskyblue" GridPane.columnIndex="0" GridPane.rowIndex="0">
       <children>
@@ -19,14 +17,12 @@
         </Label>
       </children>
     </Pane>
-    <Pane prefHeight="804.0" prefWidth="1156.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <Pane prefHeight="622.0" prefWidth="1186.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
       <children>
-        <Label alignment="CENTER" layoutX="993.0" layoutY="6.0" prefHeight="31.9999915527369" prefWidth="77.0" text="user name" />
-        <Label alignment="CENTER" layoutX="1070.0" layoutY="6.0" prefHeight="32.0" prefWidth="116.0" text="log out" textFill="#091edddb" />
-        <TabPane layoutX="12.0" layoutY="59.0" prefHeight="700.0" prefWidth="1188.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane layoutX="14.0" layoutY="59.0" prefHeight="498.0" prefWidth="1160.0" tabClosingPolicy="UNAVAILABLE">
           <tabs>
             <Tab text="History ">
-              <TableView fx:id="history" prefWidth="1200.0">
+              <TableView fx:id="history" prefWidth="1174.0">
                 <columns>
                   <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="120.0" text="Owner">
                     <cellValueFactory>
@@ -48,53 +44,40 @@
                       <PropertyValueFactory property="size" />
                     </cellValueFactory>
                   </TableColumn>
-                  <TableColumn  prefWidth="200.0" text="Description">
+                  <TableColumn prefWidth="200.0" text="Description">
                     <cellValueFactory>
                       <PropertyValueFactory property="description" />
                     </cellValueFactory>
                   </TableColumn>
-
                   <TableColumn prefWidth="200.0" text="Period">
                     <cellValueFactory>
                       <PropertyValueFactory property="loanduration" />
                     </cellValueFactory>
-                    </TableColumn>
-
-
-
+                  </TableColumn>
                 </columns>
               </TableView>
             </Tab>
             <Tab text="Search ">
-              <GridPane alignment="CENTER" hgap="10.0" prefHeight="707.0" prefWidth="1188.0001220703125" vgap="10.0">
+              <GridPane alignment="CENTER" hgap="10.0" prefWidth="1200.0" vgap="10.0">
                 <Label prefHeight="25.0" prefWidth="314.0" style="-fx-font-family: NORMAL 20 Tahoma;" text="Search for an apartment" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <HBox prefHeight="30.0" prefWidth="700.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                  <Button id="sea" mnemonicParsing="false" onAction="#FindAppartment" prefHeight="20.0" prefWidth="85.0" text="Search" translateX="550.0">
-                    <font>
-                      <Font size="14.0" fx:id="x3" />
-                    </font>
-                    <VBox.margin>
-                      <Insets />
-                    </VBox.margin>
-                  </Button>
-                  <Label style="-fx-font-familyt: NORMAL 16 Tahoma;" text="Location" />
-                  <Button  layoutX="419.0" layoutY="333.0" onAction="#openChat" prefHeight="20.0" prefWidth="85.0" style="" text="Chat" translateX="620" textFill="BLACK">
-                    <font>
-                      <Font size="14.0" fx:id="x8" />
-                    </font>
-                  </Button>
                   <Label style="-fx-font: NORMAL 16 Tahoma;" text="Location" />
                   <TextField fx:id="location" prefHeight="20.0" prefWidth="100.0" />
                   <Label style="-fx-font-family: NORMAL 16 Tahoma;" text="Price" />
                   <TextField fx:id="price" prefHeight="20.0" prefWidth="70.0" />
                   <Label style="-fx-font-family: NORMAL 16 Tahoma;" text="Size" />
                   <TextField fx:id="size" prefHeight="20.0" prefWidth="70.0" />
+                  <Button id="sea" onAction="#FindAppartment" prefHeight="20.0" prefWidth="85.0" text="Search">
+                    <font>
+                      <Font size="14.0" fx:id="x3" />
+                    </font>
+                  </Button>
                 </HBox>
                 <HBox GridPane.columnIndex="0" GridPane.rowIndex="2">
                   <Label style="-fx-font-family: NORMAL 16 Tahoma;" text="Max Distance to any public institution " />
                   <TextField fx:id="distance" prefHeight="20.0" prefWidth="70.0" />
                 </HBox>
-                <TableView fx:id="listHouse" maxHeight="1.7976931348623157E308" prefHeight="700.0" prefWidth="1059.0000999999975" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                <TableView fx:id="listHouse" prefWidth="1200.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
                   <columns>
                     <TableColumn prefWidth="300.0" text="Picture">
                       <cellValueFactory>
@@ -132,10 +115,11 @@
         </TabPane>
         <Hyperlink layoutX="1092.0" layoutY="26.0" onAction="#logOut" prefWidth="76.0" text="Log out" textFill="BLUE" />
         <Label fx:id="username" layoutX="939.0" layoutY="26.0" prefHeight="18.132904052734375" prefWidth="141.0" text="User name" />
-        <HBox layoutX="960.0" layoutY="753.0" prefHeight="42.0" prefWidth="170.0" spacing="5.0">
+        <HBox layoutX="865.0" layoutY="557.0" prefHeight="42.0" prefWidth="312.0" spacing="5.0">
           <children>
             <Button mnemonicParsing="false" prefHeight="28.0" text="Reset" />
-            <Button mnemonicParsing="false" prefHeight="28.0" text="Book" />
+            <Button font="$x3" onAction="#openChat" prefHeight="28.0" prefWidth="162.0" style="" text="send message" textFill="BLACK" />
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="76.0" text="Book" />
           </children>
           <padding>
             <Insets left="2.0" right="2.0" top="1.0" />
