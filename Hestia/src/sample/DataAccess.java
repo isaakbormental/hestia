@@ -408,7 +408,7 @@ public class DataAccess {
 //    }
 
 
-    public List<Apartment> getApartment(String location, double price, double size, double distance) throws SQLException {
+    public List<Apartment> getApartment(String location, double price, double size, double distance, String facility) throws SQLException {
         List<Apartment> list = new ArrayList<>();
         int l=1;
         int pr=1;
@@ -453,7 +453,12 @@ public class DataAccess {
                         "where a.buildin_id in (select B.building_id " +
                         "from building B, institution I " +
                         "where B.lid = I.location_id " +
-                        "AND |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <= ?) " +
+                        "AND 6371*2*atan2(sqrt(sin((I.latitude-B.latitude)*pi()/360) * sin((I.latitude-B.latitude)*pi()/360) + " +
+                        "cos(B.latitude*pi()/180) * cos(I.latitude*pi()/180) * " +
+                        "sin((I.longitude-B.longitude)*pi()/360) * sin((I.longitude-B.longitude)*pi()/360)), sqrt(1-(sin((I.latitude-B.latitude)*pi()/360) * sin((I.latitude-B.latitude)*pi()/360) + " +
+                        "cos(B.latitude*pi()/180) * cos(I.latitude*pi()/180) * " +
+                        "sin((I.longitude-B.longitude)*pi()/360) * sin((I.longitude-B.longitude)*pi()/360)))) <= ? " +
+                        "AND I.type_institution = ? )" +
                         "AND a.buildin_id=bi.building_id " +
                         "AND bi.lid=lo.location_id; ";
             }
@@ -462,7 +467,7 @@ public class DataAccess {
             if(!location.equals("default")){stm.setString(l, location);}
             if(price>0){stm.setDouble(pr, price);}
             if(size>0){stm.setDouble(si, size);}
-            if(distance>0){stm.setDouble(di, distance);}
+            if(distance>0){stm.setDouble(di, distance); stm.setString(di+1, facility);}
 
             //stm.setInt(1, distance);
             //int row = stm.executeUpdate();
