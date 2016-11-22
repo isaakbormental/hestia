@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.ResourceBundle;
+
 @SuppressWarnings("all")
 public class Controller implements Initializable, MapComponentInitializedListener {
 
@@ -42,7 +43,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     private double lat, lon;
     private Marker myMarker;
     private int cabinetMarker = 0;
-    int sel=0;
+    int sel = 0;
     private Stage dialogStage;
 
 
@@ -50,40 +51,69 @@ public class Controller implements Initializable, MapComponentInitializedListene
         this.dataAccess = dataAccess;
     }
 
-    @FXML TextField firstnameField;
-    @FXML TextField lastnameField;
+    @FXML
+    TextField firstnameField;
+    @FXML
+    TextField lastnameField;
     //@FXML TextField fisrtnameField;
-    @FXML  TextField emailField;
-    @FXML TextField phoneField;
-    @FXML RadioButton ownerRadio;
-    @FXML RadioButton renterRadio;
-    @FXML TableView listHouse;
-    @FXML Button validate;
-    @FXML Button reset;
-    @FXML TextField location;
-    @FXML TextField distance;
-    @FXML TextField numOfAp;
-    @FXML TextField size;
-    @FXML TextField price;
-    @FXML TextField numOfRooms;
-    @FXML TextField location_city;
-    @FXML TextField location_district;
-    @FXML RadioButton petsAllowed;
-    @FXML RadioButton petsNotAllowed;
-    @FXML RadioButton hostelRoomType;
-    @FXML RadioButton privateHouseType;
-    @FXML RadioButton apartmentType;
-    @FXML PasswordField password;
-    @FXML TextField login;
-    @FXML TableView history;
-    @FXML Button openmap;
-    @FXML PasswordField passregistration;
-    @FXML TableView historyRenter;
-    @FXML TableView listMsg;
-    @FXML TextField inputMsg;
-    @FXML Label username;
-
-
+    @FXML
+    TextField emailField;
+    @FXML
+    TextField phoneField;
+    @FXML
+    RadioButton ownerRadio;
+    @FXML
+    RadioButton renterRadio;
+    @FXML
+    TableView listHouse;
+    @FXML
+    Button validate;
+    @FXML
+    Button reset;
+    @FXML
+    TextField location;
+    @FXML
+    TextField distance;
+    @FXML
+    TextField numOfAp;
+    @FXML
+    TextField size;
+    @FXML
+    TextField price;
+    @FXML
+    TextField numOfRooms;
+    @FXML
+    TextField location_city;
+    @FXML
+    TextField location_district;
+    @FXML
+    RadioButton petsAllowed;
+    @FXML
+    RadioButton petsNotAllowed;
+    @FXML
+    RadioButton hostelRoomType;
+    @FXML
+    RadioButton privateHouseType;
+    @FXML
+    RadioButton apartmentType;
+    @FXML
+    PasswordField password;
+    @FXML
+    TextField login;
+    @FXML
+    TableView history;
+    @FXML
+    Button openmap;
+    @FXML
+    PasswordField passregistration;
+    @FXML
+    TableView historyRenter;
+    @FXML
+    TableView listMsg;
+    @FXML
+    TextField inputMsg;
+    @FXML
+    Label username;
 
 
     @Override
@@ -104,7 +134,6 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
 
-
     public double round3(double number) {
         number = Math.round(number * 1000);
         number = number / 1000;
@@ -120,17 +149,18 @@ public class Controller implements Initializable, MapComponentInitializedListene
         mapstage.setScene(scene);
         mapstage.show();
     }
+
     public void openChat(ActionEvent event) throws IOException {
 
-        Main main=new Main();
+        Main main = new Main();
         int owner = sel;
 
         try {
             main.changeScene("Chat");
-            System.out.println(sel+" And "+cabinetMarker);
-            List<Message> msgs = dataAccess.findMsgs(cabinetMarker,sel);
+            System.out.println(sel + " And " + cabinetMarker);
+            List<Message> msgs = dataAccess.findMsgs(cabinetMarker, sel);
             messages = FXCollections.observableArrayList(msgs);
-            for (Message m:messages) {
+            for (Message m : messages) {
                 System.out.println(m.getMessage());
             }
             listMsg.setItems(messages);
@@ -145,18 +175,19 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
 
-    public void addAdvert(ActionEvent event){
-        Main main=new Main();
+    public void addAdvert(ActionEvent event) {
+        Main main = new Main();
 
-            try {
-                main.changeScene("AddAdvert");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            main.changeScene("AddAdvert");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
-    public void createAccount(ActionEvent event){
-        Main main=new Main();
+
+    public void createAccount(ActionEvent event) {
+        Main main = new Main();
 
         try {
             main.changeScene("newAccount");
@@ -164,6 +195,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
             e.printStackTrace();
         }
     }
+
     public void addAdvertisement(ActionEvent event) throws IOException {
 
         try {
@@ -243,19 +275,19 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void addPerson(ActionEvent event) throws IOException {
-        Person person = new Person(firstnameField.getText(),lastnameField.getText(), emailField.getText(), passregistration.getText(),Integer.parseInt(phoneField.getText()));
+        Person person = new Person(firstnameField.getText(), lastnameField.getText(), emailField.getText(), passregistration.getText(), Integer.parseInt(phoneField.getText()));
         try {
             dataAccess.addPerson(person);
             Main a = new Main();
             if (ownerRadio.isSelected()) {
                 //Owner owner = new Owner(person.getPid(), person.getFirsName(), person.getEmail(), person.getPhone(), person.getPid(), 0.0);
                 //dataAccess.addOwner(owner);
-                int oid=dataAccess.getPersonId(person.getEmail(),person.getPassword());
-                dataAccess.addOwner(oid,0.0);
+                int oid = dataAccess.getPersonId(person.getEmail(), person.getPassword());
+                dataAccess.addOwner(oid, 0.0);
                 a.changeScene("OwnerCabinet");
             } else {
-                  int rid=dataAccess.getPersonId(person.getEmail(),person.getPassword());
-                  dataAccess.addRenter(rid,0.0);
+                int rid = dataAccess.getPersonId(person.getEmail(), person.getPassword());
+                dataAccess.addRenter(rid, 0.0);
                 a.changeScene("RenterCabinet");
             }
         } catch (SQLException e1) {
@@ -267,31 +299,26 @@ public class Controller implements Initializable, MapComponentInitializedListene
         phoneField.clear();
     }
 
-    public void FindAppartment(ActionEvent event) throws IOException {
-        List<Apartment> listap=new ArrayList<>();
+    public void FindAppartment(ActionEvent event) throws IOException, SQLException {
+        List<Apartment> listap = new ArrayList<>();
         Main main = new Main();
-        String loc=location.getText();
-        double pri=Double.parseDouble(price.getText());
-        double siz=Double.parseDouble(size.getText());
 
-           if (distance.getText().isEmpty()!=true){
-               double dis=Double.parseDouble(distance.getText());
+        String loc = "default";
+        if(!location.getText().equals("")){loc = location.getText();}
 
-                   listap=dataAccess.getApartment(loc,pri,siz,dis);
-                  System.out.println(listap.size());
-                   apartmentsCollection=FXCollections.observableArrayList(listap);
-                   listHouse.setItems(apartmentsCollection);
+        int pri = -1;
+        if(!price.getText().equals("")){pri = Integer.parseInt(price.getText());}
 
+        int siz = -1;
+        if(!size.getText().equals("")){siz = Integer.parseInt(size.getText());}
 
-           }else{
-               listap=dataAccess.getApartment(loc,pri,siz);
-               System.out.println(listap.size());
-               apartmentsCollection=FXCollections.observableArrayList(listap);
-               listHouse.setItems(apartmentsCollection);
-           }
+        int dis = -1;
+        if(!distance.getText().equals("")){dis = Integer.parseInt(distance.getText());}
 
-         // listap=dataAccess.
-
+        listap = dataAccess.getApartment(loc, pri, siz, dis);
+        System.out.println(listap.size());
+        apartmentsCollection = FXCollections.observableArrayList(listap);
+        listHouse.setItems(apartmentsCollection);
 
     }
 
@@ -300,7 +327,6 @@ public class Controller implements Initializable, MapComponentInitializedListene
         size.clear();
         price.clear();
     }
-
 
 
     @Override
@@ -341,44 +367,42 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
 
-
-    public void logIn(ActionEvent event) throws IOException{
+    public void logIn(ActionEvent event) throws IOException {
         List<Apartment> listap;
-        Hashtable<Integer,String> person = new Hashtable<Integer,String>();
+        Hashtable<Integer, String> person = new Hashtable<Integer, String>();
         try {
             Main main = new Main();
 
             String logi = login.getText();
             String pass = password.getText();
 
-                try {
-                    // Main a = new Main();
-                    int pid = dataAccess.getPersonId(logi, pass);
-                    person = dataAccess.getPerson(logi, pass);
-                    if (person.isEmpty()) {
-                        System.out.println("There is no such person!");
-                    }
-                    System.out.println(person.get(pid));
-                    int oid = dataAccess.getOwnerId(pid);
-                    int rid = dataAccess.getRenterId(pid);
-                    if (oid != 0) {
-                        cabinetMarker = oid;
-                        main.changeScene("OwnerCabinet");
-                        String name=person.get(oid);
-                        username.setText(name);
-                        listap = dataAccess.findRenterById(oid);
-                        apartmentsCollection = FXCollections.observableArrayList(listap);
-                        historyRenter.setItems(apartmentsCollection);
-                    } else if (rid != 0) {
-                        cabinetMarker = rid;
-                        main.changeScene("RenterCabinet");
-                        String name=person.get(rid);
-                        username.setText(name);
-                        listap = dataAccess.findApartRentedById(rid);
-                        apartmentsCollection = FXCollections.observableArrayList(listap);
-                        history.setItems(apartmentsCollection);
-                    }
-                else{
+            try {
+                // Main a = new Main();
+                int pid = dataAccess.getPersonId(logi, pass);
+                person = dataAccess.getPerson(logi, pass);
+                if (person.isEmpty()) {
+                    System.out.println("There is no such person!");
+                }
+                System.out.println(person.get(pid));
+                int oid = dataAccess.getOwnerId(pid);
+                int rid = dataAccess.getRenterId(pid);
+                if (oid != 0) {
+                    cabinetMarker = oid;
+                    main.changeScene("OwnerCabinet");
+                    String name = person.get(oid);
+                    username.setText(name);
+                    listap = dataAccess.findRenterById(oid);
+                    apartmentsCollection = FXCollections.observableArrayList(listap);
+                    historyRenter.setItems(apartmentsCollection);
+                } else if (rid != 0) {
+                    cabinetMarker = rid;
+                    main.changeScene("RenterCabinet");
+                    String name = person.get(rid);
+                    username.setText(name);
+                    listap = dataAccess.findApartRentedById(rid);
+                    apartmentsCollection = FXCollections.observableArrayList(listap);
+                    history.setItems(apartmentsCollection);
+                } else {
                     System.out.println("Invalid login or password");
                 }
 
@@ -391,25 +415,23 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     }
 
-   public  void logOut(ActionEvent event)  {
+    public void logOut(ActionEvent event) {
 
-       Main main=new Main();
-       try {
-           main.changeScene("Registration");
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
+        Main main = new Main();
+        try {
+            main.changeScene("Registration");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-   }
-
-
+    }
 
 
     public void sendMessage(ActionEvent actionEvent) throws SQLException {
         String incomingMessage = inputMsg.getText();
-        int msgNumber = messages.size()+1;
-        dataAccess.addMessage(incomingMessage,sel,cabinetMarker,msgNumber);
-        List<Message> msgs = dataAccess.findMsgs(cabinetMarker,sel);
+        int msgNumber = messages.size() + 1;
+        dataAccess.addMessage(incomingMessage, sel, cabinetMarker, msgNumber);
+        List<Message> msgs = dataAccess.findMsgs(cabinetMarker, sel);
         messages = FXCollections.observableArrayList(msgs);
 
         listMsg.setItems(messages);
@@ -420,16 +442,16 @@ public class Controller implements Initializable, MapComponentInitializedListene
         try {
             // Load the fxml file and create a new stage for the popup
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("messagesOwner.fxml"));
-            Controller controller=new Controller(dataAccess);
+            Controller controller = new Controller(dataAccess);
             loader.setController(controller);
             GridPane page = (GridPane) loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Edit Person");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-          //  dialogStage.initOwner(primaryStage);
+            //  dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
-           // Set the person into the controller
+            // Set the person into the controller
             controller = loader.getController();
             controller.setDialogStage(dialogStage);
             // Show the dialog and wait until the user closes it
@@ -441,6 +463,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
         }
     }
+
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
