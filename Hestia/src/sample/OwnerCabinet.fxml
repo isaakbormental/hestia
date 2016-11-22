@@ -20,13 +20,17 @@
 <?import javafx.scene.text.Font?>
 
 <GridPane alignment="CENTER" hgap="10.0" prefHeight="734.0" prefWidth="1199.999977929685" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1">
-  <Pane disable="true" opacity="0.5" prefHeight="137.0" prefWidth="1200.0" style="-fx-background-color: deepskyblue" GridPane.columnIndex="0" GridPane.rowIndex="0">
+  <Pane disable="false" prefHeight="137.0" prefWidth="906.0" style="-fx-background-color: skyblue" GridPane.columnIndex="0" GridPane.rowIndex="0">
     <children>
-      <Label alignment="CENTER" layoutX="293.0" layoutY="14.0" prefHeight="91.90625" prefWidth="729.0" text="Hestia Homes" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="161.0" layoutY="23.0" prefHeight="92.0" prefWidth="594.0" text="Hestia Homes" textAlignment="CENTER">
         <font>
-          <Font size="36.0" />
+          <Font name="System Bold" size="36.0" />
         </font>
       </Label>
+      <Label fx:id="warning" layoutX="35.0" layoutY="102.0" prefHeight="27.0" prefWidth="382.0" text="" textFill="#f80303">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font></Label>
     </children>
   </Pane>
   <Pane prefHeight="530.0" prefWidth="780.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
@@ -83,10 +87,6 @@
           </FXCollections>
         </items>
       </ChoiceBox>
-      <Label fx:id="warning" layoutX="586.0" layoutY="1.0" prefHeight="18.132904052734375" prefWidth="141.0" text="Warning" textFill="#f80303">
-            <font>
-               <Font size="18.0" />
-            </font></Label>
     </children>
   </Pane>
    <columnConstraints>

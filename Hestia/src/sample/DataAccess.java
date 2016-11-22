@@ -143,7 +143,7 @@ public class DataAccess {
                     while (res.next()) {
                         StringBuilder des = new StringBuilder();
                         des.append("City: " + res.getString("city")).append(" District: " + res.getString("district") + "/n");
-                        des.append("Crime Rating :" + res.getDouble("crime_rating"));
+                        des.append("Crime Rating : " + res.getDouble("crime_rating"));
                         int pri = res.getInt("price");
                         double size = res.getDouble("size");
                         int num = res.getInt("anumber");
@@ -307,7 +307,7 @@ public class DataAccess {
                     String dis = res.getString("district");
                     String cit = res.getString("city");
                     double ra = res.getDouble("crime_rating");
-                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating: " + ra);
                     list.add(new Apartment(n, s, p, str.toString()));
                 }
                 res.close();
@@ -480,7 +480,7 @@ public class DataAccess {
                     String cit = res.getString("city");
                     double ra = res.getDouble("crime_rating");
                     int aid = res.getInt("apart_id");
-                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating: " + ra);
                     Apartment a = new Apartment(s, p, str.toString());
                     a.setAid(aid);
                     a.setRating(getAverageApartmentRating(aid));
@@ -532,7 +532,7 @@ public class DataAccess {
                     String dis = resultSet.getString("district");
                     String cit = resultSet.getString("city");
                     double ra = resultSet.getDouble("crime_rating");
-                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra + " \n" +ra);
+                    str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating: " + ra);
                     Date date_be=resultSet.getDate("date_begin");
                     Date date_en=resultSet.getDate("date_end");
                     String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
@@ -632,6 +632,39 @@ public class DataAccess {
              PreparedStatement stm = connection.prepareStatement("SELECT person_id, firstname,lastname FROM person WHERE email = ? AND password =?")) {
             stm.setString(1, logi);
             stm.setString(2, pass);
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+
+                    pid = res.getInt("person_id");
+                    name = res.getString("firstname") + " " + res.getString("lastname");
+                    person.put(pid, name);
+
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+
+
+        }
+
+        return person;
+    }
+
+    public Hashtable<Integer, String> getPersonById(int id) throws SQLException {
+        Hashtable<Integer, String> person = new Hashtable<Integer, String>();
+        int pid = 0;
+        String name = "";
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT person_id, firstname,lastname FROM person WHERE person_id = ? ")) {
+            stm.setInt(1, id);
+
             // int row = stm.executeUpdate();
             try {
                 ResultSet res = stm.executeQuery();

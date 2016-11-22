@@ -37,7 +37,7 @@ public class Main extends Application implements MapComponentInitializedListener
         loader.setController(controller);
         Parent root = loader.load();
         primaryStage.setTitle("Hestia Registration");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
 
         //System.out.println(i);
@@ -52,7 +52,7 @@ public class Main extends Application implements MapComponentInitializedListener
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Owner Personal Cabinet");
-            Scene scene = new Scene(root, 1000, 750);
+            Scene scene = new Scene(root, 1000, 800);
             theStage.setScene(scene);
             controller.historyRenter.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
                     settingOwnerCab(newValue) );
@@ -62,7 +62,7 @@ public class Main extends Application implements MapComponentInitializedListener
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Renter Personal Cabinet");
-            Scene scene = new Scene(root, 1000, 750);
+            Scene scene = new Scene(root, 1000, 800);
             theStage.setScene(scene);
             controller.history.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
                     settingRenterCab(newValue) );
@@ -75,7 +75,7 @@ public class Main extends Application implements MapComponentInitializedListener
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Hestia Registration");
-            Scene scene = new Scene(root, 1000, 750);
+            Scene scene = new Scene(root, 1000, 800);
             theStage.setScene(scene);
         }
         else if(arg.equals("AddAdvert")){
@@ -84,7 +84,7 @@ public class Main extends Application implements MapComponentInitializedListener
            loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Add Advert");
-            Scene scene = new Scene(root, 1000, 750);
+            Scene scene = new Scene(root, 1000, 800);
             theStage.setScene(scene);
         }
         else if(arg.equals("newAccount")){
@@ -93,7 +93,7 @@ public class Main extends Application implements MapComponentInitializedListener
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("New account");
-            Scene scene = new Scene(root, 1000, 750);
+            Scene scene = new Scene(root, 1000, 800);
             theStage.setScene(scene);
         }
         else if(arg.equals("Chat")){

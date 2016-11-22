@@ -244,7 +244,12 @@ public class Controller implements Initializable, MapComponentInitializedListene
 //            dataAccess.addApartment(apartment, personsCollection.size() - 1);
             dataAccess.addApartment(apartment, cabinetMarker);
             Main a = new Main();
-            a.changeScene("Registration");
+            //a.changeScene("Registration");
+            //a.changeScene("OwnerCabinet");
+            reload();
+
+            System.out.println(cabinetMarker + " : Vsyo eshe tam!");
+
 
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -296,11 +301,15 @@ public class Controller implements Initializable, MapComponentInitializedListene
                 //dataAccess.addOwner(owner);
                 int oid = dataAccess.getPersonId(person.getEmail(), person.getPassword());
                 dataAccess.addOwner(oid, 0.0);
-                a.changeScene("OwnerCabinet");
+                cabinetMarker = oid;
+                reload();
+                //a.changeScene("OwnerCabinet");
             } else {
                 int rid = dataAccess.getPersonId(person.getEmail(), person.getPassword());
+                cabinetMarker = rid;
                 dataAccess.addRenter(rid, 0.0);
-                a.changeScene("RenterCabinet");
+                reload();
+                //a.changeScene("RenterCabinet");
             }
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -340,8 +349,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
 //            incomingFacility = facility.getText();
             incomingFacility = (String) (facilit.getValue().toString());
             System.out.println(incomingFacility);
-        }
-        else{
+        } else {
             System.out.println("EMPTY");
         }
 
@@ -477,6 +485,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
         if (sel == 0) {
             System.out.println("Please select a reciever");
+            warning.setText("Select a row in a history to talk about it");
         } else {
             Main main = new Main();
             try {
@@ -508,19 +517,18 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void rate(ActionEvent actionEvent) throws SQLException {
-        if(selectedApartmentID==0){
+        if (selectedApartmentID == 0) {
             warning.setText("Select an apartment for rating");
             System.out.println("Select an apartment for rating");
-        }
-        else {
+        } else {
             try {
                 Double incomingRating = Double.parseDouble(rating.getValue().toString());
-                warning.setText("8946");
                 //dataAccess.addApartmentRate(incomingRating,sel,cabinetMarker);
                 System.out.println(selectedApartmentID);
                 dataAccess.addApartmentRate(incomingRating, selectedApartmentID, cabinetMarker);
             } catch (SQLException e) {
-                System.out.println("You have already rated this apartment. ");
+                //System.out.println("You have already rated this apartment. ");
+                warning.setText("You have already rated this apartment. ");
             }
 
             //Check for getting average rating. Works
@@ -530,16 +538,16 @@ public class Controller implements Initializable, MapComponentInitializedListene
     }
 
     public void rateRenter(ActionEvent actionEvent) throws SQLException {
-        if(sel==0){
+        if (sel == 0) {
             warning.setText("Select user for rating!");
-            System.out.println("Select user for rating!");
-        }
-        else {
+            //System.out.println("Select user for rating!");
+        } else {
             try {
                 Double incomingRating = Double.parseDouble(ratin.getValue().toString());
                 dataAccess.addRenterRate(incomingRating, sel, cabinetMarker);
             } catch (SQLException e) {
-                System.out.println("You have already rated this renter. ");
+                warning.setText("You have already rated this renter. ");
+                //System.out.println("You have already rated this renter. ");
             }
         }
     }
@@ -554,5 +562,34 @@ public class Controller implements Initializable, MapComponentInitializedListene
         listMsg.setItems(messages);
     }
 
+
+    public void reload() throws IOException {
+        List<Apartment> listap;
+        Hashtable<Integer, String> person = new Hashtable<Integer, String>();
+        try {
+            Main main = new Main();
+            try {
+
+                //person = dataAccess.getPerson(logi, pass);
+
+                int oid = cabinetMarker;
+                person = dataAccess.getPersonById(oid);
+                main.changeScene("OwnerCabinet");
+                String name = person.get(oid);
+                username.setText(name);
+                listap = dataAccess.findRenterById(oid);
+                apartmentsCollection = FXCollections.observableArrayList(listap);
+                historyRenter.setItems(apartmentsCollection);
+            } catch(Exception e2){
+            e2.printStackTrace();
+        }
+
+
+        } catch (Exception e3) {
+
+        }
+
+
+}
 
 }
