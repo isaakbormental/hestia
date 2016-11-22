@@ -403,6 +403,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
    }
 
 
+
+
     public void sendMessage(ActionEvent actionEvent) throws SQLException {
         String incomingMessage = inputMsg.getText();
         int msgNumber = messages.size()+1;
