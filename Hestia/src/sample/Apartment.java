@@ -157,8 +157,8 @@ public class Apartment {
         this.oid.set(oid);
     }
 
-    private void setNameOwner(String nameOwner) {
-        this.nameOwner.set(nameOwner);
+    private void setNameOwner(String nameOwn) {
+        this.nameOwner.set(nameOwn);
     }
 
     public String getLocation() {

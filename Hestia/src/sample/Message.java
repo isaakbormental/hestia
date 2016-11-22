@@ -13,7 +13,7 @@ import java.util.SimpleTimeZone;
 /**
  * Created by Hestia Team on 11/20/2016.
  */
-class Message {
+public class Message {
 
 
     private final SimpleIntegerProperty sender_id=new SimpleIntegerProperty();

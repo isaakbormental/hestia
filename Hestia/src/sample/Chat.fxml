@@ -27,7 +27,7 @@
                     </tabs>
 
                 </TabPane>
-                <TableView fx:id="listMsg" maxHeight="1.7976931348623157E308" prefHeight="500.0" prefWidth="300" style="-fx-background-color: #FFFFFF;" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                <TableView  maxHeight="1.7976931348623157E308" prefHeight="500.0" prefWidth="300" style="-fx-background-color: #FFFFFF;" GridPane.columnIndex="0" GridPane.rowIndex="4">
                     <columns>
                         <TableColumn prefWidth="300.0" text="Hestia Chat">
                             <cellValueFactory>

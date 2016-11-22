@@ -430,6 +430,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     public void sendMessage(ActionEvent actionEvent) throws SQLException {
         String incomingMessage = inputMsg.getText();
         int msgNumber = messages.size() + 1;
+
         dataAccess.addMessage(incomingMessage, sel, cabinetMarker, msgNumber);
         List<Message> msgs = dataAccess.findMsgs(cabinetMarker, sel);
         messages = FXCollections.observableArrayList(msgs);
@@ -438,24 +439,26 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     }
 
-    public void showPersonEditDialog(ActionEvent event) {
+    public void showPersonEditDialog(ActionEvent event)throws SQLException {
+        Main main=new Main();
         try {
             // Load the fxml file and create a new stage for the popup
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("messagesOwner.fxml"));
-            Controller controller = new Controller(dataAccess);
-            loader.setController(controller);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("messagesOwner.fxml"));
+           // Controller controller = new Controller(dataAccess);
+            loader.setController(this);
             GridPane page = (GridPane) loader.load();
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle("Message");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            //  dialogStage.initOwner(primaryStage);
+
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
             // Set the person into the controller
-            controller = loader.getController();
-            controller.setDialogStage(dialogStage);
+          // controller = loader.getController();
+            this.setDialogStage(dialogStage);
+            this.initTable();
             // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
+            dialogStage.show();
 
         } catch (IOException e) {
             // Exception gets thrown if the fxml file could not be loaded
@@ -466,5 +469,10 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+    }
+    public void initTable() throws SQLException {
+        List<Message> msgs = dataAccess.findMsgs(cabinetMarker,sel);
+        messages = FXCollections.observableArrayList(msgs);
+        listMsg.setItems(messages);
     }
 }
