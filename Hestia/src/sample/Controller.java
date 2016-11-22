@@ -73,7 +73,11 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML
     TextField location;
     @FXML
-    TextField distance;
+    TextField facility;
+    @FXML
+    Label distvalue;
+    @FXML
+    Slider distance;
     @FXML
     TextField numOfAp;
     @FXML
@@ -132,7 +136,6 @@ public class Controller implements Initializable, MapComponentInitializedListene
             e.printStackTrace();
         }
     }
-
 
     public double round3(double number) {
         number = Math.round(number * 1000);
@@ -312,10 +315,13 @@ public class Controller implements Initializable, MapComponentInitializedListene
         int siz = -1;
         if(!size.getText().equals("")){siz = Integer.parseInt(size.getText());}
 
-        int dis = -1;
-        if(!distance.getText().equals("")){dis = Integer.parseInt(distance.getText());}
+        double dis = -1;
+        if(!distance.equals(null)){dis = distance.getValue();}
 
-        listap = dataAccess.getApartment(loc, pri, siz, dis);
+        String fac = "default";
+        if(!facility.getText().equals("")){fac = facility.getText();}
+
+        listap = dataAccess.getApartment(loc, pri, siz, dis, fac);
         System.out.println(listap.size());
         apartmentsCollection = FXCollections.observableArrayList(listap);
         listHouse.setItems(apartmentsCollection);
