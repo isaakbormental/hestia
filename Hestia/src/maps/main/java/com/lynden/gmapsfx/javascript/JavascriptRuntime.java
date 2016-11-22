@@ -26,9 +26,9 @@ import netscape.javascript.JSObject;
  */
 public class JavascriptRuntime implements IJavascriptRuntime {
 
-    protected static IJavascriptRuntime runtime = null;
+    private static IJavascriptRuntime runtime = null;
 
-    public static IWebEngine engine;
+    private static IWebEngine engine;
 
     /**
      * Gets a singleton instance of this class, creating one if it doesn't yet
@@ -169,7 +169,7 @@ public class JavascriptRuntime implements IJavascriptRuntime {
      * @param arg The object to convert
      * @return A String representation of the argument.
      */
-    protected String getArgString(Object arg) {
+    private String getArgString(Object arg) {
         //if (arg instanceof LatLong) {
         //    return ((LatLong) arg).getVariableName();
         //} else 

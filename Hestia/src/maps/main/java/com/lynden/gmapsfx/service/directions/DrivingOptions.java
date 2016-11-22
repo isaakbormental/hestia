@@ -24,13 +24,13 @@ import java.util.Date;
  *
  * @author Andre
  */
-public class DrivingOptions extends JavascriptObject{
+class DrivingOptions extends JavascriptObject{
     
     public DrivingOptions(Date departureTime){
         this(departureTime, TrafficModel.BEST_GUESS);
     }
     
-    public DrivingOptions(Date departureTime, TrafficModel trafficModel){
+    private DrivingOptions(Date departureTime, TrafficModel trafficModel){
         super(GMapObjectType.DIRECTIONS_OPTIONS);
         
         getJSObject().setMember("departureTime", departureTime);

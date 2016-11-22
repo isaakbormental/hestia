@@ -24,18 +24,18 @@ import maps.main.java.com.lynden.gmapsfx.javascript.*;
  */
 public class MapOptions extends JavascriptObject {
     
-    protected LatLong center;
-    protected MapTypeIdEnum mapType;
+    private LatLong center;
+    private MapTypeIdEnum mapType;
 //    protected boolean mapMarker;
-    protected boolean mapMaker;
-    protected boolean overviewMapControl;
-    protected boolean panControl;
-    protected boolean rotateControl;
-    protected boolean scaleControl;
-    protected boolean streetViewControl;
-    protected int zoom;
-    protected boolean zoomControl;
-    protected boolean mapTypeControl;
+private boolean mapMaker;
+    private boolean overviewMapControl;
+    private boolean panControl;
+    private boolean rotateControl;
+    private boolean scaleControl;
+    private boolean streetViewControl;
+    private int zoom;
+    private boolean zoomControl;
+    private boolean mapTypeControl;
     
     private String styleString;
     

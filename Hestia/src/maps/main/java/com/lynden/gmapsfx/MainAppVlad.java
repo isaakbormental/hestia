@@ -17,8 +17,8 @@ import netscape.javascript.JSObject;
 
 public class MainAppVlad extends Application implements MapComponentInitializedListener {
 
-    GoogleMapView mapView;
-    GoogleMap map;
+    private GoogleMapView mapView;
+    private GoogleMap map;
 
     @Override
     public void start(Stage stage) throws Exception {

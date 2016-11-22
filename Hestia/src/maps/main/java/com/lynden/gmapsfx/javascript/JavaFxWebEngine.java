@@ -21,7 +21,7 @@ import javafx.scene.web.WebEvent;
 public class JavaFxWebEngine implements IWebEngine {
     
     
-    protected WebEngine webEngine;
+    private WebEngine webEngine;
     
     /**
      * Builds a new engine utilizing the specified JavaFX WebEngine

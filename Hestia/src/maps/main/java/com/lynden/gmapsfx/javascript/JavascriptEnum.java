@@ -23,10 +23,10 @@ import netscape.javascript.JSObject;
  */
 public class JavascriptEnum  {
 
-    protected IJavascriptRuntime runtime;
-    protected String type;
-    protected String name;
-    protected Object value;
+    private IJavascriptRuntime runtime;
+    private String type;
+    private String name;
+    private Object value;
 
     
     protected JavascriptEnum(String type, String name) {
@@ -48,7 +48,7 @@ public class JavascriptEnum  {
         return type;
     }
 
-    public String getName() {
+    protected String getName() {
         return name;
     }
     

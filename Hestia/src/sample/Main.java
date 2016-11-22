@@ -14,11 +14,11 @@ import java.io.IOException;
 
 public class Main extends Application implements MapComponentInitializedListener {
 
-    public static Stage theStage;
-    public static DataAccess dataAccess;
-    public static Controller controller;
+    private static Stage theStage;
+    private static DataAccess dataAccess;
+    private static Controller controller;
     private Apartment selected;
-    int selectedUser;
+    private int selectedUser;
 
 
     @Override
@@ -94,7 +94,7 @@ public class Main extends Application implements MapComponentInitializedListener
         }
         else if(arg.equals("Chat")){
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("messagesOwner.fxml"));
             loader.setController(controller);
             root = loader.load();
             theStage.setTitle("Chat");
@@ -113,7 +113,7 @@ public class Main extends Application implements MapComponentInitializedListener
 
     }
 
-    public void printApInfo(Object object){
+    private void printApInfo(Object object){
         selected = (Apartment) object;
         System.out.println();
         System.out.println("You have selected: ");

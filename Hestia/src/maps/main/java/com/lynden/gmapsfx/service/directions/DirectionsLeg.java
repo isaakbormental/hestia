@@ -61,7 +61,7 @@ public class DirectionsLeg extends JavascriptObject{
         return null;
     }
     
-    public Duration getDuration(){
+    private Duration getDuration(){
         try{
             JSObject duration = (JSObject) getJSObject().getMember("duration");
             return new Duration(duration);
@@ -91,7 +91,7 @@ public class DirectionsLeg extends JavascriptObject{
         return null;
     }
     
-    public String getStartAddress(){
+    private String getStartAddress(){
         try {
             JSObject location = (JSObject) getJSObject().getMember("start_address");
             return location.toString();
@@ -101,7 +101,7 @@ public class DirectionsLeg extends JavascriptObject{
         return null;
     }
     
-    public String getEndAddress(){
+    private String getEndAddress(){
         try {
             JSObject location = (JSObject) getJSObject().getMember("end_address");
             return location.toString();

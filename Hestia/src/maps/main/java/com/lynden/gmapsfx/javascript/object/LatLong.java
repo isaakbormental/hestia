@@ -29,7 +29,7 @@ import netscape.javascript.JSObject;
  */
 public class LatLong extends JavascriptObject {
 
-    public static final double EarthRadiusMeters = 6378137.0; // meters
+    private static final double EarthRadiusMeters = 6378137.0; // meters
 
 
     public LatLong(double latitude, double longitude) {
@@ -75,7 +75,7 @@ public class LatLong extends JavascriptObject {
      *
      * @return The latitude value of this LatLong, as radians.
      */
-    public double latToRadians() {
+    private double latToRadians() {
         return Math.toRadians(getLatitude());
     }
 
@@ -84,7 +84,7 @@ public class LatLong extends JavascriptObject {
      *
      * @return The longitude of this LatLong, as radians.
      */
-    public double longToRadians() {
+    private double longToRadians() {
         return Math.toRadians(getLongitude());
     }
 

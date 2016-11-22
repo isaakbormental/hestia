@@ -31,7 +31,7 @@ import netscape.javascript.JSObject;
  *
  * @author jlstephens89
  */
-public class GeocoderAddressComponent extends JavascriptObject {
+class GeocoderAddressComponent extends JavascriptObject {
 
 //    private final List<String> postcodeLocalities = new ArrayList<>();
     public GeocoderAddressComponent() {
@@ -45,21 +45,21 @@ public class GeocoderAddressComponent extends JavascriptObject {
     /**
      * @return the shortName
      */
-    public String getShortName() {
+    private String getShortName() {
         return getJSObject().getMember("short_name").toString();
     }
 
     /**
      * @return the longName
      */
-    public String getLongName() {
+    private String getLongName() {
         return getJSObject().getMember("long_name").toString();
     }
 
     /**
      * @return the types
      */
-    public List<GeocoderAddressComponentType> getTypes() {
+    private List<GeocoderAddressComponentType> getTypes() {
         JSObject jsType = (JSObject) getJSObject().getMember("types");
         return GeocoderUtils.convertJSObjectToListOfEnum(jsType, GeocoderAddressComponentType.class);
     }
@@ -67,7 +67,7 @@ public class GeocoderAddressComponent extends JavascriptObject {
     /**
      * @return the postcodeLocalities
      */
-    public List<String> getPostcodeLocalities() {
+    private List<String> getPostcodeLocalities() {
         final List<String> result = new ArrayList<>();
         try {
             if (!(jsObject.getMember("postcode_localities") instanceof String)) {

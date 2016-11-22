@@ -9,6 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import maps.main.java.com.lynden.gmapsfx.GoogleMapView;
@@ -40,6 +43,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     private Marker myMarker;
     private int cabinetMarker = 0;
     int sel=0;
+    private Stage dialogStage;
 
 
     public Controller(DataAccess dataAccess) {
@@ -268,7 +272,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
         Main main = new Main();
         String loc=location.getText();
         double pri=Double.parseDouble(price.getText());
-        double siz=Double.parseDouble(price.getText());
+        double siz=Double.parseDouble(size.getText());
 
            if (distance.getText().isEmpty()!=true){
                double dis=Double.parseDouble(distance.getText());
@@ -391,7 +395,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
        Main main=new Main();
        try {
-           main.changeScene("Regitration");
+           main.changeScene("Registration");
        } catch (IOException e) {
            e.printStackTrace();
        }
@@ -408,5 +412,34 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
         listMsg.setItems(messages);
 
+    }
+
+    public void showPersonEditDialog(ActionEvent event) {
+        try {
+            // Load the fxml file and create a new stage for the popup
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("messagesOwner.fxml"));
+            Controller controller=new Controller(dataAccess);
+            loader.setController(controller);
+            GridPane page = (GridPane) loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+          //  dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+           // Set the person into the controller
+            controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            // Exception gets thrown if the fxml file could not be loaded
+            e.printStackTrace();
+
+        }
+    }
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
     }
 }

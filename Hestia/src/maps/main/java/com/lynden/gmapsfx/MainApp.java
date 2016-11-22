@@ -30,9 +30,9 @@ import static javafx.application.Application.launch;
 public class MainApp extends Application implements MapComponentInitializedListener,
         ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback {
 
-    protected GoogleMapView mapComponent;
-    protected GoogleMap map;
-    protected DirectionsPane directions;
+    private GoogleMapView mapComponent;
+    private GoogleMap map;
+    private DirectionsPane directions;
 
     private Button btnZoomIn;
     private Button btnZoomOut;
@@ -104,7 +104,7 @@ public class MainApp extends Application implements MapComponentInitializedListe
         stage.show();
     }
 
-    DirectionsRenderer renderer;
+    private DirectionsRenderer renderer;
     
     @Override
     public void mapInitialized() {

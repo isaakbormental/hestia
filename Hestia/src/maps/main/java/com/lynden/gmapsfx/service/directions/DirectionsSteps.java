@@ -31,7 +31,7 @@ import netscape.javascript.JSObject;
  *
  * @author Andre
  */
-public class DirectionsSteps extends JavascriptObject{
+class DirectionsSteps extends JavascriptObject{
 
     public DirectionsSteps() {
         super(GMapObjectType.DIRECTIONS_STEP);

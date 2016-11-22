@@ -13,7 +13,7 @@ import maps.main.java.com.lynden.gmapsfx.javascript.object.*;
  *
  * @author Geoff Capper
  */
-public class PathElevationRequest extends JavascriptObject {
+class PathElevationRequest extends JavascriptObject {
     
     public PathElevationRequest() {
         super(GMapObjectType.OBJECT);

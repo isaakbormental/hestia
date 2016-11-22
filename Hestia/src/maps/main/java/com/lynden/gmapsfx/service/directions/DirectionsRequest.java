@@ -23,7 +23,7 @@ import maps.main.java.com.lynden.gmapsfx.javascript.object.*;
  * @author Andre
  */
 public class DirectionsRequest extends JavascriptObject{
-    static boolean opt = true;
+    private static boolean opt = true;
 
     public void setOpt(boolean opt) {
         this.opt = opt;
@@ -67,13 +67,13 @@ public class DirectionsRequest extends JavascriptObject{
         this(addressOrigin, null, addressDestination, null, travelModes, null, waypoints);
     }
     
-    public DirectionsRequest(String addressOrigin, LatLong latLongOrigin, 
-            String addressDestination, LatLong latLongDestination, 
-            TravelModes travelmode, 
-            // transit options
-            DrivingOptions drivingOptions,
-            //unit system
-            DirectionsWaypoint[] waypoints){
+    private DirectionsRequest(String addressOrigin, LatLong latLongOrigin,
+                              String addressDestination, LatLong latLongDestination,
+                              TravelModes travelmode,
+                              // transit options
+                              DrivingOptions drivingOptions,
+                              //unit system
+                              DirectionsWaypoint[] waypoints){
         super(GMapObjectType.DIRECTIONS_REQUESTS, convertToJavascriptString(addressOrigin, latLongOrigin, addressDestination, latLongDestination, travelmode, drivingOptions, waypoints));
 //        
 //        if(addressOrigin != null)getJSObject().setMember("origin", addressOrigin);

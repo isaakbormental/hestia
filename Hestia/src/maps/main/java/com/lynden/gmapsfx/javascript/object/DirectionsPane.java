@@ -33,7 +33,7 @@ public class DirectionsPane extends JavascriptObject{
     private boolean userPromptedZoomChange;
     private boolean mapPromptedZoomChange;
     protected MapOptions options;
-    protected static String divArg = "document.getElementById('directions')";
+    private static String divArg = "document.getElementById('directions')";
 
     private ReadOnlyObjectWrapper<LatLong> center;
     private IntegerProperty zoom;
@@ -53,7 +53,7 @@ public class DirectionsPane extends JavascriptObject{
         zoomProperty().set(zoom);
     }
 
-    public int getZoom() {
+    private int getZoom() {
         return zoomProperty().get();
     }
 
@@ -65,7 +65,7 @@ public class DirectionsPane extends JavascriptObject{
         invokeJavascript("setZoom", zoom);
     }
 
-    public IntegerProperty zoomProperty() {
+    private IntegerProperty zoomProperty() {
         if (zoom == null) {
             zoom = new SimpleIntegerProperty(internalGetZoom());
             addStateEventHandler(MapStateEventType.zoom_changed, () -> {
@@ -109,7 +109,7 @@ public class DirectionsPane extends JavascriptObject{
         return center.getReadOnlyProperty();
     }
 
-    public LatLong getCenter() {
+    private LatLong getCenter() {
         return new LatLong((JSObject) invokeJavascript("getCenter"));
     }
     
@@ -135,7 +135,7 @@ public class DirectionsPane extends JavascriptObject{
         shape.setMap(null);
     }
 
-    public Projection getProjection() {
+    private Projection getProjection() {
         Object obj = invokeJavascript("getProjection");
         return (obj == null) ? null : new Projection((JSObject) obj);
     }
@@ -147,7 +147,7 @@ public class DirectionsPane extends JavascriptObject{
      *
      * @return
      */
-    public LatLongBounds getBounds() {
+    private LatLongBounds getBounds() {
         return invokeJavascriptReturnValue("getBounds", LatLongBounds.class);
     }
 
@@ -230,7 +230,7 @@ public class DirectionsPane extends JavascriptObject{
      * @param type Type of the event to register against.
      * @param h Handler that will be called when the event occurs.
      */
-    public void addUIEventHandler(JavascriptObject obj, UIEventType type, UIEventHandler h) {
+    private void addUIEventHandler(JavascriptObject obj, UIEventType type, UIEventHandler h) {
         String key = registerEventHandler(h);
         String mcall = "google.maps.event.addListener(" + obj.getVariableName() + ", '" + type.name() + "', "
                 + "function(event) {document.jsHandlers.handleUIEvent('" + key + "', event);});";//.latLng
@@ -249,7 +249,7 @@ public class DirectionsPane extends JavascriptObject{
      * @param type Type of the event to register against.
      * @param h Handler that will be called when the event occurs.
      */
-    public void addStateEventHandler(MapStateEventType type, StateEventHandler h) {
+    private void addStateEventHandler(MapStateEventType type, StateEventHandler h) {
         String key = registerEventHandler(h);
         String mcall = "google.maps.event.addListener(" + getVariableName() + ", '" + type.name() + "', "
                 + "function() {document.jsHandlers.handleStateEvent('" + key + "');});";

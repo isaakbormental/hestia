@@ -50,11 +50,11 @@ public class GeocodingResult extends JavascriptObject {
         return getJSObject().getMember("formatted_address").toString();
     }
 
-    public String getPlaceId() {
+    private String getPlaceId() {
         return getJSObject().getMember("place_id").toString();
     }
 
-    public Boolean isPartialMatch() {
+    private Boolean isPartialMatch() {
         Boolean result = null;
         String text = getJSObject().getMember("partial_match").toString();
         try {
@@ -77,7 +77,7 @@ public class GeocodingResult extends JavascriptObject {
         return result;
     }
 
-    public List<GeocoderAddressComponent> getAddressComponents() {
+    private List<GeocoderAddressComponent> getAddressComponents() {
         final List<GeocoderAddressComponent> components = new ArrayList<>();
         JSObject componentArray = (JSObject) getJSObject().getMember("address_components");
         List<JSObject> jsObjectsFromArray = GeocoderUtils.getJSObjectsFromArray(componentArray);
@@ -87,12 +87,12 @@ public class GeocodingResult extends JavascriptObject {
         return components;
     }
 
-    public List<GeocoderAddressComponentType> getTypes() {
+    private List<GeocoderAddressComponentType> getTypes() {
         JSObject jsTypes = (JSObject) getJSObject().getMember("types");
         return GeocoderUtils.convertJSObjectToListOfEnum(jsTypes, GeocoderAddressComponentType.class);
     }
 
-    public GeocoderGeometry getGeometry() {
+    private GeocoderGeometry getGeometry() {
         try {
             JSObject geometry = (JSObject) getJSObject().getMember("geometry");
             return new GeocoderGeometry((JSObject) geometry);

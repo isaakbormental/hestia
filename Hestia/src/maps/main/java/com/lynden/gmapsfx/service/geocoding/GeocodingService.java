@@ -25,7 +25,7 @@ import netscape.javascript.JSObject;
  * @author Rob Terpilowski
  */
 public class GeocodingService extends JavascriptObject {
-    public GeocodingServiceCallback callback;
+    private GeocodingServiceCallback callback;
     
     public GeocodingService(){
         super(GMapObjectType.GEOCODER);
@@ -39,7 +39,7 @@ public class GeocodingService extends JavascriptObject {
         this.getGeocoding(new GeocoderRequest(address), callback);
     }
     
-    public void getGeocoding(GeocoderRequest req, GeocodingServiceCallback callback){
+    private void getGeocoding(GeocoderRequest req, GeocodingServiceCallback callback){
         this.callback = callback;
         
         JSObject doc = (JSObject) getJSObject().eval("document");

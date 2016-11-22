@@ -24,8 +24,8 @@ import netscape.javascript.JSObject;
  * @author Andre
  */
 public class DirectionsService extends JavascriptObject{
-    public DirectionsServiceCallback callback;
-    public DirectionsRenderer renderer;
+    private DirectionsServiceCallback callback;
+    private DirectionsRenderer renderer;
     
     public DirectionsService(){
         super(GMapObjectType.DIRECTIONS_SERVICE);

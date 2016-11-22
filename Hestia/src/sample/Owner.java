@@ -31,7 +31,7 @@ public class Owner extends Person{
         return oid.get();
     }
 
-    public void setOid(int oid) {
+    private void setOid(int oid) {
         this.oid.set(oid);
     }
 
@@ -39,7 +39,7 @@ public class Owner extends Person{
         return rating.get();
     }
 
-    public void setRating(double rating) {
+    private void setRating(double rating) {
         this.rating.set(rating);
     }
 

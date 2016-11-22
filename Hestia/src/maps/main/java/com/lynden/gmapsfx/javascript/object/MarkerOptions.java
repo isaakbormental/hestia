@@ -24,9 +24,9 @@ import maps.main.java.com.lynden.gmapsfx.javascript.*;
  */
 public class MarkerOptions extends JavascriptObject {
     
-    protected LatLong position;
-    protected String title;
-    protected boolean visible = true;
+    private LatLong position;
+    private String title;
+    private boolean visible = true;
     protected String icon;
     protected Animation animation;
     //protected String label;

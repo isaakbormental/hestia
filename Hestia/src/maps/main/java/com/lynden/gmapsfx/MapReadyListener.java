@@ -24,7 +24,7 @@ package maps.main.java.com.lynden.gmapsfx;
  *
  * @author Geoff Capper
  */
-public interface MapReadyListener {
+interface MapReadyListener {
     
     public void mapReady();
     

@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author robt
  */
-public class JavascriptFunction extends JavascriptObject {
+class JavascriptFunction extends JavascriptObject {
 
     /**
      * Attempt to create a function as an object
@@ -29,9 +29,9 @@ public class JavascriptFunction extends JavascriptObject {
      * var myCallback = function( argX ) { someVariable.someMethod( argX );
      * someOtherVariable.someOtherMethod(); }
      */
-    protected String functionName;
-    protected List<String> args;
-    protected List<JavascriptFunctionLine> functionLines;
+    private String functionName;
+    private List<String> args;
+    private List<JavascriptFunctionLine> functionLines;
 
     public JavascriptFunction(String functionName, List<String> args, List<JavascriptFunctionLine> functionLines) {
         this.functionName = functionName;

@@ -13,7 +13,7 @@ import java.util.SimpleTimeZone;
 /**
  * Created by Hestia Team on 11/20/2016.
  */
-public class Message {
+class Message {
 
 
     private final SimpleIntegerProperty sender_id=new SimpleIntegerProperty();
@@ -47,7 +47,7 @@ public class Message {
         return sender_id;
     }
 
-    public void setSender_id(int sender_id) {
+    private void setSender_id(int sender_id) {
         this.sender_id.set(sender_id);
     }
 
@@ -59,7 +59,7 @@ public class Message {
         return reciever_id;
     }
 
-    public void setReciever_id(int reciever_id) {
+    private void setReciever_id(int reciever_id) {
         this.reciever_id.set(reciever_id);
     }
 
@@ -75,14 +75,14 @@ public class Message {
         return message;
     }
 
-    public void setMessage(String message) {
+    private void setMessage(String message) {
         this.message.set(message);
     }
 
     public Time getTime() {
         return time;
     }
-    public void setDate(Date data){
+    private void setDate(Date data){
         this.date = data;
     }
 
@@ -94,7 +94,7 @@ public class Message {
         return lnamesender;
     }
 
-    public void setLnamesender(String lnamesender) {
+    private void setLnamesender(String lnamesender) {
         this.lnamesender.set(lnamesender);
     }
 
@@ -106,7 +106,7 @@ public class Message {
         return fnamesender;
     }
 
-    public void setFnamesender(String fnamesender) {
+    private void setFnamesender(String fnamesender) {
         this.fnamesender.set(fnamesender);
     }
 }

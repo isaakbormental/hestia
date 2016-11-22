@@ -30,7 +30,7 @@ import netscape.javascript.JSObject;
  *
  * @author Andre
  */
-public class DirectionsGeocodedWaypoint extends JavascriptObject{
+class DirectionsGeocodedWaypoint extends JavascriptObject{
     
     public DirectionsGeocodedWaypoint() {
         super(GMapObjectType.DIRECTIONS_GEOCODED_WAYPOINT);

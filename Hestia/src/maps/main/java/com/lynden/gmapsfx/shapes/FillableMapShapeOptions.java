@@ -27,7 +27,7 @@ public abstract class FillableMapShapeOptions<T extends FillableMapShapeOptions>
     private double fillOpacity;
     private StrokePosition strokePosition;
     
-    public FillableMapShapeOptions() {
+    FillableMapShapeOptions() {
     }
     
     public T fillColor(String fillColor) {

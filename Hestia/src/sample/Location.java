@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 /**
  * Created by Владислав on 11.11.2016.
  */
-public class Location {
+class Location {
 
     private final SimpleIntegerProperty lid = new SimpleIntegerProperty();
     private final SimpleStringProperty city = new SimpleStringProperty("");
@@ -25,7 +25,7 @@ public class Location {
         return lid.get();
     }
 
-    public void setLid(int lid) {
+    private void setLid(int lid) {
         this.lid.set(lid);
     }
 
@@ -33,7 +33,7 @@ public class Location {
         return city.get();
     }
 
-    public void setCity(String city) {
+    private void setCity(String city) {
         this.city.set(city);
     }
 
@@ -41,7 +41,7 @@ public class Location {
         return district.get();
     }
 
-    public void setDistrict(String district) {
+    private void setDistrict(String district) {
         this.district.set(district);
     }
 
@@ -49,7 +49,7 @@ public class Location {
         return crime_rate.get();
     }
 
-    public void setCrime_rate(double crime_rate) {
+    private void setCrime_rate(double crime_rate) {
         this.crime_rate.set(crime_rate);
     }
 }

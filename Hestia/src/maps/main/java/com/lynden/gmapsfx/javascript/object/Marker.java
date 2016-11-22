@@ -26,7 +26,7 @@ import maps.main.java.com.lynden.gmapsfx.javascript.*;
 public class Marker extends JavascriptObject {
 
 
-    protected String title;
+    private String title;
     
     
     /**
@@ -53,7 +53,7 @@ public class Marker extends JavascriptObject {
      *
      * @param map The map to add this Marker to.
      */
-    protected void setMap( GoogleMap map ) {
+    void setMap(GoogleMap map) {
         invokeJavascript("setMap", map);
     }
     

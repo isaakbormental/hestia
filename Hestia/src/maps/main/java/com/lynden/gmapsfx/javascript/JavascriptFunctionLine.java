@@ -23,12 +23,12 @@ import netscape.javascript.JSObject;
  *
  * @author robt
  */
-public class JavascriptFunctionLine {
+class JavascriptFunctionLine {
     
     protected JSObject jsObject;
-    protected JavascriptObject object;
-    protected String method;
-    protected List<Object> args;
+    private JavascriptObject object;
+    private String method;
+    private List<Object> args;
 
     public JavascriptFunctionLine(JavascriptObject object, String method, List<Object> args) {
         this.object = object;

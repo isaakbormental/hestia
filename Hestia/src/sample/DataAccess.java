@@ -5,6 +5,8 @@ package sample;
  * Created by Владислав on 26.10.2016.
  */
 
+import javafx.fxml.FXML;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class DataAccess {
         this.dataSource = dataSource;
     }
 
-    public Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
@@ -115,7 +117,7 @@ public class DataAccess {
      * @return
      * @throws SQLException
      */
-    public List<Integer> getIdApartementrented(int idRenter) throws SQLException {
+    private List<Integer> getIdApartementrented(int idRenter) throws SQLException {
         List<Integer> list = new ArrayList<>();
         try (Connection con = getConnection();
              PreparedStatement stm = con.prepareStatement("SELECT A.apart_id FROM renter_apart A WHERE  A.renter_id=?")) {
@@ -368,12 +370,12 @@ public class DataAccess {
         List<Apartment> list=new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement stm = connection.prepareStatement("SELECT DISTINCT A.size,A.price,A.num_of_rooms,L.district,L.city,L.crime_rating FROM" +
-                     " apartment A NATURAL JOIN building B NATURAL JOIN location L , institution I WHERE A.buildin_id=B.building_id and B.lid=L.location_id and A.price<5000 AND L.city='Kazan' and A.size>50" +
-                     "and |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <=100 and I.location_id=L.location_id" )) {
-           /* stm.setDouble(1, price);
+                     " apartment A NATURAL JOIN building B NATURAL JOIN location L , institution I WHERE A.buildin_id=B.building_id and B.lid=L.location_id and A.price<? AND L.city=? and A.size>?" +
+                     "and |/((B.longitude - I.longitude)*(B.longitude - I.longitude) + (B.latitude - I.latitude)*(B.latitude - I.latitude)) <=? and I.location_id=L.location_id" )) {
+            stm.setDouble(1, price);
             stm.setString(2, location);
             stm.setDouble(3, size);
-            stm.setDouble(4, distance);*/
+            stm.setDouble(4, distance);
             try {
                 ResultSet res = stm.executeQuery();
                // System.out.print(stm.execute());

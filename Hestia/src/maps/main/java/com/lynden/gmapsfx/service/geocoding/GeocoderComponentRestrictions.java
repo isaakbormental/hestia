@@ -26,7 +26,7 @@ import maps.main.java.com.lynden.gmapsfx.javascript.object.*;
  *
  * @author jlstephens89
  */
-public class GeocoderComponentRestrictions extends JavascriptObject {
+class GeocoderComponentRestrictions extends JavascriptObject {
     
     public GeocoderComponentRestrictions(String administrativeArea, String country,
             String locality, String postalCode, String route){
@@ -35,8 +35,8 @@ public class GeocoderComponentRestrictions extends JavascriptObject {
                         postalCode, route));
     }
     
-    public static String buildJavascriptString(String administrativeArea, String country,
-            String locality, String postalCode, String route){
+    private static String buildJavascriptString(String administrativeArea, String country,
+                                                String locality, String postalCode, String route){
         StringBuilder builder = new StringBuilder();
         builder.append("{");
         if(administrativeArea != null){

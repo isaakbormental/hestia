@@ -20,7 +20,7 @@ package maps.main.java.com.lynden.gmapsfx;
  *
  * @author Rob Terpilowski
  */
-public class MapNotInitializedException extends RuntimeException {
+class MapNotInitializedException extends RuntimeException {
 
     public MapNotInitializedException() {
         super( "Map has not yet been initialized");

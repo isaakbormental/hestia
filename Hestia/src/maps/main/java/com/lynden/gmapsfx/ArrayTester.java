@@ -33,10 +33,10 @@ import netscape.javascript.JSObject;
  *
  * @author Geoff Capper
  */
-public class ArrayTester extends Application {
+class ArrayTester extends Application {
     
-    protected WebView webview;
-    protected JavaFxWebEngine webengine;
+    private WebView webview;
+    private JavaFxWebEngine webengine;
     
     @Override
     public void start(final Stage stage) throws Exception {

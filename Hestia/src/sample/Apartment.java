@@ -113,51 +113,51 @@ public class Apartment {
     public double getPrice() {
         return price.get();
     }
-    public void setOwner(Person owner) {
+    private void setOwner(Person owner) {
         this.owner=owner;
     }
 
-    public void setDescription(String desc) {
+    private void setDescription(String desc) {
         this.description.set(desc);
     }
 
-    public void setNumberRoom(int numberRoom) {
+    private void setNumberRoom(int numberRoom) {
         this.numberRoom.set(numberRoom);
     }
 
-    public void setSize(double size) {
+    private void setSize(double size) {
         this.size.set(size);
     }
-    public void setLoanduration(String dura){
+    private void setLoanduration(String dura){
         this.loanduration.set(dura);
     }
 
-    public void setPrice(double price) {
+    private void setPrice(double price) {
         this.price.set(price);
     }
 
     public int getAid() {
         return aid.get();
     }
-    public void setAid(int aid) {
+    private void setAid(int aid) {
         this.aid.set(aid);
     }
 
     public int getBid() {
         return bid.get();
     }
-    public void setBid(int bid) {
+    private void setBid(int bid) {
         this.bid.set(bid);
     }
 
     public int getOid() {
         return oid.get();
     }
-    public void setOid(int oid) {
+    private void setOid(int oid) {
         this.oid.set(oid);
     }
 
-    public void setNameOwner(String nameOwner) {
+    private void setNameOwner(String nameOwner) {
         this.nameOwner.set(nameOwner);
     }
 
@@ -169,7 +169,7 @@ public class Apartment {
         return location;
     }
 
-    public void setLocation(String location) {
+    private void setLocation(String location) {
         this.location.set(location);
     }
 

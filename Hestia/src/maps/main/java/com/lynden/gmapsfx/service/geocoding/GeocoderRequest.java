@@ -26,7 +26,7 @@ import maps.main.java.com.lynden.gmapsfx.javascript.object.*;
  *
  * @author jlstephens89
  */
-public class GeocoderRequest extends JavascriptObject {
+class GeocoderRequest extends JavascriptObject {
 
     public GeocoderRequest(String address) {
         this(address, null, null,null,null, null);
@@ -84,7 +84,7 @@ public class GeocoderRequest extends JavascriptObject {
     /**
      * @return the address
      */
-    public String getAddress() {
+    private String getAddress() {
         return invokeJavascriptReturnValue("address", String.class);
     }
 

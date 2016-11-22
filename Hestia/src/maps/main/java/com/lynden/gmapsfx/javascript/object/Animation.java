@@ -25,7 +25,7 @@ public enum Animation {
     BOUNCE("google.maps.Animation.BOUNCE"),
     DROP("google.maps.Animation.DROP");
 
-    protected String typeString;
+    private String typeString;
 
     Animation(String typeString) {
         this.typeString = typeString;

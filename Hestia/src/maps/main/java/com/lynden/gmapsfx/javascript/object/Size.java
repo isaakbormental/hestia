@@ -24,12 +24,12 @@ import maps.main.java.com.lynden.gmapsfx.javascript.*;
 * 
 * @author Rob Terpilowski
  */
-public class Size extends JavascriptObject {
+class Size extends JavascriptObject {
 
     protected int width;
     protected int height;
-    protected String widthUnit;
-    protected String heightUnit;
+    private String widthUnit;
+    private String heightUnit;
     
     
     

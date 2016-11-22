@@ -1,6 +1,6 @@
 package src;
 
-public class Test {
+class Test {
     public static void main(String[] args) {
         System.out.println("Nikita");
         System.out.println("Yannick");

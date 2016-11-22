@@ -14,7 +14,7 @@ import netscape.javascript.JSObject;
  *
  * @author Geoff Capper
  */
-public class MaxZoomResult extends JavascriptObject {
+class MaxZoomResult extends JavascriptObject {
 	
     private MaxZoomStatus status;
     

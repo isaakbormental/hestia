@@ -40,7 +40,7 @@ public class GeocoderGeometry extends JavascriptObject {
         super(GMapObjectType.GEOCODER_GEOMETRY, jsObject);
     }
 
-    public LatLong getLocation() {
+    private LatLong getLocation() {
         try {
             JSObject location = (JSObject) getJSObject().getMember("location");
             return new LatLong((JSObject) location);
@@ -50,7 +50,7 @@ public class GeocoderGeometry extends JavascriptObject {
         return null;
     }
 
-    public GeocoderLocationType getLocationType() {
+    private GeocoderLocationType getLocationType() {
         try {
             String locationType = getJSObject().getMember("location_type").toString();
             return GeocoderLocationType.valueOf(locationType.toUpperCase());
@@ -61,7 +61,7 @@ public class GeocoderGeometry extends JavascriptObject {
         return null;
     }
 
-    public LatLongBounds getViewPort() {
+    private LatLongBounds getViewPort() {
         try {
             JSObject viewPort = (JSObject) getJSObject().getMember("viewport");
             return new LatLongBounds((JSObject) viewPort);
@@ -71,7 +71,7 @@ public class GeocoderGeometry extends JavascriptObject {
         return null;
     }
 
-    public LatLongBounds getBounds() {
+    private LatLongBounds getBounds() {
         try {
             JSObject bounds = (JSObject) getJSObject().getMember("bounds");
             return new LatLongBounds((JSObject) bounds);

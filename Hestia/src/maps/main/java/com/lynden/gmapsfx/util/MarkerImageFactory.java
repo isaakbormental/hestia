@@ -29,7 +29,7 @@ import javax.imageio.ImageIO;
  *
  * @author Geoff Capper
  */
-public class MarkerImageFactory {
+class MarkerImageFactory {
     
     /** Takes a URI for an image contained within an application jar file and 
      * converts it into a data URI for use in a MarkerOptions object.

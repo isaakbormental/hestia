@@ -26,7 +26,7 @@ import maps.main.java.com.lynden.gmapsfx.javascript.*;
  */
 public class InfoWindow extends JavascriptObject {
 
-    public static final String INFO_WINDOW_TYPE = "google.maps.InfoWindow";
+    private static final String INFO_WINDOW_TYPE = "google.maps.InfoWindow";
     
     public InfoWindow() {
         super(INFO_WINDOW_TYPE);

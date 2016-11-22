@@ -28,11 +28,11 @@ import netscape.javascript.JSObject;
  */
 public class JavascriptObject {
 
-    protected static Map<JSObject,JavascriptObject> peerRegistry = new WeakHashMap<>();
+    private static Map<JSObject,JavascriptObject> peerRegistry = new WeakHashMap<>();
     protected IJavascriptRuntime runtime;
     protected JSObject jsObject;
-    protected static int objectCounter = 0;
-    protected String variableName;
+    private static int objectCounter = 0;
+    String variableName;
     
     /**
      */
@@ -111,7 +111,7 @@ public class JavascriptObject {
      *
      * @return The underlying Javascript object
      */
-    public JSObject getJSObject() {
+    protected JSObject getJSObject() {
         return jsObject;
     }
 
@@ -121,7 +121,7 @@ public class JavascriptObject {
      *
      * @return The name of the next variable to create
      */
-    protected final String getNextVariableName() {
+    private String getNextVariableName() {
         return getClass().getSimpleName() + (objectCounter++);
     }
 
@@ -176,7 +176,7 @@ public class JavascriptObject {
      * @param key The property name
      * @return The value of the property
      */
-    protected Object getProperty(String key) {
+    Object getProperty(String key) {
         return checkUndefined(jsObject.getMember(key));
     }
 
@@ -282,7 +282,7 @@ public class JavascriptObject {
      * @param val The value from Javascript to be checked.
      * @return Either null or the value passed in.
      */
-    protected Object checkUndefined(Object val) {
+    private Object checkUndefined(Object val) {
         if (val instanceof String && ((String) val).equals("undefined")) {
             return null;
         }
@@ -300,7 +300,7 @@ public class JavascriptObject {
         return (val == null) ? def : (Boolean) val;
     }
     
-    protected Integer checkInteger(Object val, Integer def) {
+    Integer checkInteger(Object val, Integer def) {
         return (val == null) ? def : (Integer) val;
     }
 }

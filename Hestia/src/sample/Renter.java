@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 /**
  * Created by Владислав on 27.10.2016.
  */
-public class Renter extends Person {
+ public class Renter extends Person {
 
     private final SimpleIntegerProperty rid = new SimpleIntegerProperty();
     private final SimpleDoubleProperty rating = new SimpleDoubleProperty();
@@ -28,7 +28,7 @@ public class Renter extends Person {
         return rid.get();
     }
 
-    public void setRid(int rid) {
+    private void setRid(int rid) {
         this.rid.set(rid);
     }
 
@@ -36,7 +36,7 @@ public class Renter extends Person {
         return rating.get();
     }
 
-    public void setRating(double rating) {
+    private void setRating(double rating) {
         this.rating.set(rating);
     }
 

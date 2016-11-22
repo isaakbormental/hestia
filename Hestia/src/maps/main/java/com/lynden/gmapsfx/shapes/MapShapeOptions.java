@@ -39,7 +39,7 @@ public abstract class MapShapeOptions<T extends MapShapeOptions> extends Javascr
     
 //    private T me;
     
-    public MapShapeOptions() {
+    MapShapeOptions() {
         super(GMapObjectType.OBJECT);
     }
     

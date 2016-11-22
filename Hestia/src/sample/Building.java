@@ -30,7 +30,7 @@ public class Building {
         return bid.get();
     }
 
-    public void setBid(int bid) {
+    private void setBid(int bid) {
         this.bid.set(bid);
     }
 
@@ -38,7 +38,7 @@ public class Building {
         return lat.get();
     }
 
-    public void setLat(double lat) {
+    private void setLat(double lat) {
         this.lat.set(lat);
     }
 
@@ -46,7 +46,7 @@ public class Building {
         return lon.get();
     }
 
-    public void setLon(double lon) {
+    private void setLon(double lon) {
         this.lon.set(lon);
     }
 
@@ -54,7 +54,7 @@ public class Building {
         return type.get();
     }
 
-    public void setType(String type) {
+    private void setType(String type) {
         this.type.set(type);
     }
 
@@ -62,7 +62,7 @@ public class Building {
         return pets.get();
     }
 
-    public void setPets(boolean pets) {
+    private void setPets(boolean pets) {
         this.pets.set(pets);
     }
 
@@ -70,7 +70,7 @@ public class Building {
         return lid.get();
     }
 
-    public void setLid(int lid) {
+    private void setLid(int lid) {
         this.lid.set(lid);
     }
 

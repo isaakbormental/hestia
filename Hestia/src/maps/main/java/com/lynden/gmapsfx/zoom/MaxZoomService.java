@@ -14,7 +14,7 @@ import netscape.javascript.JSObject;
  *
  * @author Geoff Capper
  */
-public class MaxZoomService extends JavascriptObject {
+class MaxZoomService extends JavascriptObject {
     
     private MaxZoomServiceCallback callback;
     

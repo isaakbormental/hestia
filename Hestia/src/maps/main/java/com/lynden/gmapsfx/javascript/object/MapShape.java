@@ -27,11 +27,11 @@ import netscape.javascript.JSObject;
  */
 public abstract class MapShape extends JavascriptObject {
     
-    public MapShape(String type) {
+    protected MapShape(String type) {
         super(type);
     }
     
-    public MapShape(String type, MapShapeOptions opts) {
+    protected MapShape(String type, MapShapeOptions opts) {
         super(type, opts);
     }
     
@@ -41,7 +41,7 @@ public abstract class MapShape extends JavascriptObject {
      *
      * @param map The map to add this Polygon to.
      */
-    protected void setMap(GoogleMap map) {
+    void setMap(GoogleMap map) {
         invokeJavascript("setMap", map);
     }
     

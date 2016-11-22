@@ -36,7 +36,7 @@ public class GoogleMap extends JavascriptObject {
     private boolean userPromptedZoomChange;
     private boolean mapPromptedZoomChange;
     protected MapOptions options;
-    protected static String divArg = "document.getElementById('map-canvas')";
+    private static String divArg = "document.getElementById('map-canvas')";
 
     private ReadOnlyObjectWrapper<LatLong> center;
     private IntegerProperty zoom;
@@ -129,7 +129,7 @@ public class GoogleMap extends JavascriptObject {
      *
      * @return
      */
-    public LatLongBounds getBounds() {
+    private LatLongBounds getBounds() {
         return invokeJavascriptReturnValue("getBounds", LatLongBounds.class);
     }
     

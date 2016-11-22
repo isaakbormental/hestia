@@ -52,7 +52,7 @@ public class ArcBuilder {
         return new PolylineOptions().path(res);
     }
 
-    public static final MVCArray buildArcPoints(LatLong center, LatLong start, LatLong end) {
+    private static MVCArray buildArcPoints(LatLong center, LatLong start, LatLong end) {
         return buildArcPoints(center, center.getBearing(start), center.getBearing(end), center.distanceFrom(start));
     }
 

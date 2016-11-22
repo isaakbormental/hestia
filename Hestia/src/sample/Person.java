@@ -63,7 +63,7 @@ public class Person {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name.set(name);
     }
 
@@ -71,7 +71,7 @@ public class Person {
         return pid.get();
     }
 
-    public void setPid(int pid) {
+    private void setPid(int pid) {
         this.pid.set(pid);
     }
 
@@ -89,7 +89,7 @@ public class Person {
         return email.get();
     }
 
-    public void setEmail(String email) {
+    private void setEmail(String email) {
         this.email.set(email);
     }
 
@@ -97,18 +97,18 @@ public class Person {
         return phone.get();
     }
 
-    public void setPhone(int phone) {
+    private void setPhone(int phone) {
         this.phone.set(phone);
     }
 
-    public void setLastname(String lastname) {
+    private void setLastname(String lastname) {
         this.lastname.set(lastname);
     }
-    public void setFirstname(String firstname) {
+    private void setFirstname(String firstname) {
         this.firstname.set(firstname);
     }
 
-    public void setPassword(String password) {
+    private void setPassword(String password) {
         this.password.set(password);
     }
 

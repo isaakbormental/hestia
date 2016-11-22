@@ -43,28 +43,28 @@ import netscape.javascript.JSObject;
 public class GoogleMapView extends AnchorPane {
 
     protected static final String GOOGLE_MAPS_API_LINK = "https://maps.googleapis.com/maps/api/js?v=3.exp";
-    protected static final String GOOGLE_MAPS_API_VERSION = "3.exp";
+    private static final String GOOGLE_MAPS_API_VERSION = "3.exp";
 
     private boolean usingCustomHtml;
 
-    protected final String language;
-    protected final String region;
-    protected final String key;
-    protected WebView webview;
-    protected JavaFxWebEngine webengine;
-    protected boolean initialized = false;
+    private final String language;
+    private final String region;
+    private final String key;
+    private WebView webview;
+    private JavaFxWebEngine webengine;
+    private boolean initialized = false;
     protected final CyclicBarrier barrier = new CyclicBarrier(2);
-    protected final List<MapComponentInitializedListener> mapInitializedListeners = new ArrayList<>();
-    protected final List<MapReadyListener> mapReadyListeners = new ArrayList<>();
-    protected GoogleMap map;
-    protected DirectionsPane direc;
-    protected boolean disableDoubleClick = false;
+    private final List<MapComponentInitializedListener> mapInitializedListeners = new ArrayList<>();
+    private final List<MapReadyListener> mapReadyListeners = new ArrayList<>();
+    private GoogleMap map;
+    private DirectionsPane direc;
+    private boolean disableDoubleClick = false;
 
     public GoogleMapView() {
         this(false);
     }
 
-    public GoogleMapView(boolean debug) {
+    private GoogleMapView(boolean debug) {
         this(null, debug);
     }
 
@@ -121,7 +121,7 @@ public class GoogleMapView extends AnchorPane {
      * @param mapResourcePath
      * @param debug true if the FireBug pane should be displayed in the WebView.
      */
-    public GoogleMapView(String mapResourcePath, boolean debug) {
+    private GoogleMapView(String mapResourcePath, boolean debug) {
         this(mapResourcePath, null, null, debug);
     }
 
@@ -143,7 +143,7 @@ public class GoogleMapView extends AnchorPane {
      * @param key Google Maps API key or null
      * @param debug true if the FireBug pane should be displayed in the WebView.
      */
-    public GoogleMapView(String mapResourcePath, String language, String key, boolean debug) {
+    private GoogleMapView(String mapResourcePath, String language, String key, boolean debug) {
         this(mapResourcePath, language, null, key, debug);
     }
 
@@ -160,7 +160,7 @@ public class GoogleMapView extends AnchorPane {
      * @param key Google Maps API key or null
      * @param debug true if the FireBug pane should be displayed in the WebView.
      */
-    public GoogleMapView(String mapResourcePath, String language, String region, String key, boolean debug) {
+    private GoogleMapView(String mapResourcePath, String language, String region, String key, boolean debug) {
         this.language = language;
         this.region = region;
         this.key = key;
@@ -366,11 +366,11 @@ public class GoogleMapView extends AnchorPane {
 
     }
 
-    protected void setInitialized(boolean initialized) {
+    private void setInitialized(boolean initialized) {
         this.initialized = initialized;
     }
 
-    protected void fireMapInitializedListeners() {
+    private void fireMapInitializedListeners() {
         synchronized (mapInitializedListeners) {
             for (MapComponentInitializedListener listener : mapInitializedListeners) {
                 listener.mapInitialized();
@@ -378,7 +378,7 @@ public class GoogleMapView extends AnchorPane {
         }
     }
 
-    protected void fireMapReadyListeners() {
+    private void fireMapReadyListeners() {
         synchronized (mapReadyListeners) {
             for (MapReadyListener listener : mapReadyListeners) {
                 listener.mapReady();
@@ -402,7 +402,7 @@ public class GoogleMapView extends AnchorPane {
         return sb.toString();
     }
 
-    protected void checkInitialized() {
+    private void checkInitialized() {
         if (!initialized) {
             throw new MapNotInitializedException();
         }
@@ -412,7 +412,7 @@ public class GoogleMapView extends AnchorPane {
         return webview;
     }
 
-    public class JSListener {
+    private class JSListener {
 
         public void log(String text) {
             System.out.println(text);
