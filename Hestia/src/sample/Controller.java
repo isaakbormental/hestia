@@ -315,8 +315,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
         int siz = -1;
         if(!size.getText().equals("")){siz = Integer.parseInt(size.getText());}
 
-        int dis = -1;
-        if(!distance.equals(null)){dis = (int)distance.getValue();}
+        double dis = -1;
+        if(!distance.equals(null)){dis = distance.getValue();}
 
         String fac = "default";
         if(!facility.getText().equals("")){fac = facility.getText();}
