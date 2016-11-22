@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
@@ -123,8 +124,20 @@
         </TabPane>
         <Hyperlink layoutX="1092.0" layoutY="26.0" onAction="#logOut" prefWidth="76.0" text="Log out" textFill="BLUE" />
         <Label fx:id="username" layoutX="939.0" layoutY="26.0" prefHeight="18.132904052734375" prefWidth="141.0" text="User name" />
-        <HBox layoutX="960.0" layoutY="753.0" prefHeight="42.0" prefWidth="170.0" spacing="5.0">
+        <HBox layoutX="885.0" layoutY="753.0" prefHeight="42.0" prefWidth="300.0" spacing="5.0">
           <children>
+            <ChoiceBox prefWidth="100.0" value="5">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="1" />
+                  <String fx:value="2" />
+                  <String fx:value="3" />
+                  <String fx:value="4" />
+                  <String fx:value="5" />
+                </FXCollections>
+              </items>
+            </ChoiceBox>
+            <Button mnemonicParsing="false" prefHeight="28.0" text="Rate" />
             <Button mnemonicParsing="false" prefHeight="28.0" text="Reset" />
             <Button mnemonicParsing="false" prefHeight="28.0" text="Book" />
           </children>
