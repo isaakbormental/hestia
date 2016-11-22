@@ -131,7 +131,7 @@ public class Apartment {
         setPrice(pricea);
         setSize(sizeap);
         setDescription(des);
-        setRating(2.5);
+        setRating(0.0);
     }
 
     public Apartment(){
