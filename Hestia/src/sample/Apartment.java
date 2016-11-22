@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by kouakam on 30.10.16.
+ * Created by Hestia Team on 30.10.16.
  */
 
 public class Apartment {
@@ -16,7 +16,7 @@ public class Apartment {
     private Person owner;
     private final SimpleIntegerProperty numberRoom=new SimpleIntegerProperty();
     private final SimpleIntegerProperty aid =new SimpleIntegerProperty();
-   // private final SimpleIntegerProperty anumber=new SimpleIntegerProperty();
+    // private final SimpleIntegerProperty anumber=new SimpleIntegerProperty();
     private final SimpleIntegerProperty bid=new SimpleIntegerProperty();
     private final SimpleIntegerProperty oid=new SimpleIntegerProperty();
     private  final SimpleDoubleProperty size = new SimpleDoubleProperty();
@@ -25,7 +25,9 @@ public class Apartment {
     private final SimpleStringProperty nameOwner =new SimpleStringProperty();
     private final SimpleStringProperty loanduration=new SimpleStringProperty("");
     private final SimpleStringProperty location = new SimpleStringProperty("");
+    private final SimpleDoubleProperty rating = new SimpleDoubleProperty();
 
+//Yolo
 
     /**
      *  constructor to set the fields of the tableView
@@ -62,6 +64,18 @@ public class Apartment {
 
 
     }
+
+    public Apartment(int aid, Person owner, int num,double si,double pri,String des,String duration){
+        setLoanduration(duration);
+        setNameOwner(owner.getName());
+        setNumberRoom(num);
+        setPrice(pri);
+        setSize(si);
+        setDescription(des);
+        setOwner(owner);
+        setAid(aid);
+    }
+
     public Apartment(Person owner,String des,String duration){
         setLoanduration(duration);
         setNameOwner(owner.getName());
@@ -89,6 +103,7 @@ public class Apartment {
         setPrice(pricea);
         setSize(sizeap);
         setDescription(des);
+        setRating(2.5);
     }
 
     public Apartment(){
@@ -181,7 +196,17 @@ public class Apartment {
         return description;
     }
 
+    public double getRating() {
+        return rating.get();
+    }
 
+    public SimpleDoubleProperty ratingProperty() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating.set(rating);
+    }
 
 }
 
