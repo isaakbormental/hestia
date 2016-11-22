@@ -179,7 +179,7 @@
                         <Font size="14.0" />
                      </font></Button>
             <Button font="$x3" onAction="#showPersonEditDialog" prefHeight="30.0" prefWidth="128.0" style="" text="send message" textFill="BLACK" />
-            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="76.0" text="Book">
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="76.0" text="Book" onAction="#bookAp">
                      <font>
                         <Font size="14.0" />
                      </font></Button>

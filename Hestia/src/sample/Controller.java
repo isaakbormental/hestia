@@ -1,6 +1,5 @@
 package sample;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +35,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     private ObservableList<Building> buildingsCollection;
     private ObservableList<Location> locationsCollection;
     private ObservableList<Message> messages;
+    private ObservableList<Request> reque;
     GoogleMapView mapView;
     Window chat;
     GoogleMap map;
@@ -114,6 +114,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
     PasswordField passregistration;
     @FXML
     TableView historyRenter;
+    @FXML
+    TableView requests;
     @FXML
     TableView listMsg;
     @FXML
@@ -408,6 +410,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     public void logIn(ActionEvent event) throws IOException {
         List<Apartment> listap;
+        List<Request> listreq;
         Hashtable<Integer, String> person = new Hashtable<Integer, String>();
         try {
             Main main = new Main();
@@ -433,6 +436,12 @@ public class Controller implements Initializable, MapComponentInitializedListene
                     listap = dataAccess.findRenterById(oid);
                     apartmentsCollection = FXCollections.observableArrayList(listap);
                     historyRenter.setItems(apartmentsCollection);
+
+                    listreq = dataAccess.getRequests(cabinetMarker);
+                    reque = FXCollections.observableList(listreq);
+                    requests.setItems(reque);
+
+
                 } else if (rid != 0) {
                     cabinetMarker = rid;
                     main.changeScene("RenterCabinet");
@@ -446,10 +455,12 @@ public class Controller implements Initializable, MapComponentInitializedListene
                 }
 
             } catch (Exception e3) {
+                System.out.println("No");
 
             }
         } catch (Exception e2) {
             e2.printStackTrace();
+            System.out.println("No");
         }
 
     }
@@ -480,7 +491,57 @@ public class Controller implements Initializable, MapComponentInitializedListene
         listMsg.setItems(messages);
 
     }
+    public void decline(ActionEvent actionEvent) throws SQLException {
+        if (sel == 0) {
+            //System.out.println("Please select a reciever");
+            warning.setText("Select a request");
+        } else {
+            Main main = new Main();
+            try {
 
+                dataAccess.deleteRequest(selectedApartmentID,sel,cabinetMarker);
+                List<Request> listreq;
+                listreq = dataAccess.getRequests(cabinetMarker);
+                reque = FXCollections.observableList(listreq);
+                requests.setItems(reque);
+                sel = 0;
+                selectedApartmentID = 0;
+
+            }
+            catch (SQLException s){
+                warning.setText("No request to delete");
+            }
+        }
+
+    }
+
+    public void approve(ActionEvent actionEvent) throws SQLException {
+        if (sel == 0) {
+            //System.out.println("Please select a reciever");
+            warning.setText("Select a request");
+        } else {
+            Main main = new Main();
+            try {
+                dataAccess.approveRequest(selectedApartmentID,sel,cabinetMarker);
+                List<Apartment> listap;
+                listap = dataAccess.findRenterById(cabinetMarker);
+                apartmentsCollection = FXCollections.observableArrayList(listap);
+                historyRenter.setItems(apartmentsCollection);
+
+                List<Request> listreq;
+                listreq = dataAccess.getRequests(cabinetMarker);
+                reque = FXCollections.observableList(listreq);
+                requests.setItems(reque);
+                sel = 0;
+                selectedApartmentID = 0;
+
+            }
+            catch (SQLException s){
+                warning.setText("No request to delete");
+            }
+        }
+
+    }
     public void showPersonEditDialog(ActionEvent event) throws SQLException {
 
         if (sel == 0) {
@@ -523,7 +584,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
         } else {
             try {
                 Double incomingRating = Double.parseDouble(rating.getValue().toString());
-                //dataAccess.addApartmentRate(incomingRating,sel,cabinetMarker);
+                //dataAccess.addRequest(incomingRating,sel,cabinetMarker);
                 System.out.println(selectedApartmentID);
                 dataAccess.addApartmentRate(incomingRating, selectedApartmentID, cabinetMarker);
             } catch (SQLException e) {
@@ -550,6 +611,27 @@ public class Controller implements Initializable, MapComponentInitializedListene
                 //System.out.println("You have already rated this renter. ");
             }
         }
+    }
+
+    public void bookAp(ActionEvent actionEvent) throws SQLException {
+        if (selectedApartmentID == 0) {
+            warning.setText("Select an apartment for booking");
+        } else {
+            try {
+
+                dataAccess.addRequest(selectedApartmentID,cabinetMarker,sel);
+                System.out.println(selectedApartmentID);
+                System.out.println(sel);
+                System.out.println(cabinetMarker);
+            } catch (SQLException e) {
+                //System.out.println("You have already rated this apartment. ");
+                warning.setText("You have already rated this apartment. ");
+            }
+
+            //Check for getting average rating. Works
+            System.out.println(dataAccess.getAverageApartmentRating(sel));
+        }
+
     }
 
     public void setDialogStage(Stage dialogStage) {

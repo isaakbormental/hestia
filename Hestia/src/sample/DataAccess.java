@@ -872,6 +872,20 @@ public class DataAccess {
         }
     }
 
+    public void addRequest(int apartment, int sender, int reciever) throws SQLException {
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO request (apart_id, sender_id, reciever_id) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(2, sender);
+            stmt.setInt(3, reciever);
+            stmt.setInt(1, apartment);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+    }
+
     public void addRenterRate(double rating, int renter, int owner) throws SQLException {
         try (
                 Connection connection = getConnection();    //2016-01-28
@@ -879,6 +893,37 @@ public class DataAccess {
             stmt.setInt(2, renter);
             stmt.setInt(3, owner);
             stmt.setDouble(1, rating);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+    }
+
+    public void deleteRequest(int apartment, int requester, int owner) throws SQLException {
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("DELETE FROM request WHERE apart_id = ? AND reciever_id = ? AND sender_id = ? ;", Statement.RETURN_GENERATED_KEYS)) {
+            System.out.println(apartment+" " +owner+" "+requester);
+            stmt.setInt(1, apartment);
+            stmt.setInt(2, owner);
+            stmt.setInt(3, requester);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+    }
+
+    public void approveRequest(int apartment, int requester, int owner) throws SQLException {
+        deleteRequest(apartment,requester,owner);
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter_apart (apart_id,renter_id,owner_id, date_begin,date_end) VALUES (?,?,?,'2016-05-25','2017-08-25'); ", Statement.RETURN_GENERATED_KEYS)) {
+            System.out.println(apartment+" " +owner+" "+requester);
+            stmt.setInt(1, apartment);
+            stmt.setInt(3, owner);
+            stmt.setInt(2, requester);
 
             stmt.executeUpdate();
 
@@ -913,6 +958,51 @@ public class DataAccess {
         return rating;
     }
 
+
+    public List<Request> getRequests(int ownerid) throws SQLException{
+        ArrayList<Request> list=new ArrayList<>();
+        try(
+                Connection con=getConnection();
+                PreparedStatement stmt=con.prepareStatement(" SELECT p.firstname, p.lastname, p.person_id as requester, req.apart_id, ap.price, ap.size, loc.city, loc.district " +
+                        " From person p, request req, apartment ap, location loc, building b " +
+                        " WHERE p.person_id IN (SELECT req.sender_id " +
+                        " WHERE ap.apart_id =req.apart_id " +
+                        " AND ap.buildin_id = b.building_id " +
+                        " AND b.lid = loc.location_id " +
+                        " AND reciever_id = ?);")
+        ){
+            stmt.setInt(1,ownerid);
+            try {
+                ResultSet resultSet= stmt.executeQuery();
+                while (resultSet.next()){
+
+                    String fname=resultSet.getString("firstname");
+                    String lname=resultSet.getString("lastname");
+                    int requester = resultSet.getInt("requester");
+                    Person person=new Person(fname,lname,requester);
+
+                    StringBuilder str = new StringBuilder();
+                    String dis = resultSet.getString("district");
+                    String cit = resultSet.getString("city");
+                    double siz = resultSet.getDouble("size");
+                    double pri = resultSet.getDouble("price");
+                    int apa = resultSet.getInt("apart_id");
+
+                    str.append("District: " + dis + " \n" + "City :" + cit  + " \n" + "Price: "+ pri + " Size: " +siz);
+                    Request reque = new Request(apa, person, ownerid , str.toString());
+
+                    list.add(reque);
+
+                }
+                resultSet.close();
+            }catch (SQLException ext){
+                System.out.println(ext.getMessage()); ext.printStackTrace();
+            }
+
+            stmt.close();
+        }
+        return list;
+    }
 
 
 }

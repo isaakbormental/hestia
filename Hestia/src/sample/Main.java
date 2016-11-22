@@ -19,6 +19,7 @@ public class Main extends Application implements MapComponentInitializedListener
     public static Controller controller;
     private Apartment selected;
     private int selectedUser;
+    private Request selectedReq;
 
 
     @Override
@@ -56,6 +57,8 @@ public class Main extends Application implements MapComponentInitializedListener
             theStage.setScene(scene);
             controller.historyRenter.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
                     settingOwnerCab(newValue) );
+            controller.requests.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
+                    settingForRequest(newValue) );
         } else if (arg.equals("RenterCabinet")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("RenterCabinet.fxml"));
@@ -136,6 +139,20 @@ public class Main extends Application implements MapComponentInitializedListener
         controller.sel = selectedUser;
         controller.selectedApartmentID = selected.getAid();
         System.out.println("You have selected: "+"Renter is: "+selectedUser+" , apart_id: "+selected.getAid());
+    }
+
+    private void settingForRequest(Object object){
+        //Selected row
+        try {
+            selectedReq = (Request) object;
+            selectedUser = selectedReq.getRid();
+            controller.sel = selectedUser;
+            controller.selectedApartmentID = selectedReq.getAid();
+            System.out.println("You have selected: " + "Requester is: " + selectedUser + " , apart_id: " + selectedReq.getAid());
+        }
+        catch (Exception e){
+            System.out.println("Request is deleted");
+        }
     }
 
 }

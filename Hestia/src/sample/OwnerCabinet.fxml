@@ -11,7 +11,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -35,7 +34,7 @@
   </Pane>
   <Pane prefHeight="530.0" prefWidth="780.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
     <children>
-      <Hyperlink layoutX="441.0" layoutY="2.0" onAction="#addAdvert" prefHeight="26.28125" prefWidth="183.0" text="add new advertissment">
+      <Hyperlink layoutX="518.0" layoutY="1.0" onAction="#addAdvert" prefHeight="26.0" prefWidth="143.0" text="add new advertissment">
         <textFill>
           <Color blue="0.502" green="0.318" red="0.031" fx:id="x1" />
         </textFill>
@@ -67,7 +66,21 @@
           </Tab>
           <Tab text="Loan Request">
             <content>
-              <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <TableView fx:id="requests" prefHeight="489.0" prefWidth="791.0">
+                <columns>
+                  <TableColumn prefWidth="307.0" text="Appartment">
+                    <cellValueFactory>
+                      <PropertyValueFactory property="description" />
+                    </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn prefWidth="186.0" text="Requester">
+                    <cellValueFactory>
+                      <PropertyValueFactory property="nameRenter" />
+                    </cellValueFactory>
+                  </TableColumn>
+                  
+                </columns>
+              </TableView>
             </content>
           </Tab>
         </tabs>
@@ -75,6 +88,8 @@
       <Hyperlink layoutX="824.0" layoutY="2.0" onAction="#logOut" prefHeight="26.28125" prefWidth="64.0" text="log out" textFill="$x1" />
       <Label fx:id="username" layoutX="685.0" layoutY="7.0" prefWidth="119.0" text="User Name" />
       <Button layoutX="237.0" onAction="#showPersonEditDialog" prefHeight="30.0" prefWidth="128.0" style="" text="Send message" textFill="BLACK" />
+      <Button layoutX="445.0" onAction="#approve" prefHeight="30.0" prefWidth="45.0" style="" text="Yes" textFill="BLACK" />
+      <Button layoutX="383.0" layoutY="1.0" onAction="#decline" prefHeight="30.0" prefWidth="45.0" style="" text="No" textFill="BLACK" />
       <Button layoutX="82.0" onAction="#rateRenter" prefHeight="30.0" prefWidth="128.0" style="" text="Rate renter" textFill="BLACK" />
       <ChoiceBox fx:id="ratin" layoutX="31.0" prefHeight="30.0" prefWidth="39.0" value="5">
         <items>
