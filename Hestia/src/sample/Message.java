@@ -19,7 +19,7 @@ public class Message {
     private final SimpleIntegerProperty sender_id=new SimpleIntegerProperty();
     private final SimpleIntegerProperty reciever_id=new SimpleIntegerProperty();
     private Date date = new Date(1,1,1994);
-    private final SimpleStringProperty message =new SimpleStringProperty("");
+    public final SimpleStringProperty message =new SimpleStringProperty("");
     private final SimpleStringProperty lnamesender =new SimpleStringProperty("");
     private final SimpleStringProperty fnamesender =new SimpleStringProperty("");
     private final Time time = new Time(18,54,34);

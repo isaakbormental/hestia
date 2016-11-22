@@ -16,7 +16,7 @@ public class Main extends Application implements MapComponentInitializedListener
 
     private static Stage theStage;
     private static DataAccess dataAccess;
-    private static Controller controller;
+    public static Controller controller;
     private Apartment selected;
     private int selectedUser;
 
@@ -27,9 +27,9 @@ public class Main extends Application implements MapComponentInitializedListener
         PGPoolingDataSource source = new PGPoolingDataSource();
         source.setDataSourceName("Databases");
         source.setServerName("localhost");
-        source.setDatabaseName("Home_hestia_new");
-        source.setUser("admin");
-        source.setPassword("admin");
+        source.setDatabaseName("Hestia1.0");
+        source.setUser("postgres");
+        source.setPassword("buxal3842");
         source.setMaxConnections(10);
         dataAccess = new DataAccess(source);
         controller = new Controller(dataAccess);
@@ -119,10 +119,10 @@ public class Main extends Application implements MapComponentInitializedListener
         System.out.println("You have selected: ");
         selectedUser = selected.getOwner().getPid();
         controller.sel = selectedUser;
+        controller.selectedApartmentID = selected.getAid();
         System.out.println("Owner is: "+selectedUser);
         System.out.println("apart_id: "+selected.getAid());
-        System.out.println("Price: "+selected.getPrice());
-        System.out.println();
+
     }
 
 }

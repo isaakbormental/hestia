@@ -6,10 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -45,6 +43,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
     private int cabinetMarker = 0;
     int sel = 0;
     private Stage dialogStage;
+    int selectedApartmentID = 0;
 
 
     public Controller(DataAccess dataAccess) {
@@ -118,6 +117,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
     TextField inputMsg;
     @FXML
     Label username;
+    @FXML
+    ChoiceBox rating;
 
 
     @Override
@@ -136,6 +137,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
             e.printStackTrace();
         }
     }
+
 
     public double round3(double number) {
         number = Math.round(number * 1000);
@@ -322,6 +324,10 @@ public class Controller implements Initializable, MapComponentInitializedListene
         if(!facility.getText().equals("")){fac = facility.getText();}
 
         listap = dataAccess.getApartment(loc, pri, siz, dis, fac);
+        for (Apartment a:
+             listap) {
+            System.out.println(a.getRating());
+        }
         System.out.println(listap.size());
         apartmentsCollection = FXCollections.observableArrayList(listap);
         listHouse.setItems(apartmentsCollection);
@@ -456,7 +462,7 @@ public class Controller implements Initializable, MapComponentInitializedListene
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Message");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-
+            //  dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
             // Set the person into the controller
@@ -472,6 +478,22 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
         }
     }
+    public void rate(ActionEvent actionEvent) throws SQLException {
+        try{
+            Double incomingRating = Double.parseDouble(rating.getValue().toString());
+
+            //dataAccess.addApartmentRate(incomingRating,sel,cabinetMarker);
+            System.out.println(selectedApartmentID);
+            dataAccess.addApartmentRate(incomingRating,selectedApartmentID,cabinetMarker);
+        }
+        catch (SQLException e){
+            System.out.println("You have already rated this apartment. ");
+        }
+
+        //Check for getting average rating. Works
+        System.out.println(dataAccess.getAverageApartmentRating(sel));
+
+    }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -481,4 +503,6 @@ public class Controller implements Initializable, MapComponentInitializedListene
         messages = FXCollections.observableArrayList(msgs);
         listMsg.setItems(messages);
     }
+
+
 }

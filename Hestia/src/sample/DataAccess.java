@@ -5,8 +5,6 @@ package sample;
  * Created by Владислав on 26.10.2016.
  */
 
-import javafx.fxml.FXML;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -481,8 +479,11 @@ public class DataAccess {
                     String dis = res.getString("district");
                     String cit = res.getString("city");
                     double ra = res.getDouble("crime_rating");
+                    int aid = res.getInt("apart_id");
                     str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
-                    list.add(new Apartment(s, p, str.toString()));
+                    Apartment a = new Apartment(s, p, str.toString());
+                    a.setRating(getAverageApartmentRating(aid));
+                    list.add(a);
                 }
                 res.close();
             } catch (SQLException st) {
@@ -533,7 +534,8 @@ public class DataAccess {
                     Date date_be=resultSet.getDate("date_begin");
                     Date date_en=resultSet.getDate("date_end");
                     String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
-                    list.add(new Apartment(person,n,s,p,str.toString(),duration));
+                    //list.add(new Apartment(person,n,s,p,str.toString(),duration));
+                    list.add(new Apartment(ai, person,n,s,p,str.toString(),duration));
 
                 }
                 resultSet.close();
@@ -791,5 +793,48 @@ public class DataAccess {
         }
 
     }
+
+    public void addApartmentRate(double rating, int rated, int rater) throws SQLException {
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter_rate_owner (renter_rate, apartment_id, renter_id) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(2, rated);
+            stmt.setInt(3, rater);
+            stmt.setDouble(1, rating);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+    }
+
+    public double getAverageApartmentRating(int rated) throws SQLException {
+        double rating = 0;
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("SELECT AVG(renter_rate) as average From renter_rate_owner WHERE apartment_id = ?;", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, rated);
+            try {
+                ResultSet res = stmt.executeQuery();
+                while (res.next()) {
+
+                    rating = res.getDouble("average");
+
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stmt.close();
+            }
+            //stmt.executeUpdate();
+            //stmt.close();
+
+        }
+        return rating;
+    }
+
+
 
 }
