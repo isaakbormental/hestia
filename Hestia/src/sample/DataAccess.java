@@ -442,7 +442,7 @@ public class DataAccess {
                         "from apartment a, location lo, building bi " +
                         "where a.buildin_id=bi.building_id " +
                         "      AND bi.lid=lo.location_id " +
-                        "      AND a.size>=? ";
+                        "      AND a.size >= ? ";
                 di++;
             }
             if(distance>0){
