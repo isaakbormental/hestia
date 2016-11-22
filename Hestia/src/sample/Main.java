@@ -54,6 +54,8 @@ public class Main extends Application implements MapComponentInitializedListener
             theStage.setTitle("Owner Personal Cabinet");
             Scene scene = new Scene(root, 1000, 750);
             theStage.setScene(scene);
+            controller.historyRenter.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
+                    settingOwnerCab(newValue) );
         } else if (arg.equals("RenterCabinet")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("RenterCabinet.fxml"));
@@ -63,7 +65,9 @@ public class Main extends Application implements MapComponentInitializedListener
             Scene scene = new Scene(root, 1000, 750);
             theStage.setScene(scene);
             controller.history.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
-                    printApInfo(newValue) );
+                    settingRenterCab(newValue) );
+            controller.listHouse.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
+                    settingRenterCab(newValue) );
 
         } else if (arg.equals("Registration")) {
 
@@ -113,16 +117,25 @@ public class Main extends Application implements MapComponentInitializedListener
 
     }
 
-    private void printApInfo(Object object){
+    private void settingRenterCab(Object object){
+        //Selected row
         selected = (Apartment) object;
-        System.out.println();
-        System.out.println("You have selected: ");
-        selectedUser = selected.getOwner().getPid();
+
+        selectedUser = selected.getOid();
         controller.sel = selectedUser;
         controller.selectedApartmentID = selected.getAid();
-        System.out.println("Owner is: "+selectedUser);
-        System.out.println("apart_id: "+selected.getAid());
+        System.out.println("You have selected: "+"Owner is: "+selectedUser+" , apart_id: "+selected.getAid());
+    }
 
+
+    private void settingOwnerCab(Object object){
+        //Selected row
+        selected = (Apartment) object;
+
+        selectedUser = selected.getRid();
+        controller.sel = selectedUser;
+        controller.selectedApartmentID = selected.getAid();
+        System.out.println("You have selected: "+"Renter is: "+selectedUser+" , apart_id: "+selected.getAid());
     }
 
 }

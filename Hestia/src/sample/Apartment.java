@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by kouakam on 30.10.16.
+ * Created by Hestia Team on 30.10.16.
  */
 
 public class Apartment {
@@ -23,9 +23,38 @@ public class Apartment {
     private  final SimpleDoubleProperty price = new SimpleDoubleProperty();
     private final SimpleStringProperty description =new SimpleStringProperty("");
     private final SimpleStringProperty nameOwner =new SimpleStringProperty();
+
+    public String getLoanduration() {
+        return loanduration.get();
+    }
+
+    public SimpleStringProperty loandurationProperty() {
+        return loanduration;
+    }
+
+    public void setLoanduration(String loanduration) {
+        this.loanduration.set(loanduration);
+    }
+
     private final SimpleStringProperty loanduration=new SimpleStringProperty("");
     private final SimpleStringProperty location = new SimpleStringProperty("");
+    private final SimpleDoubleProperty rating = new SimpleDoubleProperty();
 
+    public int getRid() {
+        return rid.get();
+    }
+
+    public SimpleIntegerProperty ridProperty() {
+        return rid;
+    }
+
+    public void setRid(int rid) {
+        this.rid.set(rid);
+    }
+
+    private final SimpleIntegerProperty rid = new SimpleIntegerProperty();
+
+//Yolo
 
     /**
      *  constructor to set the fields of the tableView
@@ -62,6 +91,19 @@ public class Apartment {
 
 
     }
+
+    public Apartment(int aid, Person owner, int num,double si,double pri,String des,String duration){
+        setLoanduration(duration);
+        setNameOwner(owner.getName());
+        setNumberRoom(num);
+        setPrice(pri);
+        setSize(si);
+        setDescription(des);
+        setOwner(owner);
+        setAid(aid);
+        setOid(owner.getPid());
+    }
+
     public Apartment(Person owner,String des,String duration){
         setLoanduration(duration);
         setNameOwner(owner.getName());
@@ -89,6 +131,7 @@ public class Apartment {
         setPrice(pricea);
         setSize(sizeap);
         setDescription(des);
+        setRating(2.5);
     }
 
     public Apartment(){
@@ -128,9 +171,7 @@ public class Apartment {
     private void setSize(double size) {
         this.size.set(size);
     }
-    private void setLoanduration(String dura){
-        this.loanduration.set(dura);
-    }
+
 
     private void setPrice(double price) {
         this.price.set(price);
@@ -139,7 +180,7 @@ public class Apartment {
     public int getAid() {
         return aid.get();
     }
-    private void setAid(int aid) {
+    public void setAid(int aid) {
         this.aid.set(aid);
     }
 
@@ -153,13 +194,11 @@ public class Apartment {
     public int getOid() {
         return oid.get();
     }
-    private void setOid(int oid) {
+    public void setOid(int oid) {
         this.oid.set(oid);
     }
 
-    private void setNameOwner(String nameOwn) {
-        this.nameOwner.set(nameOwn);
-    }
+
 
     public String getLocation() {
         return location.get();
@@ -169,7 +208,7 @@ public class Apartment {
         return location;
     }
 
-    private void setLocation(String location) {
+    public void setLocation(String location) {
         this.location.set(location);
     }
 
@@ -181,7 +220,29 @@ public class Apartment {
         return description;
     }
 
+    public double getRating() {
+        return rating.get();
+    }
 
+    public SimpleDoubleProperty ratingProperty() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating.set(rating);
+    }
+
+    public String getNameOwner() {
+        return nameOwner.get();
+    }
+
+    public SimpleStringProperty nameOwnerProperty() {
+        return nameOwner;
+    }
+
+    public void setNameOwner(String nameOwner) {
+        this.nameOwner.set(nameOwner);
+    }
 
 }
 

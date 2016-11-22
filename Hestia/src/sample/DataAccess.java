@@ -482,7 +482,9 @@ public class DataAccess {
                     int aid = res.getInt("apart_id");
                     str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
                     Apartment a = new Apartment(s, p, str.toString());
+                    a.setAid(aid);
                     a.setRating(getAverageApartmentRating(aid));
+                    a.setOid(findOwner(aid));
                     list.add(a);
                 }
                 res.close();
@@ -522,7 +524,7 @@ public class DataAccess {
                     String lname = resultSet.getString("lastname");
                     String loca = resultSet.getString("city");
                   //  Owner person = new Owner(fname, lname);
-                    Person person = new Person(fname, lname,oi);
+                    Person person = new Person(fname, lname, oi);
                     StringBuilder str = new StringBuilder();
                     double s = resultSet.getDouble("size");
                     double p = resultSet.getDouble("price");
@@ -535,7 +537,9 @@ public class DataAccess {
                     Date date_en=resultSet.getDate("date_end");
                     String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
                     //list.add(new Apartment(person,n,s,p,str.toString(),duration));
-                    list.add(new Apartment(ai, person,n,s,p,str.toString(),duration));
+                    Apartment ap = new Apartment(ai,person,n,s,p,str.toString(),duration);
+                    ap.setLocation(loca);
+                    list.add(ap);
 
                 }
                 resultSet.close();
@@ -551,7 +555,7 @@ public class DataAccess {
         ArrayList<Apartment> list=new ArrayList<>();
         try(
                 Connection con=getConnection();
-                PreparedStatement stmt=con.prepareStatement("SELECT DISTINCT  lastname,firstname ,RA.date_begin,RA.date_end ,L.city, L.district " +
+                PreparedStatement stmt=con.prepareStatement("SELECT DISTINCT  lastname,firstname ,RA.date_begin,RA.date_end ,L.city, L.district, P.person_id, RA.apart_id " +
                                         "FROM person  P NATURAL JOIN renter R ,renter_apart RA,location L ,building B , apartment A" +
                                     " where (RA.owner_id, RA.apart_id, RA.date_begin,RA.date_end)" +
                                     " in(select owner_id,apart_id,date_begin,date_end" +
@@ -576,8 +580,13 @@ public class DataAccess {
                     Date date_en=resultSet.getDate("date_end");
                     String duration="From :"+date_be.toString().concat(" to: "+date_en.toString());
                     str.append("District: " + dis + " \n" + "City :" + cit  + " \n" );
-
-                    list.add(new Apartment(person,str.toString(),duration));
+                    Apartment apa = new Apartment(person,str.toString(),duration);
+                    apa.setAid(resultSet.getInt("apart_id"));
+                    apa.setOid(ownerid);
+                    int rid = resultSet.getInt("person_id");
+                    apa.setRid(rid);
+                    apa.setNameOwner(lname+" "+ fname);
+                    list.add(apa);
 
                 }
                 resultSet.close();
@@ -590,6 +599,28 @@ public class DataAccess {
         return list;
     }
 
+    public int findOwner(int aid) throws SQLException{
+        ArrayList<Apartment> list=new ArrayList<>();
+        int owner = 0;
+        try(
+                Connection con=getConnection();
+                PreparedStatement stmt=con.prepareStatement("SELECT p.person_id FROM person p, apartment a WHERE a.oid = p.person_id AND a.apart_id = ? ;")
+        ){
+            stmt.setInt(1,aid);
+            try {
+                ResultSet resultSet= stmt.executeQuery();
+                while (resultSet.next()){
+                    owner = resultSet.getInt("person_id");
+                }
+                resultSet.close();
+            }catch (SQLException ext){
+                System.out.println(ext.getMessage()); ext.printStackTrace();
+            }
+
+            stmt.close();
+        }
+        return owner;
+    }
 
 
     //Returns a person HashTable. Used in logIn(Controller)
@@ -800,6 +831,20 @@ public class DataAccess {
                 PreparedStatement stmt = connection.prepareStatement("INSERT INTO renter_rate_owner (renter_rate, apartment_id, renter_id) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(2, rated);
             stmt.setInt(3, rater);
+            stmt.setDouble(1, rating);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+    }
+
+    public void addRenterRate(double rating, int renter, int owner) throws SQLException {
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO owner_rate_renter (owner_rate, renter_id, owner_id) VALUES (?,?,?);", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(2, renter);
+            stmt.setInt(3, owner);
             stmt.setDouble(1, rating);
 
             stmt.executeUpdate();

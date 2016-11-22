@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -74,6 +75,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML
     TextField facility;
     @FXML
+    ChoiceBox facilit;
+    @FXML
     Label distvalue;
     @FXML
     Slider distance;
@@ -118,7 +121,11 @@ public class Controller implements Initializable, MapComponentInitializedListene
     @FXML
     Label username;
     @FXML
+    Label warning;
+    @FXML
     ChoiceBox rating;
+    @FXML
+    ChoiceBox ratin;
 
 
     @Override
@@ -309,25 +316,37 @@ public class Controller implements Initializable, MapComponentInitializedListene
         Main main = new Main();
 
         String loc = "default";
-        if(!location.getText().equals("")){loc = location.getText();}
+        if (!location.getText().equals("")) {
+            loc = location.getText();
+        }
 
         int pri = -1;
-        if(!price.getText().equals("")){pri = Integer.parseInt(price.getText());}
+        if (!price.getText().equals("")) {
+            pri = Integer.parseInt(price.getText());
+        }
 
         int siz = -1;
-        if(!size.getText().equals("")){siz = Integer.parseInt(size.getText());}
+        if (!size.getText().equals("")) {
+            siz = Integer.parseInt(size.getText());
+        }
 
         double dis = -1;
-        if(!distance.equals(null)){dis = distance.getValue();}
-
-        String fac = "default";
-        if(!facility.getText().equals("")){fac = facility.getText();}
-
-        listap = dataAccess.getApartment(loc, pri, siz, dis, fac);
-        for (Apartment a:
-             listap) {
-            System.out.println(a.getRating());
+        if (!distance.equals(null)) {
+            dis = distance.getValue();
         }
+        String incomingFacility = "default";
+//        String fac = "default";
+        if (!facilit.getValue().toString().equals("")) {
+//            incomingFacility = facility.getText();
+            incomingFacility = (String) (facilit.getValue().toString());
+            System.out.println(incomingFacility);
+        }
+        else{
+            System.out.println("EMPTY");
+        }
+
+        listap = dataAccess.getApartment(loc, pri, siz, dis, incomingFacility);
+
         System.out.println(listap.size());
         apartmentsCollection = FXCollections.observableArrayList(listap);
         listHouse.setItems(apartmentsCollection);
@@ -431,6 +450,9 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
         Main main = new Main();
         try {
+            sel = 0;
+            cabinetMarker = 0;
+            selectedApartmentID = 0;
             main.changeScene("Registration");
         } catch (IOException e) {
             e.printStackTrace();
@@ -451,55 +473,83 @@ public class Controller implements Initializable, MapComponentInitializedListene
 
     }
 
-    public void showPersonEditDialog(ActionEvent event)throws SQLException {
-        Main main=new Main();
-        try {
-            // Load the fxml file and create a new stage for the popup
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("messagesOwner.fxml"));
-           // Controller controller = new Controller(dataAccess);
-            loader.setController(this);
-            GridPane page = (GridPane) loader.load();
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Message");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            //  dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-            // Set the person into the controller
-          // controller = loader.getController();
-            this.setDialogStage(dialogStage);
-            this.initTable();
-            // Show the dialog and wait until the user closes it
-            dialogStage.show();
+    public void showPersonEditDialog(ActionEvent event) throws SQLException {
 
-        } catch (IOException e) {
-            // Exception gets thrown if the fxml file could not be loaded
-            e.printStackTrace();
+        if (sel == 0) {
+            System.out.println("Please select a reciever");
+        } else {
+            Main main = new Main();
+            try {
 
+                // Load the fxml file and create a new stage for the popup
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("messagesOwner.fxml"));
+                // Controller controller = new Controller(dataAccess);
+                loader.setController(this);
+                GridPane page = (GridPane) loader.load();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Message");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                //  dialogStage.initOwner(primaryStage);
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
+                // Set the person into the controller
+                // controller = loader.getController();
+                this.setDialogStage(dialogStage);
+                this.initTable();
+                // Show the dialog and wait until the user closes it
+                dialogStage.show();
+
+            } catch (IOException e) {
+                // Exception gets thrown if the fxml file could not be loaded
+                e.printStackTrace();
+
+            }
         }
     }
+
     public void rate(ActionEvent actionEvent) throws SQLException {
-        try{
-            Double incomingRating = Double.parseDouble(rating.getValue().toString());
-
-            //dataAccess.addApartmentRate(incomingRating,sel,cabinetMarker);
-            System.out.println(selectedApartmentID);
-            dataAccess.addApartmentRate(incomingRating,selectedApartmentID,cabinetMarker);
+        if(selectedApartmentID==0){
+            warning.setText("Select an apartment for rating");
+            System.out.println("Select an apartment for rating");
         }
-        catch (SQLException e){
-            System.out.println("You have already rated this apartment. ");
+        else {
+            try {
+                Double incomingRating = Double.parseDouble(rating.getValue().toString());
+                warning.setText("8946");
+                //dataAccess.addApartmentRate(incomingRating,sel,cabinetMarker);
+                System.out.println(selectedApartmentID);
+                dataAccess.addApartmentRate(incomingRating, selectedApartmentID, cabinetMarker);
+            } catch (SQLException e) {
+                System.out.println("You have already rated this apartment. ");
+            }
+
+            //Check for getting average rating. Works
+            System.out.println(dataAccess.getAverageApartmentRating(sel));
         }
 
-        //Check for getting average rating. Works
-        System.out.println(dataAccess.getAverageApartmentRating(sel));
+    }
 
+    public void rateRenter(ActionEvent actionEvent) throws SQLException {
+        if(sel==0){
+            warning.setText("Select user for rating!");
+            System.out.println("Select user for rating!");
+        }
+        else {
+            try {
+                Double incomingRating = Double.parseDouble(ratin.getValue().toString());
+                dataAccess.addRenterRate(incomingRating, sel, cabinetMarker);
+            } catch (SQLException e) {
+                System.out.println("You have already rated this renter. ");
+            }
+        }
     }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
+
     public void initTable() throws SQLException {
-        List<Message> msgs = dataAccess.findMsgs(cabinetMarker,sel);
+        List<Message> msgs = dataAccess.findMsgs(cabinetMarker, sel);
         messages = FXCollections.observableArrayList(msgs);
         listMsg.setItems(messages);
     }
