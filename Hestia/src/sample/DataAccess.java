@@ -958,6 +958,32 @@ public class DataAccess {
         return rating;
     }
 
+    public double getAverageRenterRating(int renter) throws SQLException {
+        double rating = 0;
+        try (
+                Connection connection = getConnection();    //2016-01-28
+                PreparedStatement stmt = connection.prepareStatement("SELECT AVG(owner_rate) as average From owner_rate_renter WHERE renter_id = ?; ", Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, renter);
+            try {
+                ResultSet res = stmt.executeQuery();
+                while (res.next()) {
+
+                    rating = res.getDouble("average");
+
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stmt.close();
+            }
+            //stmt.executeUpdate();
+            //stmt.close();
+
+        }
+        return rating;
+    }
 
     public List<Request> getRequests(int ownerid) throws SQLException{
         ArrayList<Request> list=new ArrayList<>();
@@ -980,7 +1006,7 @@ public class DataAccess {
                     String lname=resultSet.getString("lastname");
                     int requester = resultSet.getInt("requester");
                     Person person=new Person(fname,lname,requester);
-
+                    double rat = getAverageRenterRating(requester);
                     StringBuilder str = new StringBuilder();
                     String dis = resultSet.getString("district");
                     String cit = resultSet.getString("city");
@@ -990,7 +1016,7 @@ public class DataAccess {
 
                     str.append("District: " + dis + " \n" + "City :" + cit  + " \n" + "Price: "+ pri + " Size: " +siz);
                     Request reque = new Request(apa, person, ownerid , str.toString());
-
+                    reque.setRating(rat);
                     list.add(reque);
 
                 }

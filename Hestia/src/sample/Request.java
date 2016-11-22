@@ -19,6 +19,7 @@ public class Request {
     private final SimpleIntegerProperty rid=new SimpleIntegerProperty();
     private final SimpleStringProperty description =new SimpleStringProperty("");
     private final SimpleStringProperty nameRenter =new SimpleStringProperty();
+    private final SimpleDoubleProperty rating = new SimpleDoubleProperty();
 
     public Request(int ap, Person requester, int oid, String description){
         setAid(ap);
@@ -87,6 +88,18 @@ public class Request {
 
     public void setRid(int rid) {
         this.rid.set(rid);
+    }
+
+    public double getRating() {
+        return rating.get();
+    }
+
+    public SimpleDoubleProperty ratingProperty() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating.set(rating);
     }
 
 }

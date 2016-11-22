@@ -107,11 +107,11 @@
                 </HBox>
                 <TableView fx:id="listHouse" maxHeight="1.7976931348623157E308" prefHeight="700.0" prefWidth="1059.0000999999975" GridPane.columnIndex="0" GridPane.rowIndex="4">
                   <columns>
-                    <TableColumn prefWidth="300.0" text="Picture">
-                      <cellValueFactory>
-                        <PropertyValueFactory property="picture" />
-                      </cellValueFactory>
-                    </TableColumn>
+                    <!--<TableColumn prefWidth="300.0" text="Picture">-->
+                      <!--<cellValueFactory>-->
+                        <!--<PropertyValueFactory property="picture" />-->
+                      <!--</cellValueFactory>-->
+                    <!--</TableColumn>-->
                     <TableColumn prefWidth="100.0" text="Size">
                       <cellValueFactory>
                         <PropertyValueFactory property="size" />

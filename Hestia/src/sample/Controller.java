@@ -451,7 +451,8 @@ public class Controller implements Initializable, MapComponentInitializedListene
                     apartmentsCollection = FXCollections.observableArrayList(listap);
                     history.setItems(apartmentsCollection);
                 } else {
-                    System.out.println("Invalid login or password");
+                    //System.out.println("Invalid login or password");
+                    warning.setText("Invalid login or password");
                 }
 
             } catch (Exception e3) {
