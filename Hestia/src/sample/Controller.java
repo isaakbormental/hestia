@@ -653,13 +653,17 @@ public class Controller implements Initializable, MapComponentInitializedListene
         try {
             Main main = new Main();
             try {
-
-                //person = dataAccess.getPerson(logi, pass);
-
-                int oid = cabinetMarker;
-                person = dataAccess.getPersonById(oid);
-                main.changeScene("OwnerCabinet");
-                String name = person.get(oid);
+                int pid = cabinetMarker;
+                person = dataAccess.getPersonById(pid);
+                int oid = dataAccess.getOwnerId(pid);
+                int rid = dataAccess.getRenterId(pid);
+                if (oid != 0) {
+                    main.changeScene("OwnerCabinet");
+                }
+                else{
+                    main.changeScene("RenterCabinet");
+                }
+                String name = person.get(pid);
                 username.setText(name);
                 listap = dataAccess.findRenterById(oid);
                 apartmentsCollection = FXCollections.observableArrayList(listap);

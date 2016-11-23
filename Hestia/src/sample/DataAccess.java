@@ -485,6 +485,7 @@ public class DataAccess {
                     a.setAid(aid);
                     a.setRating(getAverageApartmentRating(aid));
                     a.setOid(findOwner(aid));
+                    a.setNameOwner(getPersonNameById(a.getOid()));
                     list.add(a);
                 }
                 res.close();
