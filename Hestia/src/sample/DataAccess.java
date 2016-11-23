@@ -689,6 +689,36 @@ public class DataAccess {
 
         return person;
     }
+
+    public String getPersonNameById(int id) throws SQLException {
+
+        String name = "";
+        try (Connection connection = getConnection();
+             PreparedStatement stm = connection.prepareStatement("SELECT person_id, firstname,lastname FROM person WHERE person_id = ? ")) {
+            stm.setInt(1, id);
+
+            // int row = stm.executeUpdate();
+            try {
+                ResultSet res = stm.executeQuery();
+                while (res.next()) {
+                    StringBuilder str = new StringBuilder();
+
+                    name = res.getString("firstname") + " " + res.getString("lastname");
+
+                }
+                res.close();
+            } catch (SQLException st) {
+                st.printStackTrace();
+
+            } finally {
+                stm.close();
+            }
+
+
+        }
+
+        return name;
+    }
     //This one only for getting person id, used once. Stupid.
     public int getPersonId(String logi, String pass) throws SQLException {
         int pid = 0;
@@ -775,6 +805,7 @@ public class DataAccess {
                      String mes=res.getString("message");
                      Date d=res.getDate("date");
                      Message msg=new Message(firsname,lastname,id,mes,d);
+
                      list.add(msg);
                  }
                  res.close();
@@ -815,7 +846,9 @@ public class DataAccess {
                     Date data = res.getDate("date");
                     System.out.println("Date: "+data);
                     //str.append("District: " + dis + " \n" + "City :" + cit + " Crime Rating" + ra);
-                    list.add(new Message(msg,rec,send,data));
+                    Message msgs = new Message(msg,rec,send,data);
+                    msgs.setName(getPersonNameById(send));
+                    list.add(msgs);
                 }
                 res.close();
             } catch (SQLException st) {

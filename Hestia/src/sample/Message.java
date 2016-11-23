@@ -24,6 +24,20 @@ public class Message {
     private final SimpleStringProperty fnamesender =new SimpleStringProperty("");
     private final Time time = new Time(18,54,34);
 
+    public String getName() {
+        return name.get();
+    }
+
+    public SimpleStringProperty nameProperty() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    private final SimpleStringProperty name = new SimpleStringProperty();
+
     public Message(String msg, int rec, int send, Date date){
         setMessage(msg);
         setReciever_id(rec);

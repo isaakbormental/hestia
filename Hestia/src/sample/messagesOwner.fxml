@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane layoutX="24.0" layoutY="0.0" prefHeight="700.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane layoutX="24.0" layoutY="0.0" prefHeight="700.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <!--<Pane prefHeight="48.0" prefWidth="357.0" GridPane.columnIndex="0" GridPane.rowIndex="0">-->
       <!--<children>-->
@@ -18,18 +18,23 @@
         <!--<TextField fx:id="email" layoutX="33.0" layoutY="9.0" prefWidth="291.0" />-->
       <!--</children>-->
     <!--</Pane>-->
-    <Pane prefHeight="703.0" prefWidth="420.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <Pane prefHeight="703.0" prefWidth="520.0" style="-fx-background-color: white" GridPane.columnIndex="0" GridPane.rowIndex="1">
       <children>
-        <TextField fx:id="inputMsg" layoutX="11.0" layoutY="218.0" prefHeight="109.0" prefWidth="354.0" translateY="300" />
-        <Button layoutX="298.0" layoutY="256.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="21.1328125" prefWidth="67.0" text="Send" translateY="400" />
-        <Button layoutX="210.0" layoutY="256.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Cancel" translateY="400" />
-        <TableView fx:id="listMsg" layoutX="14.0" layoutY="0.0" prefHeight="450.0" prefWidth="354.0" style="-fx-background-color: white">
+        <TextField fx:id="inputMsg" layoutX="11.0" layoutY="218.0" prefHeight="109.0" prefWidth="484.0" translateY="300" />
+        <Button layoutX="428.0" layoutY="256.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="21.1328125" prefWidth="67.0" text="Send" translateY="400" />
+        <Button layoutX="340.0" layoutY="256.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Cancel" translateY="400" />
+        <TableView fx:id="listMsg" layoutX="14.0" layoutY="0.0" prefHeight="450.0" prefWidth="509.0" style="-fx-background-color: white">
           <columns>
                   <TableColumn prefWidth="352.0" style="-fx-background-color: white" text="Hestia Chat">
                       <cellValueFactory>
                           <PropertyValueFactory property="message" />
                       </cellValueFactory>
                   </TableColumn>
+              <TableColumn prefWidth="153.0" style="-fx-background-color: white" text="Sender">
+                  <cellValueFactory>
+                      <PropertyValueFactory property="name" />
+                  </cellValueFactory>
+              </TableColumn>
           </columns>
         </TableView>
       </children>

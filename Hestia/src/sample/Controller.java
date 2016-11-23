@@ -624,9 +624,10 @@ public class Controller implements Initializable, MapComponentInitializedListene
                 System.out.println(selectedApartmentID);
                 System.out.println(sel);
                 System.out.println(cabinetMarker);
+                warning.setText("Successful book");
             } catch (SQLException e) {
                 //System.out.println("You have already rated this apartment. ");
-                warning.setText("You have already rated this apartment. ");
+                warning.setText("You have already booked this apartment. ");
             }
 
             //Check for getting average rating. Works
