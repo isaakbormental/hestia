@@ -6,8 +6,12 @@
           <option name="url" value="https://github.com/isaakbormental/hestia.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/sk89q/WorldEdit.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\Innopolis\1 Term\Database Modeling\Proj" />
+    <option name="cloneParentDir" value="D:\Innopolis\2 Term\Software\Project\WE" />
   </component>
 </application>
