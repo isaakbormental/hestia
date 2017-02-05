@@ -14,8 +14,12 @@
           <option name="url" value="https://github.com/watabou/pixel-dungeon.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/ankidroid/Anki-Android" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\Innopolis\2 Term\Software\Assignments\As1\PixelDungeon" />
+    <option name="cloneParentDir" value="D:\Innopolis\2 Term\Software\Assignments\As1\ANKI" />
   </component>
 </application>
