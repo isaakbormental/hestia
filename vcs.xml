@@ -10,8 +10,12 @@
           <option name="url" value="https://github.com/sk89q/WorldEdit.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/watabou/pixel-dungeon.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\Innopolis\2 Term\Software\Project\WE" />
+    <option name="cloneParentDir" value="D:\Innopolis\2 Term\Software\Assignments\As1\PixelDungeon" />
   </component>
 </application>
