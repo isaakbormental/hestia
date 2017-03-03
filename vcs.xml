@@ -22,8 +22,12 @@
           <option name="url" value="https://github.com/kennycason/kumo.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Netflix/Hystrix.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\Innopolis\WC" />
+    <option name="cloneParentDir" value="D:\Innopolis\2 Term\Software\Assignments\As2" />
   </component>
 </application>
